@@ -39,7 +39,7 @@ body {
     content: "";
     position: fixed;
     inset: 0;
-    background: url("/assets/images/backgroundregles.png") center / cover no-repeat;
+    background: url("./assets/images/backgroundregles.png") center / cover no-repeat;
     z-index: -1;
 }
 
@@ -101,7 +101,7 @@ body {
 .tuile {
     width: 72px;
     height: 60px;
-    background: url("/assets/images/tilelettre.png") center / contain no-repeat;
+    background: url("./assets/images/tilelettre.png") center / contain no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;

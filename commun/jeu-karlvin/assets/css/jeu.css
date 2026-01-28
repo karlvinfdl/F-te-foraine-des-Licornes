@@ -41,7 +41,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("/assets/images/test3.png") center / cover no-repeat;
+    background: url("../images/backgroundhard1.png") center / cover no-repeat;
     z-index: 0;
     opacity: 1;
 }
@@ -197,7 +197,7 @@ body {
 .tuile {
     width: 90px;
     height: 92px;
-    background: url("/assets/images/tilelettre.png") center / contain no-repeat;
+    background: url("../images/tilelettre.png") center / contain no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -753,7 +753,7 @@ main.jeu {
         position: absolute;
         inset: 0;
 
-        background-image: url("/assets/images/testmobile3.png");
+        background-image: url("../assets/images/testmobile3.png");
         background-repeat: no-repeat;
 
         background-size: cover;
