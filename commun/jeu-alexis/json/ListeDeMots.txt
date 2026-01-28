@@ -1,0 +1,34 @@
+Liste 1 : 
+email
+internet
+ordinateur
+clavier
+souris
+
+Liste 2 :
+écran
+navigateur
+site
+lien
+page
+
+Liste 3 :
+mot de passe
+connexion
+compte
+profil
+formulaire
+
+Liste 4 :
+fichier
+dossier
+téléchargement
+sauvegarde
+cloud
+
+Liste 5 :
+application
+logiciel
+wifi
+serveur
+url
