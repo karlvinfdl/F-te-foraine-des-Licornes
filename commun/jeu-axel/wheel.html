@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="game">
+  <div class="arrow" aria-hidden="true">▼</div>
+
+  <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
+    <g id="segments"></g>
+
+    <circle cx="100" cy="100" r="78" fill="none" stroke="#ffffff" stroke-width="6" />
+
+    <circle cx="100" cy="100" r="48" fill="#ffffff" />
+    <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+      QUESTION /
+    </text>
+    <text x="100" y="115" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+      RÉPONSE
+    </text>
+  </svg>
+
+  <button id="spin">JOUER</button>
+  <div id="result" class="result" aria-live="polite"></div>
+</div>
+
+<!-- ✅ JavaScript TOUJOURS en bas -->
+<script src="script.js"></script>
+
+</body>
+</html>
