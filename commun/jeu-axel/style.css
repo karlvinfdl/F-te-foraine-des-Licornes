@@ -1,56 +1,49 @@
-/* ========== BASE / FOND ========== */
-*,
-*:before,
-*:after {
+/* Reset propre */
+* {
   box-sizing: border-box;
-}
-
-body{
   margin: 0;
+  padding: 0;
+}
+
+/* ===== PAGE INTRO ===== */
+body {
   font-family: Arial, sans-serif;
+  height: 100vh;
 
-  background-image: url("img/background.jpg"); /* ✅ plutôt que /img/... en local */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* Image de fond */
+  background: url("img/intro.png") center center / cover no-repeat;
 
-  min-height: 100vh;
+  /* Centre le bouton */
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 90px;
 }
 
-/* ========== CARD / TITRES / TEXTE ========== */
-.card{
-  background: white;
-  width: 900px;
-  max-width: 90%;
-  padding: 50px 60px;
-  border-radius: 40px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+/* ===== BOUTON PLAY ===== */
+.play {
+  font-size: 40px;
+  padding: 20px 60px;
+  border-radius: 60px;
+  border: none;
+  cursor: pointer;
+
+  background: #0e690a;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  letter-spacing: 2px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.title{
-  text-align: center;
-  font-size: 60px;
-  margin: 0 0 30px;
-  color: #f2f2f2;
-  text-shadow: 0 2px 0 rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.18);
+.play:hover {
+  transform: scale(1.08);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
 
-.licorn{
-  color: #ff7b7b;
-}
-
-p{
-  font-size: 24px;
-  line-height: 1.6;
-  margin: 12px 0;
-  color: #111;
-}
 
 /* ========== (ANCIEN) ROUE EN IMAGE ========== */
-/* roue en anglais = wheels (pour guidé alexis) */
 .wheels{
   margin-top: 30px;
   display: flex;
@@ -73,7 +66,7 @@ p{
   height: 70px;
   border: none;
   border-radius: 50px;
-  background: #7be0c3;
+  background: #530d4e;
   color: white;
   font-size: 28px;
   font-weight: bold;
@@ -82,7 +75,7 @@ p{
 }
 
 .play:hover{
-  background: #63d3b3;
+  background: #0e690a;
 }
 
 /* ========== FONT (si tu en as besoin) ========== */
