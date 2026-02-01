@@ -47,14 +47,14 @@ cards.forEach((card) => {
 
 
 /* =========================================================
-   ROUE (ajout)
+   ROUE (corrigé + slide roue/panel)
    ========================================================= */
 
 const wheel = document.getElementById("wheel");
 const segmentsGroup = document.getElementById("segments");
 const spinBtn = document.getElementById("spin");
 const result = document.getElementById("result");
-
+const scene = document.getElementById("scene"); // ✅ wrapper
 
 if (wheel && segmentsGroup && spinBtn) {
   const segments = [
@@ -84,12 +84,10 @@ if (wheel && segmentsGroup && spinBtn) {
   }
 
   function wedgePath(startDeg, endDeg) {
-    
     const s = startDeg - 90;
     const e = endDeg - 90;
     const p1 = polarToXY(cx, cy, R, s);
     const p2 = polarToXY(cx, cy, R, e);
-
     const largeArc = (endDeg - startDeg) > 180 ? 1 : 0;
 
     return [
@@ -111,9 +109,7 @@ if (wheel && segmentsGroup && spinBtn) {
     path.setAttribute("stroke-width", "3");
     segmentsGroup.appendChild(path);
 
-
     const mid = (start + end) / 2;
-
     const midShifted = mid - 90;
     const pos = polarToXY(cx, cy, rText, midShifted);
 
@@ -128,10 +124,11 @@ if (wheel && segmentsGroup && spinBtn) {
 
     text.setAttribute("transform", `rotate(${mid} ${pos.x} ${pos.y})`);
     text.textContent = segments[i].label;
-
     segmentsGroup.appendChild(text);
   }
 
+  // ✅ important: éviter de doubler les segments si tu recharges / reviens sur la page
+  segmentsGroup.innerHTML = "";
   segments.forEach((_, i) => addSegment(i));
 
   let angle = 0;
@@ -140,22 +137,33 @@ if (wheel && segmentsGroup && spinBtn) {
   spinBtn.addEventListener("click", () => {
     if (spinning) return;
     spinning = true;
+    spinBtn.disabled = true;
     if (result) result.textContent = "";
+
+    // ✅ reset l'état "popup" si on rejoue
+    if (scene) scene.classList.remove("is-done");
 
     const extra = Math.random() * 360;
     const spins = 1080 + Math.random() * 1080; // 3 à 6 tours
     angle = angle + spins + extra;
 
     wheel.style.transform = `rotate(${angle}deg)`;
+  });
 
-    // ✅ Débloque + calcule le résultat quand la transition est vraiment finie
-wheel.addEventListener("transitionend", () => {
-  const norm = ((angle % 360) + 360) % 360;
-  const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
+  // ✅ un seul listener transitionend (pas dans le click)
+  wheel.addEventListener("transitionend", (e) => {
+    if (e.propertyName !== "transform") return;
+    if (!spinning) return;
 
-  if (result) result.textContent = `Résultat : ${segments[index].label}`;
-  spinning = false;
-}, { once: true });
+    const norm = ((angle % 360) + 360) % 360;
+    const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
 
+    if (result) result.textContent = `Résultat : ${segments[index].label}`;
+
+    spinning = false;
+    spinBtn.disabled = false;
+
+    // ✅ déclenche déplacement roue à gauche + popup qui arrive
+    if (scene) scene.classList.add("is-done");
   });
 }
