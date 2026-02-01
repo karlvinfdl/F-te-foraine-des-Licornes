@@ -1,37 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Badge</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roue</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body class="page-wheel">
 
-<body>
+ <div class="scene" id="scene">
+  <!-- zone roue -->
+  <div class="game" id="wheelZone">
+    <div class="arrow" aria-hidden="true">▼</div>
 
-<div class="game">
-  <div class="arrow" aria-hidden="true">▼</div>
+    <div class="wheel-wrap">
+      <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
+        <g id="segments"></g>
 
-  <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
-    <g id="segments"></g>
+        <circle cx="100" cy="100" r="78" fill="none" stroke="#ffffff" stroke-width="6" />
+        <circle cx="100" cy="100" r="48" fill="#ffffff" />
+        <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+          QUESTION /
+        </text>
+        <text x="100" y="115" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+          RÉPONSE
+        </text>
+      </svg>
+    </div>
 
-    <circle cx="100" cy="100" r="78" fill="none" stroke="#ffffff" stroke-width="6" />
+    <button id="spin" class="play">JOUER</button>
+    <div id="result" class="result" aria-live="polite"></div>
+  </div>
 
-    <circle cx="100" cy="100" r="48" fill="#ffffff" />
-    <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
-      QUESTION /
-    </text>
-    <text x="100" y="115" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
-      RÉPONSE
-    </text>
-  </svg>
-
-  <button id="spin">JOUER</button>
-  <div id="result" class="result" aria-live="polite"></div>
+  <!-- panel qui arrive -->
+  <aside class="panel" id="panel" aria-hidden="true">
+    <h2>Logique</h2>
+    <div class="panel-card">Question 1</div>
+    <div class="panel-card"></div>
+    <div class="panel-card"></div>
+    <div class="panel-card"></div>
+  </aside>
 </div>
 
-<!-- ✅ JavaScript TOUJOURS en bas -->
-<script src="script.js"></script>
 
+  <script src="script.js"></script>
 </body>
 </html>
