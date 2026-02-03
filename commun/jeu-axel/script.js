@@ -1,8 +1,4 @@
-/* =========================================================
-   BADGES (ton code, inchangé)
-   ========================================================= */
-
-// On récupère toutes les cartes (badges)
+// section badge (donc diamant etc)
 const cards = document.querySelectorAll('.ach-card');
 
 if (!cards.length) {
@@ -46,9 +42,7 @@ cards.forEach((card) => {
 });
 
 
-/* =========================================================
-   ROUE (corrigé + slide roue/panel)
-   ========================================================= */
+/* Roue + animation slider */
 
 const wheel = document.getElementById("wheel");
 const segmentsGroup = document.getElementById("segments");
@@ -127,7 +121,6 @@ if (wheel && segmentsGroup && spinBtn) {
     segmentsGroup.appendChild(text);
   }
 
-  // ✅ important: éviter de doubler les segments si tu recharges / reviens sur la page
   segmentsGroup.innerHTML = "";
   segments.forEach((_, i) => addSegment(i));
 
@@ -140,7 +133,7 @@ if (wheel && segmentsGroup && spinBtn) {
     spinBtn.disabled = true;
     if (result) result.textContent = "";
 
-    // ✅ reset l'état "popup" si on rejoue
+    // reset de la roue si on rejoue
     if (scene) scene.classList.remove("is-done");
 
     const extra = Math.random() * 360;
@@ -150,7 +143,7 @@ if (wheel && segmentsGroup && spinBtn) {
     wheel.style.transform = `rotate(${angle}deg)`;
   });
 
-  // ✅ un seul listener transitionend (pas dans le click)
+
   wheel.addEventListener("transitionend", (e) => {
     if (e.propertyName !== "transform") return;
     if (!spinning) return;
@@ -163,7 +156,7 @@ if (wheel && segmentsGroup && spinBtn) {
     spinning = false;
     spinBtn.disabled = false;
 
-    // ✅ déclenche déplacement roue à gauche + popup qui arrive
+    // pop up 
     if (scene) scene.classList.add("is-done");
   });
 }

@@ -1,11 +1,10 @@
-/* Reset propre */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ===== PAGE INTRO ===== */
+/* page index */
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
@@ -20,7 +19,7 @@ body {
   padding-bottom: 90px;
 }
 
-/* ===== BOUTON PLAY ===== */
+/* bouton jouer */
 .play {
   font-size: 40px;
   padding: 20px 60px;
@@ -43,7 +42,6 @@ body {
 }
 
 
-/* ========== (ANCIEN) ROUE EN IMAGE ========== */
 .wheels{
   margin-top: 30px;
   display: flex;
@@ -51,14 +49,14 @@ body {
   gap: 30px;
 }
 
-/* images pas étirées */
+/* pour retiré la partie étiré */
 .wheels img{
   width: 160px;
   aspect-ratio: 1 / 1;
   object-fit: contain;
 }
 
-/* ========== BOUTON JOUER (ta classe) ========== */
+/* bouton jouer*/
 .play{
   display: block;
   margin: 30px auto 0;
@@ -78,7 +76,7 @@ body {
   background: #0e690a;
 }
 
-/* ========== FONT (si tu en as besoin) ========== */
+
 @font-face {
   font-family: 'Inter UI';
   font-style: normal;
@@ -87,7 +85,7 @@ body {
        url("https://rsms.me/inter/font-files/Inter-Regular.woff?v=3.5") format("woff");
 }
 
-/* ========== BADGES PNG ========== */
+/* Partie badge */
 .ach-grid{
   margin-top: 30px;
   display: flex;
@@ -135,7 +133,6 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Si tu utilises vanilla-tilt (glare), garde-le */
 .js-tilt-glare > .js-tilt-glare-inner {
   background-image: linear-gradient(
     0deg,
@@ -146,9 +143,7 @@ body {
   height: 220px;
 }
 
-/* =========================================================
- WHEEEL
-   ========================================================= */
+/* Partie roue */
 .game{
   margin-top: 30px;
   display: flex;
@@ -187,41 +182,41 @@ body {
 #spin.play{
   margin-top: 0; 
 }
-/* ========== SCENE (ne touche pas à body) ========== */
+/* scene donc centre de ma roue*/
 .scene{
   position: relative;
   width: 100vw;
-  min-height: 80vh;    /* ✅ assez haut pour roue + bouton */
+  min-height: 80vh;   
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;     /* garde pour le panel qui slide */
+  overflow: hidden;     
 }
 
-/* wrapper roue pour pouvoir la décaler */
+
 #wheelZone{
   transition: transform 600ms ease;
   will-change: transform;
 }
 
-/* quand fini : on décale la roue à gauche */
+
 .scene.is-done #wheelZone{
   transform: translateX(-300px);
 }
 
-/* fixe la taille de la zone roue (optionnel mais plus stable) */
+
 .wheel-wrap{
   width: 550px;
   height: 550px;
 }
 
-/* ✅ important pour éviter la rotation bug sur SVG */
+
 #wheel{
   transform-box: fill-box;
   transform-origin: 50% 50%;
 }
 
-/* panel qui arrive de droite */
+
 .panel{
   position: absolute;
   right: 20px;
@@ -240,7 +235,7 @@ body {
   transition: transform 600ms ease, opacity 300ms ease;
 }
 
-/* panel visible quand fini */
+
 .scene.is-done .panel{
   transform: translateX(0);
   opacity: 1;
@@ -258,7 +253,7 @@ body {
   background: #e9e9e9;
   margin-bottom: 14px;
 }
-/* Fond spécifique à la page roue */
+
 body.page-wheel{
   min-height: 100vh;
   background: url("img/fondroue1.png") center center / cover no-repeat;
