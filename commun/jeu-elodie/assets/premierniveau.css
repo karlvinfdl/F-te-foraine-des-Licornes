@@ -1,0 +1,108 @@
+/* ================== RESET & BASE ================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Empêche le défilement */
+    background-color: #333;
+}
+
+/* ================== LA BULLE BLANCHE (HUD) ================== */
+.pixel-hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    border: 4px solid #000; /* Bordure noire épaisse style rétro */
+    border-radius: 15px;
+    padding: 12px 20px;
+    z-index: 100;
+    font-family: 'Arial Black', Gadget, sans-serif;
+    min-width: 240px;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Entête de la bulle */
+.hud-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    border-bottom: 3px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* Photo de la licorne dans la bulle */
+.mini-logo {
+    width: 50px;
+    height: 50px;
+    background: #f8f8f8;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    image-rendering: pixelated;
+}
+
+/* Groupe Titre + Étoiles + Cœurs */
+.title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.level-txt {
+    font-size: 16px;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+/* --- ALIGNEMENT DES COEURS (SOUS LES ÉTOILES) --- */
+.hearts-container {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px; /* Aligné juste en dessous */
+}
+
+.hearts-container img {
+    image-rendering: pixelated;
+    transition: opacity 0.3s ease;
+}
+
+/* Bas de la bulle (Pièces & Score) */
+.hud-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.coins {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+/* ================== LE CANVAS (JEU & DÉCORS) ================== */
+#game {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    /* On ne met pas de background-image fixe ici car le JS 
+       va dessiner une image différente pour Niv 1, Niv 2 et Niv 3 */
+    background-color: #000; 
+    image-rendering: pixelated; /* Pour les pièces et drapeau animés */
+}
+
+/* Les animations (pièces qui tournent, drapeau) sont gérées 
+   directement dans le code JavaScript avec le contexte Canvas */
