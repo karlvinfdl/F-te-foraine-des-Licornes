@@ -33,13 +33,13 @@ body.page-accueil > * {
 }
 
 /* Navbar */
-header {
+.header-acceuil {
   background: #074151;
   color: #070707;
   padding: 10px 10px 0px;
 }
 
-.navbar {
+.nav {
   display: flex;
 }
 
@@ -52,12 +52,12 @@ header {
   max-width: 50px;
 }
 
-.navbar ul {
+.nav ul {
   list-style: none;
   display: flex;
 }
 
-.navbar ul li {
+.logo-utilisateur p {
   color: #fbfbfb;
   text-decoration: solid;
   font-family: 'Courier New', Courier, monospace;
@@ -65,6 +65,11 @@ header {
   font-size: larger;
 }
 
+.user-info {
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+}
 
 /* Ecran Titre du Jeu */
 .titre {
@@ -302,3 +307,182 @@ border-color: #000000;
 /* -------------------------------------------------------------------------------------
 NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX
 -----------------------------------------------------------------------------------------*/
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+
+
+body .world_1 {
+  background: #1e1e1e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* ========================= */
+/*         HEADER            */
+/* ========================= */
+
+.game-infos {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.score img {
+    width: 45px;
+}
+
+.timer {
+    background: black;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    font-size: 18px;
+}
+
+/* ========================= */
+/*        BACKGROUNDS        */
+/* ========================= */
+
+.world_1 {
+    background: #8c7f7f;
+}
+
+.world_2 {
+    background: #e5e5e5;
+}
+
+.world_3 {
+    background: #7f8c8d;
+}
+
+
+/* ========================= */
+/*        CLOUD LAYER       */
+/* ========================= */
+
+/* Nuages décoratifs */
+.world_1::before,
+.world_2::before,
+.world_3::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("../images/Nuage_AkaG.gif");
+    background-size: 300px;
+    opacity: 0.25;
+    pointer-events: none;
+    animation: cloudsMove 60s linear infinite;
+    background-repeat: repeat;
+}
+
+/* Animation horizontale */
+@keyframes cloudsMove {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -2000px 0;
+    }
+}
+
+/* ETOILES */
+
+/* =========================
+           LEVEL        
+ ========================= */
+
+
+/* Disposition de niveau */
+
+.game_1 {
+    position: absolute;
+    inset : 0;
+}
+
+
+
+.level_1 {
+    position: absolute;
+    inset : 0;
+}
+
+/* Style commun */
+.targets {
+    position: absolute;
+    width: 80px;
+    image-rendering: pixelated;
+}
+
+/* Positionnement (comme ton image) */
+
+.red {
+    top: 250px;
+    left: 350px;
+}
+
+.blue {
+    top: 120px;
+    right: 55px;
+}
+
+.black {
+    top: 180px;
+    left: 100px;
+}
+
+.green {
+    bottom: 120px;
+    left: 250px;
+}
+
+/* Niveau Actuel */
+
+.current-level {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-weight: bolder;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 35px;
+}
+
+/* Bouton Pause */
+
+.pause {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.btn-pause {
+    font-size: 42px;
+    padding: 16px 16px;
+    border: none;
+    cursor: pointer;
+    background: black;
+    color: white;
+    opacity: 70%;
+}
