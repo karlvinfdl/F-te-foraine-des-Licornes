@@ -1,3 +1,54 @@
+// ✨ Paillettes sur le bouton PLAY
+const playBtn = document.querySelector(".play");
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function burstSparkles(btn, clientX, clientY) {
+  const rect = btn.getBoundingClientRect();
+
+  // point d'origine = endroit du clic (dans le bouton)
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+
+  const count = 18;
+
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement("span");
+    s.className = "spark";
+
+    // position de départ
+    s.style.left = `${x}px`;
+    s.style.top = `${y}px`;
+
+    // trajectoire aléatoire
+    const dx = rand(-120, 120);
+    const dy = rand(-90, 90);
+    s.style.setProperty("--dx", `${dx}px`);
+    s.style.setProperty("--dy", `${dy}px`);
+
+    // taille aléatoire
+    const size = rand(5, 11);
+    s.style.width = `${size}px`;
+    s.style.height = `${size}px`;
+
+    // couleur "paillettes"
+    const colors = ["#fff2ff", "#ffd6ff", "#fff7c2", "#c9fff5", "#ffd1a6"];
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    btn.appendChild(s);
+
+    s.addEventListener("animationend", () => s.remove());
+  }
+}
+
+if (playBtn) {
+  playBtn.addEventListener("click", (e) => {
+    burstSparkles(playBtn, e.clientX, e.clientY);
+  });
+}
+
 // section badge (donc diamant etc)
 const cards = document.querySelectorAll('.ach-card');
 

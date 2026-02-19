@@ -1,90 +1,170 @@
-* {
-  box-sizing: border-box;
+/* ===== INTRO (fond + superposition) ===== */
+body.intro{
   margin: 0;
-  padding: 0;
+  min-height: 100vh;
+  background: url("img/intro.webp") center 10% / cover no-repeat fixed;
 }
 
-/* page index */
-body {
-  font-family: Arial, sans-serif;
-  height: 100vh;
-
-  /* Image de fond */
-  background: url("img/intro.png") center center / cover no-repeat;
-
-  /* Centre le bouton */
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 90px;
+.intro-layer{
+  position: relative;
+  min-height: 100vh;
+  display: block; 
 }
 
-/* bouton jouer */
-.play {
-  font-size: 40px;
-  padding: 20px 60px;
-  border-radius: 60px;
-  border: none;
-  cursor: pointer;
-
-  background: #0e690a;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-  letter-spacing: 2px;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.play:hover {
-  transform: scale(1.08);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-}
-
-
+/* ===== WHEELS ===== */
 .wheels{
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+  position: fixed;
+  bottom: 55vh;  /* idéal pour ton image */
+  left: 0;
+  width: 100%;
+  pointer-events: none;
 }
 
-/* pour retiré la partie étiré */
-.wheels img{
-  width: 160px;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
+
+
+/* roue individuelle */
+.wheel{
+  position: absolute;
+  width: 500px; 
+  transform: translateX(-50%);
+  transition: transform .2s ease, filter .2s ease;
+  pointer-events: auto;
+}
+
+
+.wheel--quest { left: 26%; }
+.wheel--blind { left: 50%; }
+.wheel--stand { left: 74%; }
+
+/* image interne */
+.wheel img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Hover magique */
+.wheel:hover{
+  transform: translateX(-50%) scale(1.12);
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,.35));
+  z-index: 10;
+  cursor: pointer;
+}
+
+
+@media (prefers-reduced-motion: reduce){
+  .wheel{ transition: none; }
 }
 
 /* bouton jouer*/
 .play{
-  display: block;
-  margin: 30px auto 0;
-  width: 300px;
-  height: 70px;
-  border: none;
-  border-radius: 50px;
-  background: #530d4e;
-  color: white;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 320px;
+  height: 74px;
+  border: 0;
+  border-radius: 999px;
+
+  background: linear-gradient(180deg, #7a1f73, #3e0a3a);
+  color: #fff;
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 900;
+  letter-spacing: 1px;
+
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.25);
+
+  transition: transform 140ms ease, filter 200ms ease, box-shadow 200ms ease;
+  will-change: transform;
+  isolation: isolate; /* important pour les paillettes */
+  overflow: hidden;   /* garde les paillettes dedans */
 }
 
 .play:hover{
-  background: #0e690a;
+  transform: translateX(-50%) translateY(-2px) scale(1.02);
+  filter: brightness(1.08) saturate(1.1);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.30),
+    0 0 24px rgba(255, 204, 255, .35),
+    inset 0 1px 0 rgba(255,255,255,.28);
 }
 
-
-@font-face {
-  font-family: 'Inter UI';
-  font-style: normal;
-  font-weight: 300;
-  src: url("https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.5") format("woff2"),
-       url("https://rsms.me/inter/font-files/Inter-Regular.woff?v=3.5") format("woff");
+.play:active{
+  transform: translateX(-50%) translateY(1px) scale(.99);
 }
 
+.play:focus-visible{
+  outline: 3px solid rgba(255,255,255,.55);
+  outline-offset: 4px;
+}
+
+/* petite brillance qui bouge au hover */
+.play::before{
+  content:"";
+  position:absolute;
+  inset:-30% -75%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);
+  transform: translateX(-30%);
+  opacity: 0;
+  transition: opacity 200ms ease, transform 700ms ease;
+  pointer-events:none;
+}
+
+.play:hover::before{
+  opacity: 1;
+  transform: translateX(30%);
+}
+
+/* particules */
+.play .spark{
+  position:absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  pointer-events:none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.8);
+  animation: spark 700ms ease-out forwards;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+}
+
+@keyframes spark{
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+  15%  { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0);
+  }
+}
+
+/* bouton spécifique à la page wheel */
+.spin{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(180deg,#5a9,#167);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+}
+
+/* overrides si .play a des règles conflictuelles */
+.spin {
+  /* annulez propriétés indésirables héritées */
+  transform: none;
+  overflow: visible;
+  isolation: auto;
+}
 /* Partie badge */
 .ach-grid{
   margin-top: 30px;

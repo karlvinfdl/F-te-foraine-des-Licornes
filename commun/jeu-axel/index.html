@@ -7,7 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-  <button class="play">JOUER</button>
+<body class="intro">
+  <main class="intro-layer">
+    <section class="wheels" aria-label="Choix du mode de jeu">
+      <a class="wheel wheel--quest" href="#qr">
+        <img src="img/questwheel.webp" alt="Question / Réponse">
+      </a>
+
+      <a class="wheel wheel--blind" href="#blind">
+        <img src="img/blindwheel.webp" alt="Blind Test">
+      </a>
+
+      <a class="wheel wheel--stand" href="#stand">
+        <img src="img/standwheel.webp" alt="Question Stand">
+      </a>
+    </section>
+
+   <button type="button" class="play" onclick="location.href='wheel.html'">JOUER</button>
+  </main>
+  <script src="script.js"></script>
 </body>
+
+
 </html>
