@@ -408,6 +408,31 @@ body .world_1 {
     }
 }
 
+
+.cloud-1 {
+    top: 10%;
+    animation-duration: 60s;
+}
+
+.cloud-2 {
+    top: 30%;
+    width: 250px;
+    animation-duration: 90s;
+}
+
+.cloud-3 {
+    top: 55%;
+    width: 180px;
+    animation-duration: 70s;
+}
+
+.cloud-4 {
+    top: 75%;
+    width: 220px;
+    animation-duration: 110s;
+}
+
+
 /* ETOILES */
 
 /* =========================
@@ -432,7 +457,7 @@ body .world_1 {
 /* Style commun */
 .targets {
     position: absolute;
-    width: 80px;
+    width: 90px;
     image-rendering: pixelated;
 }
 
@@ -440,22 +465,22 @@ body .world_1 {
 
 .red {
     top: 250px;
-    left: 350px;
+    left: 10%;
 }
 
 .blue {
     top: 120px;
-    right: 55px;
+    right: 20%;
 }
 
 .black {
     top: 180px;
-    left: 100px;
+    left: 45%;
 }
 
 .green {
     bottom: 120px;
-    left: 250px;
+    left: 45%;
 }
 
 /* Niveau Actuel */
