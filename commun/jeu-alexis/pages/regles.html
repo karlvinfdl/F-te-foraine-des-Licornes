@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Devine le mot – Règles</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <div class="arcade-rules">
+
+    <!-- Fond flou spécifique à la page règles -->
+    <div class="rules-background"></div>
+
+    <!-- Écran CRT -->
+    <main class="rules-screen">
+
+      <!-- OVERLAY DES RÈGLES -->
+      <div class="rules-overlay">
+
+        <h2>📜 But du jeu</h2>
+        <p>Devinez <strong>6 mots</strong> pour sauver la licorne.</p>
+
+        <h2>💡 Indices</h2>
+        <ul>
+          <li>Chaque mot a plusieurs indices.</li>
+          <li>Vous pouvez cliquer sur <strong>« autre indice »</strong> pour en changer.</li>
+        </ul>
+
+        <h2>❤️ Vies</h2>
+        <ul>
+          <li>Vous avez <strong>3 vies</strong>.</li>
+          <p>Vous perdez une vie si :</p>
+          <p>– vous validez un mauvais mot</p>
+          <p>– vous n’avez plus de temps</p>
+        </ul>
+
+        <h2>⏱ Temps</h2>
+        <p>Vous avez <strong>30 secondes</strong> par mot.</p>
+
+        <h2>⏭ Passer un mot</h2>
+        <p>
+          Vous pouvez passer jusqu’à <strong>5 mots</strong>.<br>
+          Un mot passé est perdu définitivement.
+        </p>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- FILTRE CRT (identique à la page 1) -->
+  <svg width="0" height="0" aria-hidden="true">
+    <filter id="crt-bulge">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur"/>
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="blur"
+        scale="18"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </svg>
+
+</body>
+</html>
