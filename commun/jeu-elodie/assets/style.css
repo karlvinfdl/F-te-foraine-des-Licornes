@@ -1,7 +1,6 @@
 /* =========================
 RESET DE BASE
    ========================= */
-
 /* Inclut padding et border dans les tailles des éléments */
 * { box-sizing: border-box; }
 
@@ -13,23 +12,21 @@ html, body {
 
 /* =========================
 ÉCRAN PRINCIPAL
-   ========================= */
+========================= */
 
-.screen {
-    min-height: 100vh;          /* prend toute la hauteur de l'écran */
-    display: grid;
-    place-items: center;        /* centre le contenu horizontal + vertical */
-}
-
+.screen{
+    display: grid;/* prend toute la hauteur de l'écran */
+    place-items: center;  
+}          /* centre le contenu horizontal + vertical */
 /* Overlay sombre au-dessus du fond */
 .screen::before {
     background: rgba(0, 0, 0, 0.4);
+    content: "";
+    position: absolute;
 }
-
 /* =========================
 EFFET VERRE (REFLET)
-   ========================= */
-
+========================= */
 .glass-panel::before {
     content: "";
     position: absolute;
@@ -43,54 +40,63 @@ EFFET VERRE (REFLET)
     );                          /* reflet lumineux */
     pointer-events: none;       /* laisse passer les clics */
 }
-
 /* =========================
-    SECTION HERO (fond ciel)
-   ========================= */
-
+SECTION HERO (fond ciel)
+========================= */
 .hero {
     min-height: 100vh;
     position: relative;
-    background: url('../images/ciel_soleil.png');
+    background: url('images/cielsoleil.png') no-repeat center center fixed;
     background-size: cover;     /* couvre tout l'écran */
     background-position: center;
 }
-
 /* Logo en haut à gauche */
 .brand {
     position: absolute;
     top: 14px;
     left: 14px;
 }
-
 /* =========================
     TITRE PRINCIPAL
    ========================= */
-
 .hero-title {
     
     font-size: 64px;
     text-align: center;
 }
-
 /* Bordure + ombre générique */
 .border {
     border: 1px solid rgba(0, 0, 0, 0.18);
     box-shadow: 0 18px 32px rgba(0, 0, 0, 0.25);
 }
 
+.hero {
+    padding-top: -500px;
+}
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;   
+}
+.hero-logo {
+    width: 320px;
+    max-width: 90%;
+    height: auto;
+}
+.glass-panel{
+    margin-top: -500px;
+}
 /* =========================
 PANNEAU VERRE (CARTE)
 ========================= */
-
 .glass-panel {
-    margin-top: -500px;
+    margin-top: -400px;
     width: min(760px, 92vw);    /* responsive */
     padding: 26px 34px;
     border-radius: 10px;
     position: relative;
     z-index: 2;
-
 
     /* Effet verre flou */
     background: rgba(255, 255, 255, 0.22);
@@ -101,7 +107,6 @@ PANNEAU VERRE (CARTE)
     border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow: 0 18px 40px rgba(255, 255, 255, 0.37);
 }
-
 /* Carte encore plus floue */
 .glass-card {
     background: rgba(255, 255, 255, 0.28);
@@ -111,28 +116,23 @@ PANNEAU VERRE (CARTE)
 .glass-content {
     text-align: center;
 }
-
 /* Zone des contrôles */
 .controls {
     justify-content: space-around;
     display: flex;
 }
-
 .g-play {
     justify-content: center;
 }
-
 /* =========================
 ANCIEN STYLE BOUTON (non utilisé pour JOUER principal)
-   ========================= */
-
+========================= */
 .play-btn {
     color: #ffffff;
     position: absolute;
     bottom: 35px;
     left: 50%;
     transform: translateX(-50%);
-    width: 260px;
     max-width: 80%;
     height: 74px;
     border-radius: 22px;
@@ -141,39 +141,35 @@ ANCIEN STYLE BOUTON (non utilisé pour JOUER principal)
     cursor: pointer;
     font-size: 34px;
     font-weight: 900;
-    box-shadow: 0 14 0 #d1b100;
+    box-shadow: 0 14px #d1b100;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     width: clamp(200px, 50%, 300px);
 }
-
 /* Effet enfoncé */
 .play-btn:active {
     transform: translateX(-50%) translateY(4px);
     box-shadow: 0 10px 0 #ffca60;
 }
-
 /* Légère luminosité au survol */
 .play-btn:hover {
     filter: brightness(1.05);
 }
-
 /* =========================
 POLICE
    ========================= */
 
 @font-face {
     font-family: "Poppins";
-    src: url("../font/Poppins/Poppins-Bold.ttf");
+    src: url("/commun/jeu-elodie/font/Poppins");
 }
-
 body {
     font-family: "Poppins", sans-serif;
-}
+    margin: 0;
 
+}
 /* ===============
 BOUTON JOUER 
-   ===============*/
-
+===============*/
 .bulle-jouer {
     background-color: #FFD84D;     /* jaune */
     color: #ffffff;                   /* texte noir */
@@ -195,22 +191,18 @@ BOUTON JOUER
     box-shadow: 0 6px 0 #d4a900;
     transition: all 0.1s ease-in-out;
 }
-
 /* Animation quand on clique */
 .bulle-jouer:active {
     transform: translateX(-50%) translateY(4px); /* descend */
     box-shadow: 0 2px 0 #d4a900;                 /* ombre réduite */
 }
-
 /* ==============
 NAVBAR
    ============== */
-
 .navbar {
     position: fixed;
     padding: 16px 0;
 }
-
 /* Liste menu */
 .navbar ul {
     list-style: none;
@@ -220,14 +212,12 @@ NAVBAR
     display: flex;
     justify-content: center;
 }
-
 /* Liens */
 .navbar a {
     text-decoration: none;
     color: rgb(255, 255, 255);
     font-weight: 600;
 }
-
 /* Conteneur navbar */
 .navbar {
     max-width: 1200px;
@@ -237,12 +227,6 @@ NAVBAR
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-/* Logo + nom */
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
 }
 /* Image logo */
 .logo {
@@ -260,14 +244,12 @@ HEADER PAGE
     justify-content: center;
     align-items: center;
 }
-
 .page-header {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 /* Titre dans le header */
 .page-header h1 {
     color: rgb(255, 131, 131);
