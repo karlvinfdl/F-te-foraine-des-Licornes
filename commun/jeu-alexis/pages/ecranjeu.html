@@ -1,49 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Devine le Mot - Session de Jeu</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <main class="game-screen">
+<body class="page-jeu">
 
-        <div class="game-left">
+    <header class="jeu-hud">
+        <div class="vies-container" id="vies-box">
+            <span class="coeur">❤️</span>
+            <span class="coeur">❤️</span>
+            <span class="coeur">❤️</span>
+        </div>
+        
+        <div class="infos-top">
+            <span id="timer-display" style="font-family: 'Orbitron', sans-serif;">30</span>
+            <span class="stat-indice" id="stat-indice">Indice : 1/3</span>
+            <span class="stat-progression" id="stat-progression">Mots : 0/6</span>
+        </div>
+    </header>
 
-            <div class="hint-area">
-                <div class="hint-box">
-                    <p class="hint-text">
-                        Indice :<br>
-                        Ce mot est lié à la magie.<br>
-                        Il commence par L.
-                    </p>
+    <main class="ecran-split">
+        <section class="cote gauche">
+            <div class="personnage-container">
+                <img src="../asset/.gif/licorne.gif" alt="Licorne Joueur" class="pixel-sprite licorne-anim">
+            </div>
+            
+            <div class="interaction-zone">
+                <div class="bulle-rose" id="bulle-indice" style="font-family: 'Oxanium', sans-serif;">Indice : Messagerie</div>
+                <button class="btn-retro btn-passer" id="btn-passer">PASSER</button>
+            </div>
+        </section>
+
+        <section class="cote droite">
+            <div class="sorcier-container">
+                <div class="bulle-dialogue" id="bulle-sorcier">
+                    Tu ne trouveras pas !
                 </div>
-
-                <div class="sprite-button sprite-pass">
-                <img src="../images/bouton.png" alt="">
-                <span class="btn-label">PASSER</span>
+                <div class="sorcier-sprite">
+                    <img src="../asset/.gif/Sorcier.gif" id="image-sorcier" alt="Sorcier ennemi" class="pixel-sprite">
                 </div>
             </div>
 
-        </div>
-
-
-        <div class="game-right">
-
-            <div class="answer-area">
-                <div class="answer-box">
-                <input type="text" class="answer-input" placeholder="Tape ta réponse...">
-                </div>
-
-                <div class="sprite-button sprite-validate">
-                <img src="../images/bouton.png" alt="">
-                <span class="btn-label">VALIDER</span>
-                </div>
+            <div class="interaction-zone">
+                <input type="text" id="input-reponse" class="bulle-rose input-reponse" placeholder="Tape ta reponse ...">
+                <button class="btn-retro btn-valider" id="btn-valider">VALIDER</button>
             </div>
-        </div>
-
-
+        </section>
     </main>
+
+    <div id="overlay-game-over" class="overlay-ecran">
+        <div class="overlay-contenu">
+            <h1>GAME OVER</h1>
+            <p>Press ESPACE pour revenir à l'écran de titre</p>
+            <div class="image-container">
+                <img src="../asset/.gif/Licorne qui pleure.gif" alt="Licorne triste" class="licorne-mort">
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay-you-win" class="overlay-ecran">
+    <div class="overlay-contenu">
+        <div class="image-container">
+            <img src="../images/écran victoire.png" alt="Trophée victoire" class="trophee-win">
+        </div>
+        <p>Félicitations ! Le sorcier est vaincu.</p>
+        <p class="instruction">Press ESPACE pour rejouer</p>
+    </div>
+
+</div>
+
+    <script src="../js/main.js"></script>
 </body>
 </html>
