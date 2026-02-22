@@ -2,74 +2,50 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Scores</title>
+    <title>Classement - Unicorn Shooter</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="score-board">
+    <h1 class="title">SCORES TOTAUX :</h1>
 
-    <h1 class="title">SCORES :</h1>
-<div class="container">
-    <div class="score-list">
-
-        <div class="score-item">
-            <div class="rank">1</div>
-            <div class="score-bar">
-                <span class="name">PIKABOO</span>
-                <span class="value">: 2</span>
-                <span class="comment">Pas ouf...</span>
-            </div>
+    <div class="score-list" id="scoreList">
         </div>
 
-        <div class="score-item">
-            <div class="rank">2</div>
-            <div class="score-bar">
-                <span class="name">PIKABOO</span>
-                <span class="value">: 452</span>
-                <span class="comment">Oklm...</span>
-            </div>
-        </div>
-
-        <div class="score-item">
-            <div class="rank">3</div>
-            <div class="score-bar">
-                <span class="name">PIKABOO</span>
-                <span class="value">: 452</span>
-                <span class="comment">Oklm...</span>
-            </div>
-        </div>
-
-        <div class="score-item">
-            <div class="rank">4</div>
-            <div class="score-bar">
-                <span class="name">PIKABOO</span>
-                <span class="value">: 452</span>
-                <span class="comment">Pas ouf...</span>
-            </div>
-        </div>
-
-        <div class="score-item">
-            <div class="rank">5</div>
-            <div class="score-bar">
-                <span class="name">PIKABOO</span>
-                <span class="value">: Médiocre...</span>
-                <span class="comment">Pas ouf...</span>
-            </div>
-        </div>
-
-        <div class="score-item">
-            <div class="rank">6</div>
-            <div class="score-bar">
-                <span class="name">Akhimi974</span>
-                <span class="value">: 452</span>
-                <span class="comment">Mouais pas mal...</span>
-            </div>
-        </div>
-
+    <div class="click-to-continue" id="btnContinue">
+        <span class="flashing-text">CLIQUER POUR CONTINUER</span>
     </div>
 
-</div>
+    <script>
+        window.onload = () => {
+            const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
+            const lastScore = localStorage.getItem('lastFinalScore');
+            const lastName = localStorage.getItem('lastPlayerName');
 
- <div class="text-start">Cliquer pour Continuer</div>
+            const scoreContainer = document.getElementById('scoreList');
+            scoreContainer.innerHTML = ""; 
 
+            leaderboard.forEach((entry, index) => {
+                const isSameName = entry.name.trim().toUpperCase() === lastName?.trim().toUpperCase();
+                const isSameScore = Number(entry.score) === Number(lastScore);
+                const isCurrentPlayer = isSameName && isSameScore;
+
+                const itemClass = isCurrentPlayer ? "score-item current-player" : "score-item";
+
+                scoreContainer.innerHTML += `
+                    <div class="${itemClass}">
+                        <div class="rank">${index + 1}</div>
+                        <div class="score-bar">
+                            <span class="name">${entry.name} ${isCurrentPlayer ? "(MOI)" : ""}</span>
+                            <span class="value">: ${entry.score}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('btnContinue').onclick = () => {
+                window.location.href = "remerciments.html";
+            };
+        };
+    </script>
 </body>
 </html>

@@ -313,38 +313,113 @@ border-color: #000000;
 /* -------------------------------------------------------------------------------------
 NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX
 -----------------------------------------------------------------------------------------*/
-/* RESET */
 
+/* ==========================================================================
+   1. RESET & BASICS
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
-    
+    box-sizing: border-box; /* Meilleure gestion des tailles */
 }
 
-
-body .world_1 {
-  background: #1e1e1e;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
 }
 
-/* ========================= */
-/*         HEADER            */
-/* ========================= */
+/* ==========================================================================
+   2. OVERLAYS (BIENVENUE & TRANSITION NIVEAUX)
+   ========================================================================== */
 
+/* Style partagé pour tous les fonds d'overlay */
+.welcome-overlay, .end-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+}
+
+.welcome-overlay { background: rgba(0, 0, 0, 0.7); }
+.end-overlay { 
+    background: rgba(0, 0, 0, 0.2); 
+    flex-direction: column;
+    display: none; /* JS bascule en flex */
+    z-index: 1000; 
+}
+
+/* Contenu de la boîte de bienvenue */
+.welcome-content {
+    background: rgb(181, 181, 181);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    border: 5px solid #000;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.welcome-logo {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 5px;
+    display: block;
+}
+
+.input-container {
+    margin-top: -80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#playerNameInput {
+    padding: 30px;
+    font-size: 25px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 450px;
+    margin: 0 auto 50px;
+    text-align: center;
+    outline: none;
+}
+
+#startGameBtn {
+    padding: 15px 100px;
+    font-size: 25px;
+    background: black;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+    border: none;
+}
+
+#startGameBtn:hover { transform: scale(1.1); }
+
+/* ==========================================================================
+   3. GESTION DES NIVEAUX (BACKGROUNDS & INFOS)
+   ========================================================================== */
+
+/* Fonds des mondes */
+body.world_1 { background: url('../assets/images/bg_level_1.png') center/cover #f0f0f0; }
+body.world_2 { background: url('../assets/images/bg_level_2.png') center/cover #d1e7ff; }
+body.world_3 { background: url('../assets/images/bg_level_3.png') center/cover #ffd1dc; }
+
+/* Infos en haut (Score & Timer) */
 .game-infos {
     position: absolute;
     top: 20px;
-    left: 20px;
-    right: 20px;
+    inset-inline: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 
 .score {
     display: flex;
@@ -354,215 +429,176 @@ body .world_1 {
     font-weight: bold;
 }
 
-.score img {
-    width: 45px;
-}
+.score img { width: 45px; }
 
 .timer {
     background: black;
     color: white;
     padding: 12px 20px;
     border-radius: 20px;
-    font-weight: bold;
-    display: flex;
     font-size: 18px;
+    font-weight: bold;
 }
 
-/* ========================= */
-/*        BACKGROUNDS        */
-/* ========================= */
-
-.world_1 {
-    background: #8c7f7f;
-}
-
-.world_2 {
-    background: #e5e5e5;
-}
-
-.world_3 {
-    background: #7f8c8d;
-}
-
-
-/* ========================= */
-/*        CLOUD LAYER       */
-/* ========================= */
-
-/* Nuages décoratifs */
-.world_1::before,
-.world_2::before,
-.world_3::before {
+/* Nuages animés (Before de body) */
+body.world_1::before, body.world_2::before, body.world_3::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("../images/Nuage_AkaG.gif");
+    background: url("../images/Nuage_AkaG.gif") repeat;
     background-size: 300px;
     opacity: 0.25;
     pointer-events: none;
     animation: cloudsMove 60s linear infinite;
-    background-repeat: repeat;
 }
 
-/* Animation horizontale */
 @keyframes cloudsMove {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: -2000px 0;
-    }
+    from { background-position: 0 0; }
+    to { background-position: -2000px 0; }
 }
 
-
-.cloud-1 {
-    top: 10%;
-    animation-duration: 60s;
-}
-
-.cloud-2 {
-    top: 30%;
-    width: 250px;
-    animation-duration: 90s;
-}
-
-.cloud-3 {
-    top: 55%;
-    width: 180px;
-    animation-duration: 70s;
-}
-
-.cloud-4 {
-    top: 75%;
-    width: 220px;
-    animation-duration: 110s;
-}
-
-
-/* ETOILES */
-
-/* =========================
-           LEVEL        
- ========================= */
-
-
-/* Disposition de niveau */
-
-.game_1 {
-    position: absolute;
-    inset : 0;
-}
-
-
-
-.level_1 {
-    position: absolute;
-    inset : 0;
-}
-
-/* Style commun */
-.targets {
-    position: absolute;
-    width: 90px;
-    image-rendering: pixelated;
-}
-
-/* Positionnement (comme ton image) */
-
-.red {
-    top: 250px;
-    left: 10%;
-}
-
-.blue {
-    top: 120px;
-    right: 20%;
-}
-
-.black {
-    top: 180px;
-    left: 45%;
-}
-
-.green {
-    bottom: 120px;
-    left: 45%;
-}
-
-/* Niveau Actuel */
-
+/* UI Niveau & Pause */
 .current-level {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    font-weight: bolder;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 900;
     font-size: 35px;
 }
 
-/* Bouton Pause */
-
-.pause {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-}
-
 .btn-pause {
+    position: absolute;
+    bottom: 0;
+    right: 0;
     font-size: 42px;
-    padding: 16px 16px;
+    padding: 16px;
+    background: rgba(0,0,0,0.7);
+    color: white;
     border: none;
     cursor: pointer;
-    background: black;
-    color: white;
-    opacity: 70%;
 }
 
+/* ==========================================================================
+   4. CIBLES & GAMEPLAY
+   ========================================================================== */
+#levelContainer { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
 
+.targets {
+    position: absolute;
+    width: 90px;
+    image-rendering: pixelated;
+    pointer-events: auto;
+    cursor: crosshair;
+    z-index: 20;
+}
 
+/* Positions cibles */
+.red { top: 250px; left: 10%; }
+.blue { top: 120px; right: 20%; }
+.black { top: 180px; left: 45%; }
+.green { bottom: 120px; left: 45%; }
 
+.start-message {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: white;
+    text-shadow: 4px 4px 0 black;
+    z-index: 500;
+}
 
+/* L'élément d'explosion */
 
+.retro-explosion {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+}
 
-/* =============================================================================
-SCORE BOARD STYLE IDENTIQUE AU SCREEN
-=============================================================================*/
+/* Les petits pixels d'explosion */
+.pixel {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    /* On alterne entre blanc et rose flashy */
+    background-color: #f5c2cf;
+    box-shadow: 2px 2px 0px #000; /* Petit contour noir rétro */
+    animation: pixelScatter 0.5s steps(5) forwards;
+}
+
+@keyframes pixelScatter {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { 
+        /* Les pixels s'éloignent de façon aléatoire via JS */
+        transform: translate(var(--dx), var(--dy)) scale(0); 
+        opacity: 0; 
+    }
+}
+
+/* ==========================================================================
+   5. OVERLAY DE FIN (TRANSITION NIVEAU)
+   ========================================================================== */
+.end-title {
+    width: 100%;
+    background: rgba(120, 120, 120, 0.9);
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 70px;
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 5px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.end-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.end-score-box {
+    background: #000;
+    color: #fff;
+    padding: 15px 60px;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+}
+
+.end-comment {
+    font-size: 26px;
+    font-weight: 900;
+    color: #333;
+}
+
+.click-to-continue {
+    width: 100%;
+    background: rgba(60, 60, 60, 0.9);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   6. SCOREBOARD (CLASSEMENT)
+   ========================================================================== */
 
 body.score-board {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #e5e5e5;
+    background-color: #e5e5e5; /* Ou ton image de fond */
     overflow-x: hidden;
-    position: relative;
 }
 
-/* Fond nuages léger */
-body.score-board::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("../images/Nuage_AkaG.gif");
-    background-repeat: repeat;
-    background-size: 300px;
-    opacity: 0.15;
-    z-index: 0;
-}
-
-body.score-board > * {
-    position: relative;
-    z-index: 1;
-}
-
-/* CONTENEUR */
-.container {
-    width: 90%;
-    max-width: 850px;
-    margin: 0 auto;
-    padding-top: 0px;
-}
-
-/* TITRE */
+/* Titre principal "SCORES TOTAUX" */
 .title {
     width: 100%;
     background-color: #9e9e9e;
@@ -575,22 +611,42 @@ body.score-board > * {
     letter-spacing: 2px;
 }
 
-
-/* LISTE */
+/* ==========================================================================
+   2. LISTE DES SCORES & SCROLL
+   ========================================================================== */
 .score-list {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    width: 90%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-left: 30px; /* Espace pour les pastilles rank */
+    padding-bottom: 120px; /* Espace pour ne pas que la banderole cache les scores */
+    max-height: 60vh; /* Hauteur max avant de scroller */
+    overflow-y: auto;
 }
 
-/* ITEM */
+/* Personnalisation de la barre de scroll */
+.score-list::-webkit-scrollbar {
+    width: 8px;
+}
+.score-list::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 10px;
+}
+
+/* ==========================================================================
+   3. STYLE D'UNE LIGNE DE SCORE (SCORE-ITEM)
+   ========================================================================== */
 .score-item {
     position: relative;
     display: flex;
     align-items: center;
+    opacity: 1;
 }
 
-/* PASTILLE RANG */
+/* Pastille Rose du Rang */
 .rank {
     width: 80px;
     height: 70px;
@@ -606,7 +662,7 @@ body.score-board > * {
     z-index: 2;
 }
 
-/* BARRE NOIRE */
+/* Barre Noire du Score */
 .score-bar {
     background-color: black;
     color: white;
@@ -618,29 +674,73 @@ body.score-board > * {
     font-size: 20px;
 }
 
-/* NOM */
-.name {
-    font-weight: 900;
-    margin-right: 10px;
+.name { font-weight: 900; margin-right: 10px; }
+.value { font-weight: bold; }
+
+/* ==========================================================================
+   4. PODIUM (OR, ARGENT, BRONZE)
+   ========================================================================== */
+.score-item:nth-child(1) .rank { background-color: #FFD700; color: #000; }
+.score-item:nth-child(2) .rank { background-color: #C0C0C0; color: #000; }
+.score-item:nth-child(3) .rank { background-color: #CD7F32; color: #000; }
+
+/* ==========================================================================
+   5. JOUEUR ACTUEL (BARRE ROSE CLIGNOTANTE)
+   ========================================================================== */
+.score-item.current-player .score-bar {
+    background-color: #f5c2cf !important; /* Rose */
+    color: #000 !important;
+    border: 3px solid white;
+    animation: flashCurrentPlayer 0.8s infinite alternate;
 }
 
-/* SCORE */
-.value {
-    margin-right: auto;
+@keyframes flashCurrentPlayer {
+    from { box-shadow: 0 0 5px #f5c2cf; filter: brightness(1); }
+    to { box-shadow: 0 0 20px #f5c2cf; filter: brightness(1.2); }
+}
+
+/* ==========================================================================
+   6. BANDEROLE NOIRE & EFFET CLIGNOTANT SUR LE BLOC
+   ========================================================================== */
+.click-to-continue {
+    width: 100%;
+    background: rgba(60, 60, 60, 0.95); /* Couleur de base */
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    cursor: pointer;
+    
+    position: fixed;
+    bottom: 60px; /* MODIFICATION : Monte la banderole de 20px par rapport au bas */
+    left: 0;
+    z-index: 1000;
+
+    /* L'animation est maintenant appliquée ICI (sur la banderole) */
+    animation: blink 1.5s infinite;
+}
+
+/* Animation qui fait clignoter le fond (on passe de visible à invisible) */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.flashing-text {
+    font-size: 24px;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    /* On retire l'animation d'ici car c'est le parent qui gère tout */
 }
 
-/* COMMENTAIRE */
-.comment {
-    opacity: 0.9;
-    font-weight: 600;
-}
-
-
-/* ------------------------------------------------------------------------------------------------
- REMERCIMENTS / PAGE DE FIN DE JEU / REMERCIMENTS / PAGE DE FIN DE JEU / REMERCIMENTS
------------------------------------------------------------------------------------------------------*/
-
+/* ==========================================================================
+   7. REMERCIEMENTS (PAGE FINALE)
+   ========================================================================== */
+/* Fond de la page de fin */
 body.ending-game {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -651,30 +751,26 @@ body.ending-game {
     height: 100vh;
 }
 
-
-.credits-layout{
+.credits-layout {
     text-align: center;
     width: 1000px;
-    height: 75%;
 }
 
-/* Titre */
 h1 {
     font-size: 75px;
     margin-bottom: 30px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
 }
 
-/* Barre de score */
+/* Barre de score noire avec pastille rose */
 .score-final {
     display: flex;
     align-items: center;
     background-color: #000000;
     border-radius: 25px;
-    padding: 20px 20px;
+    padding: 20px;
     margin-bottom: 30px;
     position: relative;
-    
 }
 
 .rank-final {
@@ -686,11 +782,10 @@ h1 {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 50px;
     position: absolute;
     left: -25px;
     z-index: 2;
-    font-size: 50px;
 }
 
 .final-score-text {
@@ -699,41 +794,37 @@ h1 {
     font-weight: bold;
     font-size: 49px;
     color: white;
-    text-decoration: solid;  
 }
 
-/* Rectangle gris */
+/* Boîte grise "Lakitu" */
 .credits-box {
     width: 100%;
-    height: 100px;
+    min-height: 200px;
     background-color: #8f8f8f;
     border-radius: 20px;
     margin-bottom: 40px; 
     border: 2px solid #000;
-    padding-bottom: 110px;
+    display: flex;
+    align-items: center;
 }
 
-
-/* Image à gauche */
 .credits-img {
     width: 190px;
-    float: left;
+    height: auto;
+    margin-right: 20px;
 }
-
 
 .credits-text {
-    border-radius: 20px;
+    flex: 1;
     padding: 20px;
-    box-sizing: border-box;
     color: white;
     text-align: left;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bolder;
-    line-height: 0.9;
-    -webkit-text-stroke: 0.3px rgb(0, 0, 0); /* contour */
+    line-height: 1.4;
 }
 
-/* Boutons */
+/* Boutons du bas */
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -743,7 +834,7 @@ h1 {
     padding: 35px 110px;
     border-radius: 25px;
     border: 2px solid #000;
-    background-color: #f3cfd3;
+    background-color: #f3cfd3; /* Rose bouton */
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;

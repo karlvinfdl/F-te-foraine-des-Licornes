@@ -1,44 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Jeu de Tir - Licornes</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body class="world_1">
-<!-- <body class="world_2">  
-<body class="world_3"> -->
+<body class="world_1"> <div id="levelContainer"></div>
+    
+    <div id="startMessage" class="start-message">Prêt ?</div>
 
-
-    <div class="game_1"></div>
     <header class="game-infos">
-    <div class="score"><img src="../assets/images/licorne_1.png"><p>0</p>
-    </div>
-    <div class="timer">1 : 02</div>
+        <div class="score">
+            <img src="../assets/images/licorne_1.png">
+            <p id="scoreValue">0</p>
+        </div>
+        <div class="timer" id="timerValue">1:00</div>
     </header>
 
+    <div class="current-level">Level 1</div>
 
+    <div class="pause">
+        <button class="btn-pause" id="pauseBtn">⏸</button>
+    </div>
 
-<div class="level_1">
-    <img src="../assets/images/licorne_variante_1.png" class="targets red">
-    <img src="../assets/images/licorne_variante_3.png" class="targets blue">
-    <img src="../assets/images/licorne_variante_4.png" class="targets black">
-    <img src="../assets/images/licorne_variante_6.png" class="targets green">
-  </div>
-
-
-<div class="current-level">Level 1</div>
-
-<div class="pause">
-  <button class="btn-pause">⏸</button>
+   <div id="welcomeOverlay" class="welcome-overlay">
+    <div class="welcome-content">
+        <img src="../assets/images/TJ.png" alt="Licorne Shooter" class="welcome-logo">
+        
+        <div class="input-container">
+            <input type="text" id="playerNameInput" placeholder="TON PSEUDO..." maxlength="12">
+            <button id="startGameBtn">JOUER</button>
+        </div>
+    </div>
 </div>
 
-
-
+<div id="endOverlay" class="end-overlay">
+    <h1 class="end-title">FINI !!!!</h1>
     
+    <div class="end-content">
+        <div class="end-score-box">
+            Score : <span id="finalScore">0</span>
+        </div>
+        <p class="end-comment" id="endComment">Pas ouf...</p>
+    </div>
 
-    
+    <div class="click-to-continue">Cliquer pour continuer</div>
+</div>
+
+    <audio id="popSound" src="../assets/sounds/pop.mp3" preload="auto"></audio>
+
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
