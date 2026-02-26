@@ -101,6 +101,11 @@ const spinBtn = document.getElementById("spin");
 const result = document.getElementById("result");
 const scene = document.getElementById("scene"); // ✅ wrapper
 
+// compteur global de tours et de bonnes réponses
+let spinsDone = 0;
+let correctCount = 0;
+const maxSpins = 3;
+
 if (wheel && segmentsGroup && spinBtn) {
   const segments = [
     { label: "Niveau Facile", color: "#4fc3a3" },
@@ -163,12 +168,35 @@ if (wheel && segmentsGroup && spinBtn) {
     text.setAttribute("y", pos.y);
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("dominant-baseline", "middle");
-    text.setAttribute("font-size", "12");
+    // réduire la taille de police pour les labels longs
+    const labelText = segments[i].label;
+    text.setAttribute("font-size", "9");
     text.setAttribute("font-weight", "800");
     text.setAttribute("fill", "#ffffff");
 
+    // split label into two lines when possible (e.g. "Niveau Facile")
+    const parts = labelText.split(' ').filter(Boolean);
+    if (parts.length >= 2) {
+      const first = parts[0];
+      const rest = parts.slice(1).join(' ');
+
+      const t1 = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      t1.setAttribute('x', pos.x);
+      t1.setAttribute('dy', '-6');
+      t1.textContent = first;
+
+      const t2 = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      t2.setAttribute('x', pos.x);
+      t2.setAttribute('dy', '12');
+      t2.textContent = rest;
+
+      text.appendChild(t1);
+      text.appendChild(t2);
+    } else {
+      text.textContent = labelText;
+    }
+
     text.setAttribute("transform", `rotate(${mid} ${pos.x} ${pos.y})`);
-    text.textContent = segments[i].label;
     segmentsGroup.appendChild(text);
   }
 
@@ -191,23 +219,222 @@ if (wheel && segmentsGroup && spinBtn) {
     const spins = 1080 + Math.random() * 1080; // 3 à 6 tours
     angle = angle + spins + extra;
 
-    wheel.style.transform = `rotate(${angle}deg)`;
+    // rotate only the segments group so the center stays fixed
+    segmentsGroup.style.transform = `rotate(${angle}deg)`;
   });
 
 
-  wheel.addEventListener("transitionend", (e) => {
+  segmentsGroup.addEventListener("transitionend", (e) => {
     if (e.propertyName !== "transform") return;
     if (!spinning) return;
 
     const norm = ((angle % 360) + 360) % 360;
     const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
 
-    if (result) result.textContent = `Résultat : ${segments[index].label}`;
+    const label = segments[index].label;
+    if (result) result.textContent = `Résultat : ${label}`;
+
+    // Special case: "Rejoue" segment should let the player spin again without consuming a spin
+    if (label && label.toLowerCase().includes('rejoue')) {
+      // brief feedback in the panel header (don't count as a spin)
+      const panelCards = document.querySelectorAll('.panel-card');
+      if (panelCards[0]) panelCards[0].textContent = "Rejoue !";
+      const panel = document.getElementById('panel');
+      if (panel) panel.setAttribute('aria-hidden','false');
+      if (scene) scene.classList.add('is-done');
+
+      // allow the player to spin again shortly
+      setTimeout(() => {
+        if (panel) panel.setAttribute('aria-hidden','true');
+        if (scene) scene.classList.remove('is-done');
+        if (spinBtn) spinBtn.disabled = false;
+      }, 900);
+
+      spinning = false;
+      return;
+    }
+
+    // count this completed spin (normal segments)
+    spinsDone++;
+
+    // afficher question correspondant au label
+    const qObj = pickQuestionFor(label);
+    if (qObj) {
+      showQuestion(qObj); // showQuestion will keep spinBtn disabled until answered
+    } else {
+      // pas de question — afficher message et gérer fin si spins épuisés
+      const panelCards = document.querySelectorAll('.panel-card');
+      if (panelCards[0]) panelCards[0].textContent = "Pas de question, rejoue !";
+      const panel = document.getElementById('panel');
+      if (panel) panel.setAttribute('aria-hidden','false');
+      if (scene) scene.classList.add('is-done');
+
+      if (spinsDone >= maxSpins) {
+        if (correctCount >= maxSpins) {
+          setTimeout(() => window.location.href = 'wheel2.html', 900);
+        } else if (lives === 0) {
+          setTimeout(() => window.location.href = 'fail.html', 900);
+        } else {
+          // pas mort mais pas toutes bonnes -> continuer sur la roue suivante
+          setTimeout(() => window.location.href = 'wheel2.html', 900);
+        }
+      } else {
+        // allow next spin after a short delay
+        setTimeout(() => { if (spinBtn) spinBtn.disabled = false; }, 900);
+      }
+    }
 
     spinning = false;
-    spinBtn.disabled = false;
-
-    // pop up 
-    if (scene) scene.classList.add("is-done");
   });
+ }
+
+// et ici les questions
+const questions = {
+  "Niveau Facile": [
+    { q: "Quelle couleur a la licorne ?", choices: ["Rose","Bleu","Vert"], answer: 0 },
+    { q: "Combien de cornes ?", choices: ["1","2","3"], answer: 0 }
+  ],
+  "Niveau Moyen": [
+    { q: "Question moyen 1 ?", choices: ["A","B","C"], answer: 1 }
+  ],
+  "Niveau Difficile": [
+    { q: "Question difficile ?", choices: ["X","Y","Z"], answer: 2 }
+  ],
+  "Bonus 🎁": [
+    { q: "Quel est le cadeau ?", choices: ["Bonbon","Étoile"], answer: 0 }
+  ],
+  "Rejoue ↻": []
+};
+
+function pickQuestionFor(label){
+  const pool = questions[label] || [];
+  if(!pool.length) return null;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+// initialiser vies UI
+let lives = 3;
+// nombre de spins effectués est dans spinsDone
+const maxToNext = 3;   // si tu veux utiliser ailleurs
+
+function updateLivesUI(){
+  const hearts = document.querySelector('.hearts');
+  if(!hearts) return;
+  hearts.innerHTML = '❤'.repeat(lives) + '♡'.repeat(3 - lives);
+}
+
+// appeler au chargement pour synchroniser affichage cœurs
+updateLivesUI();
+
+// fonctions d'affichage / gestion des questions
+function showQuestion(qObj){
+  const panel = document.getElementById('panel');
+  if(!panel) return;
+  const panelCards = panel.querySelectorAll('.panel-card');
+
+  // question
+  if(panelCards[0]) panelCards[0].textContent = qObj.q || '';
+
+  // choices dans la 2ᵉ carte
+  if(panelCards[1]){
+    const container = panelCards[1];
+    // reset container and make sure any previous "answered" flag is cleared
+    container.innerHTML = '';
+    delete container.dataset.answered;
+
+    (qObj.choices || []).forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'answer-btn';
+      btn.textContent = c;
+      // ensure the button starts enabled
+      btn.disabled = false;
+      btn.addEventListener('click', () => checkAnswer(i, qObj.answer));
+      container.appendChild(btn);
+    });
+  }
+
+  // feedback vide
+  if(panelCards[2]) panelCards[2].textContent = '';
+
+  panel.setAttribute('aria-hidden','false');
+  if(scene) scene.classList.add('is-done');
+  // keep spin disabled while question is active
+  if (spinBtn) spinBtn.disabled = true;
+}
+
+function checkAnswer(choiceIndex, correctIndex){
+  const panelCards = document.querySelectorAll('.panel-card');
+  const feedbackCard = panelCards[2] || null;
+  const choicesContainer = panelCards[1];
+  const buttons = choicesContainer ? Array.from(choicesContainer.querySelectorAll('.answer-btn')) : [];
+
+  // safety: if already answered correctly, ignore
+  if (choicesContainer && choicesContainer.dataset.answered === 'true') return;
+
+  const clickedBtn = buttons[choiceIndex];
+  if (clickedBtn) clickedBtn.disabled = true; // prevent immediate double-click
+
+  if (choiceIndex === correctIndex){
+    // correct answer: mark and proceed
+    if (clickedBtn) clickedBtn.classList.add('correct');
+    if (feedbackCard) feedbackCard.textContent = 'Bonne réponse !';
+
+    correctCount++;
+    // mark as answered so future clicks are ignored
+    if (choicesContainer) choicesContainer.dataset.answered = 'true';
+
+    // small delay so the user sees feedback, then close panel and continue
+    setTimeout(() => {
+      // cleanup
+      buttons.forEach(b => { b.disabled = false; b.classList.remove('selected','wrong','correct'); });
+
+      const panel = document.getElementById('panel');
+      if (panel) panel.setAttribute('aria-hidden','true');
+      if (scene) scene.classList.remove('is-done');
+
+      // check immediate victory
+      if (correctCount >= maxSpins){
+        window.location.href = 'wheel2.html';
+        return;
+      }
+
+      // if spins exhausted, decide next screen
+      if (spinsDone >= maxSpins){
+        if (correctCount >= maxSpins){
+          window.location.href = 'wheel2.html';
+        } else if (lives === 0) {
+          window.location.href = 'fail.html';
+        } else {
+          window.location.href = 'wheel2.html';
+        }
+        return;
+      }
+
+      // otherwise re-enable spin for next round
+      if (spinBtn) spinBtn.disabled = false;
+    }, 900);
+
+    return;
+  }
+
+  // wrong answer: consume one life, mark the button wrong, let player try remaining choices
+  lives = Math.max(0, lives - 1);
+  updateLivesUI();
+  if (clickedBtn) clickedBtn.classList.add('wrong');
+  if (feedbackCard) feedbackCard.textContent = `Mauvaise réponse — il vous reste ${lives} cœur(s)`;
+
+  // defeat if no lives left
+  if (lives === 0){
+    setTimeout(() => { window.location.href = 'fail.html'; }, 800);
+    return;
+  }
+
+  // keep other buttons enabled so the player can try again; do not close the panel
+}
+
+function gameOver(){
+  const panelCards = document.querySelectorAll('.panel-card');
+  if(panelCards[0]) panelCards[0].textContent = 'Game Over — plus de vies';
+  if(scene) scene.classList.add('is-done');
 }
