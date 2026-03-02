@@ -443,6 +443,63 @@ body.page-wheel{
   background: url("img/fondroue1.png") center center / cover no-repeat;
 }
 
+/* Roue 2 - Personnalisable (Musique/Loto/etc) */
+body.page-wheel2{
+  min-height: 100vh;
+  background: url("img/fondvinyle.png") center center / cover no-repeat; 
+}
+
+/* Roue 3 - Personnalisable (Loto/etc) */
+body.page-wheel3{
+  min-height: 100vh;
+  background: url("img/fond3.png") center center / cover no-repeat;
+}
+
+/* === Lecteur Vinyle (wheel2) - en arrière-plan à gauche === */
+.vinyle-player {
+  position: fixed;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-100%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 600ms ease, opacity 600ms ease;
+}
+
+.vinyle-player img {
+  width: 700px;
+  height: auto;
+  display: block;
+}
+
+/* Quand la wheel va à gauche (is-done), le lecteur vinyle apparaît */
+.page-wheel2 .scene.is-done .vinyle-player {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+}
+
+/* wheel2 - wheel toujours visible */
+/* wheel2 - wheel cachée au départ */
+/*
+.page-wheel2 #wheel {
+  opacity: 0;
+  transition: opacity 600ms ease;
+  margin-top: -30px;
+}
+*/
+
+/* wheel toujours visible */
+.page-wheel2 #wheel {
+  opacity: 1;
+  margin-top: -30px;
+}
+
+/* État quand on clique sur JOUER - la wheel apparaît */
+/* .page-wheel2 .scene.is-playing #wheel {
+  opacity: 1;
+} */
+
 /* positionnement spécifique pour la page roue */
 .page-wheel .scene{
   align-items: flex-start; /* pousse la roue vers le bas */

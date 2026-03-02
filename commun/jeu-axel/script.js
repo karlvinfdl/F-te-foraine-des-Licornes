@@ -101,13 +101,42 @@ const spinBtn = document.getElementById("spin");
 const result = document.getElementById("result");
 const scene = document.getElementById("scene"); // ✅ wrapper
 
-// compteur global de tours et de bonnes réponses
-let spinsDone = 0;
-let correctCount = 0;
-const maxSpins = 3;
+// Animation lecteur vinyle au clic sur JOUER (wheel2 uniquement)
+const vinylePlayer = document.querySelector('.vinyle-player');
+if (spinBtn && scene && vinylePlayer) {
+  spinBtn.addEventListener("click", () => {
+    scene.classList.add("is-playing");
+  });
+}
 
-if (wheel && segmentsGroup && spinBtn) {
-  const segments = [
+// Fonction pour déterminer la page suivante
+function getNextPage() {
+  const body = document.body;
+  if (body.classList.contains('page-wheel3')) {
+    // Fin du jeu - écran de victoire ou autre
+    return 'index.html'; // ou une page de fin
+  } else if (body.classList.contains('page-wheel2')) {
+    return 'wheel3.html';
+  } else {
+    return 'wheel2.html';
+  }
+}
+
+// Définir les segments selon la page
+let segments;
+const body = document.body;
+
+if (body.classList.contains('page-wheel3')) {
+  // Wheel3: 4 cases avec les noms
+  segments = [
+    { label: "Elodie", color: "#FF6B9D" },    // Rose
+    { label: "Kylian", color: "#4ECDC4" },    // Turquoise
+    { label: "Karlvin", color: "#FFE66D" },   // Jaune
+    { label: "Alexis", color: "#95E1D3" },    // Vert menthe
+  ];
+} else {
+  // Wheel1 et Wheel2: segments originaux
+  segments = [
     { label: "Niveau Facile", color: "#4fc3a3" },
     { label: "Niveau Facile", color: "#3fb993" },
     { label: "Niveau Facile", color: "#76c96a" },
@@ -117,7 +146,14 @@ if (wheel && segmentsGroup && spinBtn) {
     { label: "Bonus 🎁", color: "#f39c12" },
     { label: "Rejoue ↻", color: "#2aa6a1" },
   ];
+}
 
+// compteur global de tours et de bonnes réponses
+let spinsDone = 0;
+let correctCount = 0;
+const maxSpins = 3;
+
+if (wheel && segmentsGroup && spinBtn) {
   const cx = 100, cy = 100;
   const R = 92;
   const rText = 68;
@@ -271,12 +307,12 @@ if (wheel && segmentsGroup && spinBtn) {
 
       if (spinsDone >= maxSpins) {
         if (correctCount >= maxSpins) {
-          setTimeout(() => window.location.href = 'wheel2.html', 900);
+          setTimeout(() => window.location.href = getNextPage(), 900);
         } else if (lives === 0) {
           setTimeout(() => window.location.href = 'fail.html', 900);
         } else {
           // pas mort mais pas toutes bonnes -> continuer sur la roue suivante
-          setTimeout(() => window.location.href = 'wheel2.html', 900);
+          setTimeout(() => window.location.href = getNextPage(), 900);
         }
       } else {
         // allow next spin after a short delay
@@ -395,18 +431,18 @@ function checkAnswer(choiceIndex, correctIndex){
 
       // check immediate victory
       if (correctCount >= maxSpins){
-        window.location.href = 'wheel2.html';
+        window.location.href = getNextPage();
         return;
       }
 
       // if spins exhausted, decide next screen
       if (spinsDone >= maxSpins){
         if (correctCount >= maxSpins){
-          window.location.href = 'wheel2.html';
+          window.location.href = getNextPage();
         } else if (lives === 0) {
           window.location.href = 'fail.html';
         } else {
-          window.location.href = 'wheel2.html';
+          window.location.href = getNextPage();
         }
         return;
       }
