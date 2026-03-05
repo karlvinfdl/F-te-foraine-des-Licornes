@@ -5,56 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/Lakitu.Favicon.png"/>
 </head>
 <body class="page-règles">
 
+<div class="wii-container">
+  <header class="wii-header">
+    <div class="game-thumbnail">
+      <img src="../assets/images/TJ2.png" alt="Icon">
+    </div>
+    <h1>Le stand du Tir à la cible – Mini-jeux interactifs</h1>
+  </header>
 
-    <div class="game-title">
-<h1>Le stand du Tir à la cible – Mini-jeux interactifs</h1>
+  <main class="wii-content">
+    <div class="triple-column-wrapper">
+      
+      <div class="info-block">
+        <div class="block-image">
+          <img src="../assets/images/Thumbail_game_1.png" alt="Step 1">
+        </div>
+        <div class="block-text">
+          Cliquer sur le plus de cibles possibles pour gagner le plus de points.
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="block-image">
+          <img src="img2.png" alt="Step 2">
+        </div>
+        <div class="block-text">
+          Évitez de cliquer sur les cibles malus, elles vous font perdre des points 
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="block-image">
+          <img src="img3.png" alt="Step 3">
+        </div>
+        <div class="block-text">
+          Enchainer les clics sur vos cibles pour obenir des bonus combo et d’achevement
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="wii-footer">
+  <div class="players-info">
+    <span class="player-icons">👤</span>
+    <span class="player-text">1 player</span>
+  </div>
+
+  <div class="ok-button" id="open-details">
+    <span class="btn-label">Details Items</span>
+  </div>
+</footer>
+
+<div id="details-modal" class="modal-overlay">
+  <div class="modal-content">
+    <header class="modal-header">
+      <h2>Item Details</h2><br>
+    </header>
+    <div class="modal-body">
+      <p>Voici les détails supplémentaires sur les items du jeu...</p><br>
+      <ul>
+          <li>🦄 <strong>Cibles Normales :</strong> Maintenez-les en l'air avec 4-5 clics avant qu'elles n'explosent</li><br>
+          <li>⭐ <strong>Cibles Bonus :</strong> Cliquez une fois pour les faire exploser et gagner des points bonus</li><br>
+          <li>💀 <strong>Cibles Malus :</strong> Évitez de cliquer dessus, elles vous font perdre des points</li><br>
+          <li>🐶 <strong>Cuistot Tokyo :</strong> Cible rare faisant gagner beaucoup de points</li><br>
+        </ul>
+    </div>
+    <button id="close-btn" class="ok-button">
+      <span class="btn-label">FERMER</span>
+    </button>
+  </div>
 </div>
+       <div class="text-start" id="btnStart">Cliquer pour Continuer</div>
+</section>
 
-<section class="instructions">
+    <script>// On récupère les éléments
+const openBtn = document.getElementById('open-details');
+const modal = document.getElementById('details-modal');
+const closeBtn = document.getElementById('close-btn');
 
-        <div class="rules">
-        <h3>Règle 1</h3>
-        <p>Cliquer sur vos cibles pour ne pas les faire tomber et gagner le plus de points</p>
+// Ouvrir
+openBtn.addEventListener('click', (e) => {
+  modal.classList.add('active');
+});
 
-        <div class="licornes">
-         
-          <img src="../assets/images/licorne_variante_1.png">
-           <img src="../assets/images/licorne_variante_2.png">
-        </div>
-        </div>
-    
-       <div class="rules">
-        <h3>Règle 2</h3>
-        <p>Ne cliquer pas sur les cibles noires ou violettes sous peine de penalité</p>
+// Fermer
+closeBtn.addEventListener('click', (e) => {
+  // e.stopPropagation empêche le clic de remonter aux éléments parents
+  e.stopPropagation(); 
+  modal.classList.remove('active');
+});
 
-        <div class="licornes">
-        <img src="../assets/images/licorne_variante_6.png">
-        <img src="../assets/images/licorne_variante_4.png">
-        </div>
-        </div>
+// Optionnel : Fermer si on clique sur le fond noir
+modal.addEventListener('click', (e) => {
+  if(e.target === modal) modal.classList.remove('active');
+});
 
-
-        <div class="rules">
-        <h3>Règle 3</h3>
-        <p>Enchainer les clics sur vos cibles pour obenir des bonus combo et d’achevement</p>
-
-        <div class="licornes">
-       <img src="../assets/images/licorne_variante_3.png">
-       <img src="../assets/images/licorne_variante_5.png">      
-        </div>
-        </div>
-
-       
-
-        <div class="text-start">Cliquer pour Continuer</div>
-                
-    </section>
+document.getElementById('btnStart').onclick = () => {
+                window.location.href = "jeu.html";
+            };
+</script>
 </body>
 </html>
-
-<main class="game-area">
-    <div class="game-overlay">
-    <div class="overlay-content"></main>
