@@ -135,15 +135,15 @@ if (body.classList.contains('page-wheel3')) {
     { label: "Alexis", color: "#95E1D3" },    // Vert menthe
   ];
 } else {
-  // Wheel1 et Wheel2: segments originaux
+  // Wheel1 et Wheel2: segments originaux (mélangés - Niveau Facile séparés)
   segments = [
-    { label: "Niveau Facile", color: "#4fc3a3" },
-    { label: "Niveau Facile", color: "#3fb993" },
-    { label: "Niveau Facile", color: "#76c96a" },
-    { label: "Niveau Moyen", color: "#f6c23e" },
-    { label: "Niveau Moyen", color: "#f2b72f" },
-    { label: "Niveau Difficile", color: "#e74c3c" },
+    { label: "Facile", color: "#4fc3a3" },
+    { label: "Moyen", color: "#f6c23e" },
+    { label: "Facile", color: "#3fb993" },
     { label: "Bonus 🎁", color: "#f39c12" },
+    { label: "Facile", color: "#76c96a" },
+    { label: "Difficile", color: "#e74c3c" },
+    { label: "Moyen", color: "#f2b72f" },
     { label: "Rejoue ↻", color: "#2aa6a1" },
   ];
 }
@@ -325,6 +325,80 @@ if (wheel && segmentsGroup && spinBtn) {
  }
 
 // et ici les questions
+// ============================================
+// WHEEL 1 (wheel.html) - Questions fournies par l'utilisateur
+// ============================================
+const questionsWheel1 = {
+  "Facile": [
+    // 🟢 NIVEAU FACILE (ultra accessible)
+    { q: "À quoi sert un bouton ?", choices: ["Cliquer", "Décorer la page", "Stocker des données"], answer: 0 },
+    { q: "Que se passe-t-il quand je clique sur un bouton ?", choices: ["Le site s'éteint", "Une action se déclenche", "Le PC redémarre"], answer: 1 },
+    { q: "Que signifie 'Bravo' à l'écran ?", choices: ["Une erreur", "Une réussite", "Un bug"], answer: 1 },
+    { q: "Un site web, c'est…", choices: ["Une page sur Internet", "Une application téléphone uniquement", "Un jeu vidéo"], answer: 0 }
+  ],
+  "Moyen": [
+    // 🟡 NIVEAU MOYEN (logique simple)
+    { q: "Pour changer la couleur d'un bouton, on modifie :", choices: ["Le texte", "L'apparence", "Le son"], answer: 1 },
+    { q: "Si un élément 'apparaît', ça veut dire :", choices: ["Il disparaît", "Il devient visible", "Il est supprimé"], answer: 1 },
+    { q: "Une animation, c'est :", choices: ["Un calcul", "Un mouvement ou effet visuel", "Une erreur"], answer: 1 },
+    { q: "Si je clique et qu'il se passe quelque chose :", choices: ["C'est un hasard", "C'est une interaction", "C'est un bug"], answer: 1 }
+  ],
+  "Difficile": [
+    // 🔴 NIVEAU DIFFICILE (toujours sans code)
+    { q: "Si rien ne se passe quand je clique :", choices: ["C'est normal", "Il y a un problème", "C'est fini"], answer: 1 },
+    { q: '"404 chance not found" veut dire :', choices: ["J'ai gagné", "Le site est cassé", "Je n'ai pas eu de chance 😄"], answer: 1 },
+    { q: "Si je fais une erreur :", choices: ["Je continue quand même", "Je gagne plus", "Je recommence à zéro"], answer: 2 },
+    { q: "Plus je réussis :", choices: ["Moins je gagne", "Rien ne change", "Plus je gagne"], answer: 2 }
+  ],
+  "Bonus 🎁": [
+    { q: "Quel est le cadeau ?", choices: ["Bonbon", "Étoile"], answer: 0 }
+  ],
+  "Rejoue ↻": []
+};
+
+// ============================================
+// WHEEL 2 (wheel2.html) - Questions différentes pour éviter les doublons
+// ============================================
+const questionsWheel2 = {
+  "Facile": [
+    { q: "Pour aller sur un site, on clique sur :", choices: ["Un lien", "Une image", "Un son"], answer: 0 },
+    { q: "Un écran noir signifie :", choices: ["Le site fonctionne", "Une erreur ou veille", "Le chargement"], answer: 1 },
+    { q: "Quand ça charge, on :", choices: ["Part jouer ailleurs", "On attend", "On ferme tout"], answer: 1 },
+    { q: "Un menu sert à :", choices: ["Naviguer", "Décorer", "Stocker"], answer: 0 }
+  ],
+  "Moyen": [
+    { q: "Pour valider un formulaire, on clique sur :", choices: ["Effacer", "Envoyer", "Supprimer"], answer: 1 },
+    { q: "Si le texte est petit, on peut :", choices: ["Le cacher", "Zoomer", "L'effacer"], answer: 1 },
+    { q: "Une vidéo qui ne marche pas :", choices: ["C'est normal", "Il y a un problème", "C'est terminé"], answer: 1 },
+    { q: "Pour retourner en arrière, on utilise :", choices: ["La flèche retour", "Le bouton jouer", "Le son"], answer: 0 }
+  ],
+  "Difficile": [
+    { q: "Un site lent veut dire :", choices: ["Il est cassé", "Problème de connexion ou serveur", "C'est fini"], answer: 1 },
+    { q: '"Erreur 500" signifie :', choices: ["Tout va bien", "Problème serveur", "Victoire"], answer: 1 },
+    { q: "Si le son ne marche pas :", choices: ["Le site est muet", "Problème de son ou muted", "C'est normal"], answer: 1 },
+    { q: "Plus on attend :", choices: ["Le site plante", "Il finit par charger", "On perd tout"], answer: 1 }
+  ],
+  "Bonus 🎁": [
+    { q: "Quel est le super cadeau ?", choices: ["Trophée", "Couronne"], answer: 0 }
+  ],
+  "Rejoua ↻": []
+};
+
+// ============================================
+// WHEEL 3 (wheel3.html) - Questions pour les joueurs (Elodie, Kylian, Karlvin, Alexis)
+// ============================================
+// À définir - à compléter plus tard
+// Exemple de structure :
+// const questionsWheel3 = {
+//   "Elodie": [...],
+//   "Kylian": [...],
+//   "Karlvin": [...],
+//   "Alexis": [...]
+// };
+
+// ============================================
+// Ancien système de questions (obsolète)
+// ============================================
 const questions = {
   "Niveau Facile": [
     { q: "Quelle couleur a la licorne ?", choices: ["Rose","Bleu","Vert"], answer: 0 },
@@ -343,7 +417,23 @@ const questions = {
 };
 
 function pickQuestionFor(label){
-  const pool = questions[label] || [];
+  // Sélectionner le bon set de questions selon la page
+  let questionsData;
+  const body = document.body;
+  
+  if (body.classList.contains('page-wheel3')) {
+    // Wheel 3 - questions pour les joueurs (à implémenter)
+    // Pour l'instant, utiliser l'ancien système
+    questionsData = window.questions || {};
+  } else if (body.classList.contains('page-wheel2')) {
+    // Wheel 2
+    questionsData = questionsWheel2;
+  } else {
+    // Wheel 1 (défaut)
+    questionsData = questionsWheel1;
+  }
+  
+  const pool = questionsData[label] || [];
   if(!pool.length) return null;
   return pool[Math.floor(Math.random()*pool.length)];
 }
