@@ -9,6 +9,11 @@
 </head>
 
 <body class="intro">
+  <!-- Audio element caché -->
+  <audio id="wheelAudio" preload="auto">
+    <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">
+  </audio>
+  
   <main class="intro-layer">
     <section class="wheels" aria-label="Choix du mode de jeu">
       <a class="wheel wheel--quest" href="#qr">
@@ -24,7 +29,7 @@
       </a>
     </section>
 
-   <button type="button" class="play" onclick="location.href='wheel.html'">JOUER</button>
+   <button type="button" class="play" onclick="playAudioDirect()">JOUER</button>
   </main>
   <script src="script.js"></script>
 </body>

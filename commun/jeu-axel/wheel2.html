@@ -8,11 +8,27 @@
 </head>
 <body class="page-wheel page-wheel2">
 
+ <!-- Contrôle du volume (en haut à droite) -->
+ <div id="volumeControl" style="position:fixed; top:15px; right:15px; z-index:1000; background:rgba(255,255,255,0.9); padding:10px 15px; border-radius:25px; display:flex; align-items:center; gap:10px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+   <span style="font-size:20px;">🎵</span>
+   <input type="range" id="volumeSlider" min="0" max="100" value="70" style="width:80px; cursor:pointer;">
+   <span id="volumeValue" style="font-size:12px; font-weight:bold; min-width:30px;">70%</span>
+ </div>
+
  <div class="scene" id="scene">
 <!-- Lecteur vinyle (visible au départ) -->
   <div class="vinyle-player" id="vinylePlayer">
     <img src="img/lecvinyle.svg" alt="Lecteur vinyle" />
   </div>
+
+  <!-- Audio pour le blind test -->
+  <audio id="blindTestAudio" preload="auto">
+    <source src="sound/despacito.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="shapeOfYouAudio" preload="auto">
+    <source src="sound/shapeofyou.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- class pour les roues -->
   <div class="game" id="wheelZone">
@@ -50,6 +66,11 @@
   <aside class="panel" id="panel" aria-hidden="true">
     <div class="hearts" aria-hidden="false"></div>
     <h2>Blind Test</h2>
+    <!-- Zone de phase de jeu -->
+    <div id="blindTestPhase" class="panel-card">
+      <div id="blindTestTimer">⏱️ 10s</div>
+      <div id="blindTestQuestion">Devine le titre !</div>
+    </div>
     <div class="panel-card">Question 1</div>
     <div class="panel-card"></div>
     <div class="panel-card"></div>

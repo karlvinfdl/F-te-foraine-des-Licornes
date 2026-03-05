@@ -1,4 +1,64 @@
-// ✨ Paillettes sur le bouton PLAY
+// ============================================
+// 🎵 SYSTÈME AUDIO - Lecture quand on clique sur JOUER
+// ============================================
+
+// Fonction pour jouer le son appelée depuis le bouton onclick
+function playAudioDirect() {
+  alert("Le son va se jouer!"); // Debug
+  
+  // Essayer d'abord l'élément audio HTML
+  const htmlAudio = document.getElementById('wheelAudio');
+  if (htmlAudio) {
+    htmlAudio.currentTime = 0;
+    const playPromise = htmlAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        alert("Son joué!"); // Succès
+        // Naviguer après le son
+        setTimeout(() => {
+          location.href = 'wheel.html';
+        }, 500);
+      }).catch(err => {
+        alert("Erreur: " + err.message);
+      });
+    }
+    return;
+  }
+  
+  alert("Audio HTML non trouvé");
+}
+
+// Fonction pour jouer le son de la roue (autres usages)
+function playWheelSound() {
+  const htmlAudio = document.getElementById('wheelAudio');
+  if (htmlAudio) {
+    htmlAudio.currentTime = 0;
+    htmlAudio.play().catch(err => {
+      console.log("Erreur:", err);
+    });
+  }
+}
+
+function playWithAudioJS() {
+  const audio = new Audio();
+  audio.src = 'sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3';
+  audio.volume = 0.8;
+  
+  audio.play().then(() => {
+    console.log("Son joué avec Audio JS!");
+  }).catch(err => {
+    console.log("Erreur lecture audio JS:", err);
+  });
+  
+  // Arrêter après 5 secondes
+  setTimeout(() => {
+    audio.pause();
+  }, 5000);
+}
+
+// ============================================
+// ✨ Paarettes sur le bouton PLAY (index.html)
+// ============================================
 const playBtn = document.querySelector(".play");
 
 function rand(min, max) {
@@ -33,7 +93,7 @@ function burstSparkles(btn, clientX, clientY) {
     s.style.width = `${size}px`;
     s.style.height = `${size}px`;
 
-    // couleur "paillettes"
+    // couleur "paarettes"
     const colors = ["#fff2ff", "#ffd6ff", "#fff7c2", "#c9fff5", "#ffd1a6"];
     s.style.background = colors[Math.floor(Math.random() * colors.length)];
 
@@ -45,7 +105,18 @@ function burstSparkles(btn, clientX, clientY) {
 
 if (playBtn) {
   playBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // Empêcher la navigation immédiate
+    
+    // Jouer le son
+    playWheelSound();
+    
+    // Effet de paillages
     burstSparkles(playBtn, e.clientX, e.clientY);
+    
+    // Navigation après un petit délai pour permettre au son de démarrer
+    setTimeout(() => {
+      location.href = 'wheel.html';
+    }, 300);
   });
 }
 
@@ -106,6 +177,8 @@ const vinylePlayer = document.querySelector('.vinyle-player');
 if (spinBtn && scene && vinylePlayer) {
   spinBtn.addEventListener("click", () => {
     scene.classList.add("is-playing");
+    // Jouer le son de la roue quand on clique sur JOUER dans les pages wheel
+    playWheelSound();
   });
 }
 
@@ -122,7 +195,345 @@ function getNextPage() {
   }
 }
 
+// ============================================
+// 🎵 BLIND TEST - Système pour wheel2
+// ============================================
+let blindTestTimer = null;
+let questionTimer = null; // Timer pour wheel1 et wheel3
+
+//Liste des chansons pour le blind test
+const blindTestSongs = [
+  { 
+    title: "Despacito", 
+    answer: "Despacito",
+    choices: ["Despacito", "Doucement", "Latino"]
+  },
+  { 
+    title: "Shape of You", 
+    answer: "Shape of You",
+    choices: ["Shape of You", "Perfect", "Thinking Out Loud"]
+  }
+  // Tu peux ajouter d'autres chansons ici
+];
+
+// Fonction pour afficher un timer avant la question (pour wheel1 et wheel3)
+function showQuestionTimer(label, qObj) {
+  const panel = document.getElementById('panel');
+  const panelCards = panel.querySelectorAll('.panel-card');
+  
+  // Afficher le panel avec le timer
+  panel.style.transform = 'translateY(-50%) translateX(0)';
+  panel.style.opacity = '1';
+  panel.style.pointerEvents = 'auto';
+  panel.setAttribute('aria-hidden', 'false');
+  
+  if (scene) {
+    scene.classList.add('is-done');
+  }
+  
+  // Afficher le timer dans la première carte
+  if (panelCards[0]) {
+    let timeLeft = 10;
+    panelCards[0].innerHTML = `
+      <div style="text-align:center; width:100%;">
+        <div style="font-size:24px; font-weight:bold; margin-bottom:10px;">⏱️ ${timeLeft}s</div>
+        <div style="font-size:14px;">Préparez-vous...</div>
+      </div>
+    `;
+  }
+  
+  // Timer de 10 secondes
+  let currentTime = timeLeft;
+  
+  questionTimer = setInterval(() => {
+    currentTime--;
+    
+    if (panelCards[0]) {
+      panelCards[0].innerHTML = `
+        <div style="text-align:center; width:100%;">
+          <div style="font-size:24px; font-weight:bold; margin-bottom:10px;">⏱️ ${currentTime}s</div>
+          <div style="font-size:14px;">Préparez-vous...</div>
+        </div>
+      `;
+    }
+    
+    if (currentTime <= 0) {
+      clearInterval(questionTimer);
+      questionTimer = null;
+      
+      // Afficher la question après le timer
+      showQuestion(qObj);
+    }
+  }, 1000);
+}
+
+function startBlindTest() {
+  console.log("🎵 startBlindTest appelé !");
+  
+  // ARRÊTER tout timer précédent et audio
+  if (blindTestTimer) {
+    clearInterval(blindTestTimer);
+    blindTestTimer = null;
+  }
+  
+  // Arrêter tous les audios
+  const despacitoAudio = document.getElementById('blindTestAudio');
+  const shapeAudio = document.getElementById('shapeOfYouAudio');
+  if (despacitoAudio) despacitoAudio.pause();
+  if (shapeAudio) shapeAudio.pause();
+  
+  const panel = document.getElementById('panel');
+  const blindPhase = document.getElementById('blindTestPhase');
+  
+  if (!panel || !blindPhase) {
+    console.error("❌ Éléments manquants !");
+    return;
+  }
+  
+  // Reset COMPLET du panel - IMPORTANT pour tous les tours
+  panel.style.display = 'block';
+  panel.style.visibility = 'visible';
+  panel.style.opacity = '1';
+  panel.style.transform = 'translateY(-50%) translateX(0)';
+  panel.style.pointerEvents = 'auto';
+  panel.setAttribute('aria-hidden', 'false');
+  
+  // Ajouter la classe is-done au scene pour l'animation
+  if (scene) {
+    scene.classList.add('is-done');
+  }
+  
+  // Afficher la phase de jeu
+  blindPhase.style.visibility = 'visible';
+  blindPhase.style.opacity = '1';
+  blindPhase.style.display = 'block';
+  
+  // Trouver les éléments du timer et question (NE PAS remplacer innerHTML!)
+  const timerEl = document.getElementById('blindTestTimer');
+  const questionEl = document.getElementById('blindTestQuestion');
+  
+  // Réinitialiser les autres cartes du panel (sans toucher à blindTestPhase)
+  const allPanelCards = document.querySelectorAll('#panel .panel-card');
+  
+  allPanelCards.forEach((card, idx) => {
+    if (card.id !== 'blindTestPhase') {
+      card.style.display = 'flex';
+      card.style.visibility = 'visible';
+      card.style.opacity = '1';
+      card.style.pointerEvents = 'auto';
+      
+      if (idx === 1) { // Première carte après blindTestPhase
+        card.textContent = 'Question ' + (spinsDone + 1);
+      } else if (idx === 2) { 
+        card.innerHTML = '';
+      } else if (idx === 3) { 
+        card.textContent = '';
+      }
+    }
+  });
+  
+  // Choisir une chanson aléatoire
+  const song = blindTestSongs[Math.floor(Math.random() * blindTestSongs.length)];
+  console.log("🎵 Chanson sélectionnée:", song.title);
+  
+  // Jouer la musique selon la chanson
+  let audio = null;
+  
+  if (song.title === "Shape of You") {
+    audio = document.getElementById('shapeOfYouAudio');
+  } else {
+    audio = document.getElementById('blindTestAudio');
+  }
+  
+  if (audio) {
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+      audio.volume = volumeSlider.value / 100;
+    }
+    
+    audio.currentTime = 0;
+    audio.play().catch(err => {
+      console.error("❌ Erreur audio:", err);
+    });
+  }
+  
+  // Timer de 10 secondes
+  let timeLeft = 10;
+  
+  // Mettre à jour les références après le reset HTML
+  const newTimerEl = document.getElementById('blindTestTimer');
+  const newQuestionEl = document.getElementById('blindTestQuestion');
+  
+  if (newTimerEl) newTimerEl.textContent = '⏱️ ' + timeLeft + 's';
+  if (newQuestionEl) newQuestionEl.textContent = 'Devine le titre !';
+  
+  blindTestTimer = setInterval(() => {
+    timeLeft--;
+    const timerElUpdate = document.getElementById('blindTestTimer');
+    if (timerElUpdate) timerElUpdate.textContent = '⏱️ ' + timeLeft + 's';
+    
+    if (timeLeft <= 0) {
+      if (audio) {
+        audio.pause();
+      }
+      
+      clearInterval(blindTestTimer);
+      
+      console.log("⏰ Timer terminé, affichage de la question...");
+      showBlindTestQuestion(song);
+    }
+  }, 1000);
+}
+
+function showBlindTestQuestion(song) {
+  console.log("🎯 showBlindTestQuestion appelé avec:", song.title);
+  
+  const blindPhase = document.getElementById('blindTestPhase');
+  const panel = document.getElementById('panel');
+  
+  // Cacher la phase de timer
+  if (blindPhase) {
+    blindPhase.style.visibility = 'hidden';
+    blindPhase.style.opacity = '0';
+    blindPhase.style.display = 'none';
+  }
+  
+  // Réinitialiser le panel
+  if (panel) {
+    panel.style.transform = 'translateY(-50%) translateX(0)';
+    panel.style.opacity = '1';
+    panel.style.pointerEvents = 'auto';
+    panel.setAttribute('aria-hidden', 'false');
+  }
+  if (scene) {
+    scene.classList.add('is-done');
+  }
+  
+  // Utiliser un sélecteur plus spécifique
+  const allPanelCards = document.querySelectorAll('#panel .panel-card');
+  console.log("📋 Cartes trouvées dans showBlindTestQuestion:", allPanelCards.length);
+  
+  // Filtrer pour obtenir les cartes qui ne sont pas blindTestPhase
+  const questionCards = [];
+  allPanelCards.forEach(card => {
+    if (card.id !== 'blindTestPhase') {
+      questionCards.push(card);
+    }
+  });
+  
+  console.log("📋 Question cards:", questionCards.length);
+  
+  // Carte 1: Question
+  if (questionCards[0]) {
+    questionCards[0].style.display = 'flex';
+    questionCards[0].style.visibility = 'visible';
+    questionCards[0].style.opacity = '1';
+    questionCards[0].innerHTML = `
+      <div style="text-align:center; width:100%;">
+        <div style="font-size:14px; margin-bottom:10px;">Quel est le titre de la chanson ?</div>
+      </div>
+    `;
+  }
+  
+  // Carte 2: Choix
+  if (questionCards[1]) {
+    questionCards[1].style.display = 'flex';
+    questionCards[1].style.visibility = 'visible';
+    questionCards[1].style.opacity = '1';
+    questionCards[1].innerHTML = '';
+  }
+  
+  // Carte 3: Feedback
+  if (questionCards[2]) {
+    questionCards[2].style.display = 'flex';
+    questionCards[2].style.visibility = 'visible';
+    questionCards[2].style.opacity = '1';
+    questionCards[2].textContent = '';
+  }
+  
+  // Afficher les choix dans la deuxième carte
+  if (questionCards[1]) {
+    const container = questionCards[1];
+    container.innerHTML = '';
+    let answered = false;
+    
+    song.choices.forEach((choice) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'answer-btn';
+      btn.textContent = choice;
+      btn.style.display = 'block';
+      btn.style.width = '100%';
+      btn.style.padding = '14px 18px';
+      btn.style.margin = '8px 0';
+      btn.disabled = false;
+      
+      btn.addEventListener('click', function() {
+        if (answered) return;
+        
+        if (choice === song.answer) {
+          answered = true;
+          
+          // Désactiver tous les boutons
+          const allBtns = container.querySelectorAll('.answer-btn');
+          allBtns.forEach(b => b.disabled = true);
+          
+          // Afficher "Bonne réponse !" et garder pendant 3 secondes
+          if (questionCards[2]) {
+            questionCards[2].textContent = 'Bonne réponse !';
+            questionCards[2].style.color = 'green';
+          }
+          
+          correctCount++;
+          
+          // Fermer après 3 secondes
+          setTimeout(() => {
+            if (panel) {
+              panel.setAttribute('aria-hidden', 'true');
+              panel.style.transform = 'translateY(-50%) translateX(120%)';
+              panel.style.opacity = '0';
+            }
+            if (scene) {
+              scene.classList.remove('is-done');
+            }
+            
+            if (correctCount >= maxSpins) {
+              setTimeout(() => window.location.href = 'wheel3.html', 300);
+            } else if (spinsDone >= maxSpins) {
+              setTimeout(() => window.location.href = lives === 0 ? 'fail.html' : 'wheel3.html', 300);
+            } else {
+              setTimeout(() => { if (spinBtn) spinBtn.disabled = false; }, 300);
+            }
+          }, 3000);
+          
+        } else {
+          btn.disabled = true;
+          btn.classList.add('wrong');
+          
+          lives = Math.max(0, lives - 1);
+          updateLivesUI();
+          
+          if (questionCards[2]) {
+            if (lives === 0) {
+              answered = true;
+              questionCards[2].textContent = 'Plus de vies !';
+              questionCards[2].style.color = 'red';
+              setTimeout(() => window.location.href = 'fail.html', 1500);
+            } else {
+              questionCards[2].textContent = 'Mauvaise réponse ! Réessayez.';
+              questionCards[2].style.color = 'orange';
+            }
+          }
+        }
+      });
+      container.appendChild(btn);
+    });
+  }
+}
+
+// ============================================
 // Définir les segments selon la page
+// ============================================
 let segments;
 const body = document.body;
 
@@ -241,6 +652,85 @@ if (wheel && segmentsGroup && spinBtn) {
 
   let angle = 0;
   let spinning = false;
+  let transitionTimeout = null; // Timeout de secours pour éviter le blocage
+
+  // Fonction de gestion de la fin de rotation (utilisée par transitionend et le timeout de secours)
+  function handleSpinComplete() {
+    if (!spinning) return;
+    
+    console.log("🎯 Spin complete handler triggered");
+    console.log("Body classes:", document.body.className);
+    
+    // Calculer le résultat
+    const norm = ((angle % 360) + 360) % 360;
+    const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
+    const label = segments[index].label;
+    
+    // Si c'est wheel2 (page-wheel2)
+    if (document.body.classList.contains('page-wheel2')) {
+      
+      // Si c'est "Rejoue ↻", juste rejouer sans musique
+      if (label === "Rejoue ↻") {
+        console.log("🔄 Rejoue détecté, reload de la page...");
+        
+        if (result) result.textContent = `Résultat : ${label} - Rejouez !`;
+        
+        // Fermer le panel et réactiver le spin
+        setTimeout(() => {
+          const panel = document.getElementById('panel');
+          if (panel) {
+            panel.setAttribute('aria-hidden', 'true');
+            panel.style.transform = 'translateY(-50%) translateX(120%)';
+          }
+          if (scene) scene.classList.remove('is-done');
+          if (spinBtn) spinBtn.disabled = false;
+        }, 1500);
+        
+        spinning = false;
+        return;
+      }
+      
+      // Sinon, lancer le blind test正常
+      console.log("✅ wheel2 détecté, lancement blind test...");
+      
+      // Incrémenter le nombre de spins effectués
+      spinsDone++;
+      console.log("🎰 Spin effectués:", spinsDone, "/", maxSpins);
+      
+      // Ajouter la classe is-done pour que le panel puisse s'afficher
+      if (scene) {
+        scene.classList.add('is-done');
+      }
+      
+      startBlindTest();
+      spinning = false;
+      
+      // Nettoyer le timeout
+      if (transitionTimeout) {
+        clearTimeout(transitionTimeout);
+        transitionTimeout = null;
+      }
+      return;
+    }
+    
+    // Pour wheel1 et wheel3 (pas de timer, affichage direct des questions)
+    if (result) result.textContent = `Résultat : ${label}`;
+    
+    spinsDone++;
+    const qObj = pickQuestionFor(label);
+    if (qObj) {
+      // Afficher directement la question (sans timer)
+      showQuestion(qObj);
+    }
+    
+    spinning = false;
+    
+    // Nettoyer le timeout
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+      transitionTimeout = null;
+    }
+  }
 
   spinBtn.addEventListener("click", () => {
     if (spinning) return;
@@ -257,71 +747,30 @@ if (wheel && segmentsGroup && spinBtn) {
 
     // rotate only the segments group so the center stays fixed
     segmentsGroup.style.transform = `rotate(${angle}deg)`;
+    
+    // Timeout de secours: si transitionend ne se déclenche pas, on appelle handleSpinComplete manuellement
+    if (transitionTimeout) clearTimeout(transitionTimeout);
+    transitionTimeout = setTimeout(() => {
+      console.log("⏰ Timeout de secours déclenché");
+      handleSpinComplete();
+    }, 3500);
   });
 
 
   segmentsGroup.addEventListener("transitionend", (e) => {
     if (e.propertyName !== "transform") return;
     if (!spinning) return;
-
-    const norm = ((angle % 360) + 360) % 360;
-    const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
-
-    const label = segments[index].label;
-    if (result) result.textContent = `Résultat : ${label}`;
-
-    // Special case: "Rejoue" segment should let the player spin again without consuming a spin
-    if (label && label.toLowerCase().includes('rejoue')) {
-      // brief feedback in the panel header (don't count as a spin)
-      const panelCards = document.querySelectorAll('.panel-card');
-      if (panelCards[0]) panelCards[0].textContent = "Rejoue !";
-      const panel = document.getElementById('panel');
-      if (panel) panel.setAttribute('aria-hidden','false');
-      if (scene) scene.classList.add('is-done');
-
-      // allow the player to spin again shortly
-      setTimeout(() => {
-        if (panel) panel.setAttribute('aria-hidden','true');
-        if (scene) scene.classList.remove('is-done');
-        if (spinBtn) spinBtn.disabled = false;
-      }, 900);
-
-      spinning = false;
-      return;
+    
+    // Nettoyer le timeout de secours car l'événement s'est déclenché
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+      transitionTimeout = null;
     }
-
-    // count this completed spin (normal segments)
-    spinsDone++;
-
-    // afficher question correspondant au label
-    const qObj = pickQuestionFor(label);
-    if (qObj) {
-      showQuestion(qObj); // showQuestion will keep spinBtn disabled until answered
-    } else {
-      // pas de question — afficher message et gérer fin si spins épuisés
-      const panelCards = document.querySelectorAll('.panel-card');
-      if (panelCards[0]) panelCards[0].textContent = "Pas de question, rejoue !";
-      const panel = document.getElementById('panel');
-      if (panel) panel.setAttribute('aria-hidden','false');
-      if (scene) scene.classList.add('is-done');
-
-      if (spinsDone >= maxSpins) {
-        if (correctCount >= maxSpins) {
-          setTimeout(() => window.location.href = getNextPage(), 900);
-        } else if (lives === 0) {
-          setTimeout(() => window.location.href = 'fail.html', 900);
-        } else {
-          // pas mort mais pas toutes bonnes -> continuer sur la roue suivante
-          setTimeout(() => window.location.href = getNextPage(), 900);
-        }
-      } else {
-        // allow next spin after a short delay
-        setTimeout(() => { if (spinBtn) spinBtn.disabled = false; }, 900);
-      }
-    }
-
-    spinning = false;
+    
+    // Appeler le handler commun
+    handleSpinComplete();
   });
+
  }
 
 // et ici les questions
@@ -470,6 +919,12 @@ updateLivesUI();
 
 // fonctions d'affichage / gestion des questions
 function showQuestion(qObj){
+  // Arrêter le timer s'il existe
+  if (questionTimer) {
+    clearInterval(questionTimer);
+    questionTimer = null;
+  }
+  
   const panel = document.getElementById('panel');
   if(!panel) return;
   const panelCards = panel.querySelectorAll('.panel-card');
@@ -579,4 +1034,28 @@ function gameOver(){
   const panelCards = document.querySelectorAll('.panel-card');
   if(panelCards[0]) panelCards[0].textContent = 'Game Over — plus de vies';
   if(scene) scene.classList.add('is-done');
+}
+
+// ============================================
+// 🎚️ CONTRÔLE DU VOLUME
+// ============================================
+
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeValue = document.getElementById('volumeValue');
+const blindTestAudio = document.getElementById('blindTestAudio');
+const shapeOfYouAudio = document.getElementById('shapeOfYouAudio');
+
+if (volumeSlider && volumeValue) {
+  volumeSlider.addEventListener('input', function() {
+    const volume = this.value / 100;
+    volumeValue.textContent = this.value + '%';
+    
+    // Appliquer le volume à tous les éléments audio
+    if (blindTestAudio) {
+      blindTestAudio.volume = volume;
+    }
+    if (shapeOfYouAudio) {
+      shapeOfYouAudio.volume = volume;
+    }
+  });
 }
