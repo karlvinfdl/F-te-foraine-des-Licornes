@@ -156,15 +156,143 @@ body.intro{
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  
+  /* Animation de pulsation continue */
+  animation: pulse 2s ease-in-out infinite;
+  
+  /* Pour l'effet de brillance */
+  position: relative;
+  overflow: hidden;
 }
+
+/* Animation de pulsation */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,.3), 0 0 20px rgba(95, 200, 150, 0.4);
+  }
+}
+
+/* Effet de brillance qui traverse */
+.spin::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Override pour wheel2 - autre couleur */
+.page-wheel2 .spin {
+  background: linear-gradient(180deg, #e74c3c, #c0392b);
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+.page-wheel2 .spin::before {
+  animation: shine-red 3s ease-in-out infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,.3), 0 0 20px rgba(231, 76, 60, 0.4);
+  }
+}
+
+@keyframes shine-red {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Override pour wheel3 */
+.page-wheel3 .spin {
+  background: linear-gradient(180deg, #9b59b6, #8e44ad);
+  animation: pulse-purple 2s ease-in-out infinite;
+}
+
+.page-wheel3 .spin::before {
+  animation: shine-purple 3s ease-in-out infinite;
+}
+
+@keyframes pulse-purple {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,.3), 0 0 20px rgba(155, 89, 182, 0.4);
+  }
+}
+
+@keyframes shine-purple {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Effet au survol */
+.spin:hover {
+  transform: translateY(-3px) scale(1.08);
+  filter: brightness(1.15);
+  box-shadow: 0 15px 35px rgba(0,0,0,.3);
+}
+
+.spin:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* === EFFETS DU BOUTON JOUER (SPIN) === */
 
 /* overrides si .play a des règles conflictuelles */
 .spin {
   /* annulez propriétés indésirables héritées */
   transform: none;
-  overflow: visible;
   isolation: auto;
+  position: relative;
 }
+
 /* Partie badge */
 .ach-grid{
   margin-top: 30px;
@@ -225,7 +353,7 @@ body.intro{
 
 /* Partie roue */
 .game{
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -246,7 +374,7 @@ body.intro{
 .arrow {
   width: 50px;
   height: 40px;
-  margin-bottom: -12px;
+  margin-bottom: -6px;
   transform: translateY(4px);
   animation: arrow-bounce 1.8s ease-in-out infinite;
 }
@@ -469,11 +597,12 @@ body.page-wheel3{
   background: url("img/fond3.png") center center / cover no-repeat;
 }
 
+
 /* === Lecteur Vinyle (wheel2) - en arrière-plan à gauche === */
 .vinyle-player {
   position: fixed;
-  left: 10%;
-  top: 50%;
+  left: 16.3%;
+  top: 42%;
   transform: translateY(-50%) translateX(-100%);
   z-index: 0;
   pointer-events: none;
@@ -491,6 +620,35 @@ body.page-wheel3{
 .page-wheel2 .scene.is-done .vinyle-player {
   transform: translateY(-50%) translateX(0);
   opacity: 1;
+}
+
+/* Animation: la wheel se place sur le lecteur vinyle */
+.page-wheel2 .scene.is-done #wheelZone {
+  /* Position finale de la wheel sur le lecteur */
+  transform: translateX(-280px);
+}
+
+/* Animation du plateau du lecteur qui descend quand la wheel arrive */
+.page-wheel2 .scene.is-done .vinyle-player {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+}
+
+.page-wheel2 .vinyle-player img {
+  /* Animation du plateau qui descend */
+  animation: plateauDescend 0.6s ease-out forwards;
+}
+
+@keyframes plateauDescend {
+  0% {
+    transform: translateY(-30px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* wheel2 - wheel toujours visible */
