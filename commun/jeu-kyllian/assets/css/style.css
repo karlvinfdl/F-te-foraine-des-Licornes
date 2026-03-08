@@ -1,151 +1,194 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+/* OVERLAY D'ENTREE DE JEU*/
+.home-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease; /* Permet le fondu quand on change l'opacity en JS */
 }
 
-/* Body Page Acceuil */
- 
-body .page-accueil-3 {
-  position: relative;
-  background-color: white;
-  overflow: hidden;
-  }
-
-  body.page-accueil-3::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("../images/licorne_2.png");
-  background-repeat: repeat;
-  background-size: 300px;
-  opacity: 0.15;
-  z-index: 0;
-}
-
-/* Tout le contenu au-dessus du fond */
-body.page-accueil-3 > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Navbar */
-.header-acceuil-3 {
-  background: #4e4e4e;
-  color: #070707;
-  padding: 10px 10px 0px;
-}
-
-.nav {
-  display: flex;
-}
-
-.navbar .logo-utilisateur-3 {
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.logo-utilisateur-3 img {
-  max-width: 50px;
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
-}
-
-.logo-utilisateur-3 p {
-  color: #fbfbfb;
-  text-decoration: solid;
-  font-family: 'Courier New', Courier, monospace;
-  text-align: left;
-  font-size: larger;
-}
-
-.user-info-3 {
-  display: flex;
-  align-items: center; 
-  gap: 10px;
-}
-
-.username-3 {
-  color: #d4d3d3;
-  font-weight: bolder;
-  font-size: larger;
-}
-
-/* Ecran Titre du Jeu */
-.titre-3 {
+/* Boite de contenu au style Licorne/Arcade */
+.home-content {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    border: 3px solid #ff00ff; /* Bordure rose fluo */
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 15px rgba(255, 255, 255, 0.2);
     text-align: center;
-    font-size: 60px;
-    color:#464646;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-top: 5%;
-    font-weight: bolder;
+    color: white;
+    font-family: 'Arial Black', sans-serif;
 }
 
-/* Boutons Acceuil */
-.home-page-3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 45px;
-  margin-top: 2%;
-  
+.home-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0px #ff00ff;
+    letter-spacing: 2px;
 }
 
-.home-page-3 button {
-  border-radius: 30px;
-  background: #FBD1DD;
-  color: rgb(0, 0, 0);
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  padding: 20px 70px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 40px;
-  font-weight: bold;
-  
+/* Bouton Entrer Style Arcade */
+#enterBtn {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: #00f2ff; /* Bleu électrique */
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 0 #0088cc;
 }
 
-.home-page-3 button:hover {
-    background-color: #070707;
-    color: #fbfbfb;
+#enterBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00f2ff;
 }
 
-/* Bouton : Comment Jouer ? */
-.regles-3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 25px;
-  margin-top: 13%;
+#enterBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #0088cc;
 }
 
-.regles-3 button {
-  color: #ffffff;  
-  background-color: #5e5e5e;
-  border-radius: 30px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  padding: 15px 70px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 30px;
-  font-weight: bold;
+/*===================================================================================================================================
+PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL / PAGE ACCEUIL
+=====================================================================================================================================*/
+
+/* 1. BASE ET FOND ANIMÉ */
+body.page-accueil_3 { 
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Arial Black', sans-serif;
+ }
+    
+   body.page-accueil_3::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('../images/Nuage_AkaG.gif') repeat;
+    background-size: 220px;
+    opacity: 0.3; 
+    animation: cloudsMove 60s linear infinite;
+    z-index: -1;
 }
 
-.regles-3 button:hover {
- background-color: #070707;
+@keyframes cloudsMove {
+    from { background-position: 0 0; }
+    to { background-position:  0 2000px; }
+}
+
+/* 2. CONTENEUR PRINCIPAL */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* 3. LOGO (Plus grand et centré) */
+.logo-area {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.main-logo {
+    width: 800px; /* Taille augmentée pour le logo PIÑATA */
+    max-width: 90vw;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 5px 0 rgba(0,0,0,0.2));
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Animation de flottement */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px); /* Le logo monte de 15px */
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------
- PAGE QUI MONTRE LES REGLES DU JEU   PAGE QUI MONTRE LES REGLES DU JEU    PAGE QUI MONTRE LES REGLES DU JEU    PAGE QUI MONTRE LES REGLES DU JEU
----------------------------------------------------------------------------------------------------------------------------------------------------*/
+/* 4. BARRE DE NAVIGATION (Massive) */
+.nav-bar {
+    position: relative;
+    width: 100%;
+    height: 220px; /* Hauteur augmentée */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -40px;
+}
+
+/* La ligne noire épaisse qui traverse l'écran */
+.nav-line {
+    position: absolute;
+    width: 100%;
+    height: 120px; /* Épaisseur de la ligne noire augmentée */
+    background: #000;
+    z-index: 1;
+}
+
+/* Conteneur des boutons */
+.buttons-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 160px; /* Plus d'espace entre les cercles */
+}
+
+/* 5. LES BOUTONS RONDS (Style précis de l'image) */
+.menu-btn {
+    width: 220px;  /* Plus grand */
+    height: 220px; /* Plus grand */
+    background: #cccccc; /* Gris de l'image */
+    border: 15px solid #000; /* Bordure noire très épaisse */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1); /* Petit relief interne */
+}
+
+.menu-btn:hover {
+    transform: scale(1.1);
+    background: #ffffff;
+    border-color: #333;
+}
+
+/* Adaptation pour ton lien Start qui contient un bouton */
+.home-page-3 a {
+    text-decoration: none;
+}
+
+/*=============================================================================================================================
+ PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES / PAGE REGLES /
+==============================================================================================================================*/
 
 body.page-règles {
   position: relative;
@@ -360,8 +403,6 @@ body.page-règles > * {
 
 
 
-
-
 .block-text {
   font-size: 1.1rem;
   line-height: 1.3;
@@ -444,9 +485,9 @@ body.page-règles > * {
 }
 
 
-/* -------------------------------------------------------------------------------------
-NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX  NIVEAUX
------------------------------------------------------------------------------------------*/
+/* ==========================================================================================================================================
+PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / 
+=============================================================================================================================================*/
 
 /* ==========================================================================
    1. RESET & BASICS

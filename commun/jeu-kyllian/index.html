@@ -10,33 +10,113 @@
 
 <body class="page-accueil_3">
 
- <!-- Header -->
-  <header class="header-acceuil-3">
-  <div class="user-info-3">
-    <div class="logo-utilisateur-3">
-      <img src="./assets/images/licorne_edited.png" alt="logo"></div>
+    <div id="homeOverlay" class="home-overlay">
+        <div class="home-content">
+            <h1>BIENVENUE</h1>
+            <p>[ APPUYEZ SUR ENTREE OU ESPACE ]</p>
+            <button id="enterBtn">JOUER</button>
+        </div>
+    </div>
 
-    <div class="username3"><p>Ahkimi974 : Rang 1</p></div>
-  </div>
-</header>
+    <main class="menu-container">
+        
+        <div class="logo-area">
+            <img src="./assets/images/TJ.png" alt="Piñata Logo" class="main-logo">
+        </div>
 
+        <nav class="nav-bar">
+            <div class="nav-line"></div> <div class="buttons-wrapper">
+                <a href="./pages/jeu.html" class="menu-btn">JOUER</a>
+                <a href="./pages/scores.html" class="menu-btn">SCORES</a>
+                <a href="./pages/badges.html" class="menu-btn">BADGES</a>
+            </div>
+        </nav>
 
-    <!-- Ecran Titre du Jeu -->
-<section class="acceuil-jeu-3">
-<div class="titre-3">
-    Jeu de Tir des Licornes
-</div>
+    </main>
 
-<div class="home-page-3">
-<a href="./pages/règles.html"><button>Start</button></a>
-<button>Badges</button>
-</div>
+    <audio id="bgMusic" src="./assets/sounds/Home_Music.mp3" loop></audio>
+    <audio id="clickSound" src="./assets/sounds/Demarrage.mp3"></audio>
+    <audio id="btnClickSound" src="./assets/sounds/Game_Entry.mp3" preload="auto"></audio>
+<script>
+    const bgMusic = document.getElementById('bgMusic');
+    const clickSound = document.getElementById('clickSound'); // Son de l'overlay
+    const btnClickSound = document.getElementById('btnClickSound'); // Ton nouveau son de bouton
+    const homeOverlay = document.getElementById('homeOverlay');
+    const enterBtn = document.getElementById('enterBtn');
+    const menuButtons = document.querySelectorAll('.menu-btn');
 
-<div class="regles-3">
-<a href="./pages/règles.html"><button>Comment Jouer</button></a>
-</div>
+    let isStarted = false;
 
-<script src="script.js"></script>
-</section>
+    // 1. FONCTION D'ENTRÉE (L'OVERLAY)
+    function startExperience() {
+    if (isStarted) return;
+    isStarted = true;
+
+    // 1. Son de clic immédiat
+    if(clickSound) clickSound.play();
+
+    // 2. Disparition de l'overlay
+    homeOverlay.style.opacity = '0'; 
+    setTimeout(() => {
+        homeOverlay.style.display = 'none'; 
+    }, 600); 
+
+    // 3. MUSIQUE : Lancement direct sans attendre
+    bgMusic.volume = 0;
+    bgMusic.play().then(() => {
+        // On lance le Fade In immédiatement (plus besoin du setTimeout de 3000)
+        let fade = setInterval(() => {
+            if (bgMusic.volume < 0.9) {
+                bgMusic.volume += 0.05;
+            } else {
+                bgMusic.volume = 1;
+                clearInterval(fade);
+            }
+        }, 100); // On peut même accélérer un peu le fade (100ms) pour que ça pète tout de suite !
+    }).catch(e => console.log("Erreur audio:", e));
+}
+
+    // 2. GESTION DES BOUTONS DU MENU AVEC FADE OUT
+    menuButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const targetUrl = this.getAttribute('href');
+            if (!targetUrl) return;
+
+            e.preventDefault(); // On stoppe le changement de page immédiat
+
+            // A. EFFET DE FADE OUT SUR LA MUSIQUE
+            if (bgMusic) {
+                let fadeOutInterval = setInterval(() => {
+                    if (bgMusic.volume > 0.1) {
+                        bgMusic.volume -= 0.1;
+                    } else {
+                        bgMusic.pause();
+                        clearInterval(fadeOutInterval);
+                    }
+                }, 40); // Baisse très rapide (environ 400ms au total)
+            }
+
+            // B. JOUER LE SON DU BOUTON
+            if (btnClickSound) {
+                btnClickSound.currentTime = 0;
+                btnClickSound.play();
+            }
+
+            // C. DÉLAI AVANT DE CHANGER DE PAGE (800ms)
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1900); 
+        });
+    });
+
+    // ÉCOUTEURS D'ÉVÉNEMENTS
+    enterBtn.onclick = startExperience;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') {
+            startExperience();
+        }
+    });
+</script>
 </body>
 </html>
