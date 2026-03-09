@@ -16,37 +16,51 @@
         <span class="flashing-text">CLIQUER POUR CONTINUER</span>
     </div>
 
+ <audio id="scoreMusic" src="../assets/sounds/S_Scores.mp3" preload="auto"></audio>
+
     <script>
-        window.onload = () => {
-            const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
-            const lastScore = localStorage.getItem('lastFinalScore');
-            const lastName = localStorage.getItem('lastPlayerName');
-
-            const scoreContainer = document.getElementById('scoreList');
-            scoreContainer.innerHTML = ""; 
-
-            leaderboard.forEach((entry, index) => {
-                const isSameName = entry.name.trim().toUpperCase() === lastName?.trim().toUpperCase();
-                const isSameScore = Number(entry.score) === Number(lastScore);
-                const isCurrentPlayer = isSameName && isSameScore;
-
-                const itemClass = isCurrentPlayer ? "score-item current-player" : "score-item";
-
-                scoreContainer.innerHTML += `
-                    <div class="${itemClass}">
-                        <div class="rank">${index + 1}</div>
-                        <div class="score-bar">
-                            <span class="name">${entry.name} ${isCurrentPlayer ? "(MOI)" : ""}</span>
-                            <span class="value">: ${entry.score}</span>
-                        </div>
-                    </div>
-                `;
+    window.onload = () => {
+        // 1. Lancement du son
+        const scoreMusic = document.getElementById('scoreMusic');
+        if (scoreMusic) {
+            scoreMusic.volume = 0.5; // Réglage du volume à 50%
+            scoreMusic.play().catch(e => {
+                console.log("Lecture auto bloquée, elle attend une interaction.");
             });
+        }
 
-            document.getElementById('btnContinue').onclick = () => {
-                window.location.href = "remerciments.html";
-            };
+        // 2. Récupération des données
+        const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
+        const lastScore = localStorage.getItem('lastFinalScore');
+        const lastName = localStorage.getItem('lastPlayerName');
+
+        const scoreContainer = document.getElementById('scoreList');
+        scoreContainer.innerHTML = ""; 
+
+        // 3. Affichage du classement
+        leaderboard.forEach((entry, index) => {
+            const isSameName = entry.name.trim().toUpperCase() === lastName?.trim().toUpperCase();
+            const isSameScore = Number(entry.score) === Number(lastScore);
+            const isCurrentPlayer = isSameName && isSameScore;
+
+            const itemClass = isCurrentPlayer ? "score-item current-player" : "score-item";
+
+            scoreContainer.innerHTML += `
+                <div class="${itemClass}">
+                    <div class="rank">${index + 1}</div>
+                    <div class="score-bar">
+                        <span class="name">${entry.name} ${isCurrentPlayer ? "(MOI)" : ""}</span>
+                        <span class="value">: ${entry.score}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        // 4. Bouton continuer
+        document.getElementById('btnContinue').onclick = () => {
+            window.location.href = "remerciments.html";
         };
-    </script>
+    };
+</script>
 </body>
 </html>

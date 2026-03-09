@@ -11,12 +11,17 @@
 <body class="page-accueil_3">
 
     <div id="homeOverlay" class="home-overlay">
-        <div class="home-content">
-            <h1>BIENVENUE</h1>
-            <p>[ APPUYEZ SUR ENTREE OU ESPACE ]</p>
-            <button id="enterBtn">JOUER</button>
+    <div class="cloud-door top"></div>
+    <div class="cloud-door bottom"></div>
+
+    <div class="home-content">
+        <h1 class="welcome-title">ARE YOU READY ?</h1>
+        <div class="action-area">
+            <button id="enterBtn">START</button>
+            <p class="press-start">Appuyez sur Espace/Entrée</p>
         </div>
     </div>
+</div>
 
     <main class="menu-container">
         
@@ -26,7 +31,7 @@
 
         <nav class="nav-bar">
             <div class="nav-line"></div> <div class="buttons-wrapper">
-                <a href="./pages/jeu.html" class="menu-btn">JOUER</a>
+                <a href="./pages/règles.html" class="menu-btn">JOUER</a>
                 <a href="./pages/scores.html" class="menu-btn">SCORES</a>
                 <a href="./pages/badges.html" class="menu-btn">BADGES</a>
             </div>
@@ -39,8 +44,8 @@
     <audio id="btnClickSound" src="./assets/sounds/Game_Entry.mp3" preload="auto"></audio>
 <script>
     const bgMusic = document.getElementById('bgMusic');
-    const clickSound = document.getElementById('clickSound'); // Son de l'overlay
-    const btnClickSound = document.getElementById('btnClickSound'); // Ton nouveau son de bouton
+    const clickSound = document.getElementById('clickSound'); 
+    const btnClickSound = document.getElementById('btnClickSound'); 
     const homeOverlay = document.getElementById('homeOverlay');
     const enterBtn = document.getElementById('enterBtn');
     const menuButtons = document.querySelectorAll('.menu-btn');
@@ -49,42 +54,45 @@
 
     // 1. FONCTION D'ENTRÉE (L'OVERLAY)
     function startExperience() {
-    if (isStarted) return;
-    isStarted = true;
+        if (isStarted) return;
+        isStarted = true;
 
-    // 1. Son de clic immédiat
-    if(clickSound) clickSound.play();
+        // Déclenche l'animation CSS (Ouverture des portes)
+        homeOverlay.classList.add('opened');
 
-    // 2. Disparition de l'overlay
-    homeOverlay.style.opacity = '0'; 
-    setTimeout(() => {
-        homeOverlay.style.display = 'none'; 
-    }, 600); 
+        // Son de démarrage
+        if(clickSound) clickSound.play();
 
-    // 3. MUSIQUE : Lancement direct sans attendre
-    bgMusic.volume = 0;
-    bgMusic.play().then(() => {
-        // On lance le Fade In immédiatement (plus besoin du setTimeout de 3000)
-        let fade = setInterval(() => {
-            if (bgMusic.volume < 0.9) {
-                bgMusic.volume += 0.05;
-            } else {
-                bgMusic.volume = 1;
-                clearInterval(fade);
-            }
-        }, 100); // On peut même accélérer un peu le fade (100ms) pour que ça pète tout de suite !
-    }).catch(e => console.log("Erreur audio:", e));
-}
+        // On attend la fin précise de la transition CSS (1.2s)
+        setTimeout(() => {
+            homeOverlay.style.display = 'none'; 
+        }, 1200); 
 
-    // 2. GESTION DES BOUTONS DU MENU AVEC FADE OUT
+        // Musique de fond avec Fade In
+        if (bgMusic) {
+            bgMusic.volume = 0;
+            bgMusic.play().then(() => {
+                let fade = setInterval(() => {
+                    if (bgMusic.volume < 0.9) {
+                        bgMusic.volume += 0.05;
+                    } else {
+                        bgMusic.volume = 1;
+                        clearInterval(fade);
+                    }
+                }, 100);
+            }).catch(e => console.log("L'audio attend une interaction utilisateur."));
+        }
+    }
+
+    // 2. GESTION DES BOUTONS DU MENU
     menuButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             const targetUrl = this.getAttribute('href');
             if (!targetUrl) return;
 
-            e.preventDefault(); // On stoppe le changement de page immédiat
+            e.preventDefault(); 
 
-            // A. EFFET DE FADE OUT SUR LA MUSIQUE
+            // Fade Out de la musique
             if (bgMusic) {
                 let fadeOutInterval = setInterval(() => {
                     if (bgMusic.volume > 0.1) {
@@ -93,24 +101,26 @@
                         bgMusic.pause();
                         clearInterval(fadeOutInterval);
                     }
-                }, 40); // Baisse très rapide (environ 400ms au total)
+                }, 40);
             }
 
-            // B. JOUER LE SON DU BOUTON
+            // Son du bouton
             if (btnClickSound) {
                 btnClickSound.currentTime = 0;
                 btnClickSound.play();
             }
 
-            // C. DÉLAI AVANT DE CHANGER DE PAGE (800ms)
+            // Redirection après le son
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 1900); 
         });
     });
 
-    // ÉCOUTEURS D'ÉVÉNEMENTS
-    enterBtn.onclick = startExperience;
+    // ÉCOUTEURS
+    if (enterBtn) {
+        enterBtn.onclick = startExperience;
+    }
 
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Space' || e.code === 'Enter') {

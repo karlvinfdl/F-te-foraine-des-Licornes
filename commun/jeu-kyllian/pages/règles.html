@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pinata</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/images/Lakitu.Favicon.png"/>
 </head>
@@ -22,7 +22,7 @@
       
       <div class="info-block">
         <div class="block-image">
-          <img src="../assets/images/Thumbail_game_1.png" alt="Step 1">
+          <img src="../assets/images/Thumbail_3.png" alt="Step 1">
         </div>
         <div class="block-text">
           Cliquer sur le plus de cibles possibles pour gagner le plus de points.
@@ -31,7 +31,7 @@
 
       <div class="info-block">
         <div class="block-image">
-          <img src="img2.png" alt="Step 2">
+          <img src="../assets/images/Thumbail_game_2.png" alt="Step 2">
         </div>
         <div class="block-text">
           Évitez de cliquer sur les cibles malus, elles vous font perdre des points 
@@ -40,7 +40,7 @@
 
       <div class="info-block">
         <div class="block-image">
-          <img src="img3.png" alt="Step 3">
+          <img src="../assets/images/Thumbail.png" alt="Step 3">
         </div>
         <div class="block-text">
           Enchainer les clics sur vos cibles pour obenir des bonus combo et d’achevement
@@ -63,50 +63,136 @@
 <div id="details-modal" class="modal-overlay">
   <div class="modal-content">
     <header class="modal-header">
-      <h2>Item Details</h2><br>
+      <h2>Détails des Objets</h2>
     </header>
+    
     <div class="modal-body">
-      <p>Voici les détails supplémentaires sur les items du jeu...</p><br>
-      <ul>
-          <li>🦄 <strong>Cibles Normales :</strong> Maintenez-les en l'air avec 4-5 clics avant qu'elles n'explosent</li><br>
-          <li>⭐ <strong>Cibles Bonus :</strong> Cliquez une fois pour les faire exploser et gagner des points bonus</li><br>
-          <li>💀 <strong>Cibles Malus :</strong> Évitez de cliquer dessus, elles vous font perdre des points</li><br>
-          <li>🐶 <strong>Cuistot Tokyo :</strong> Cible rare faisant gagner beaucoup de points</li><br>
-        </ul>
+      <ul class="items-list">
+        <li>
+          <div class="item-icon"><img src="../assets/images/Licornes-Package.png" class="img-licornes-groupe" alt="Licornes"></div>
+          <div class="item-desc"><strong>Cibles Normales (+10) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Bomb.gif" alt="Bombe"></div>
+          <div class="item-desc"><strong>Bomby (-50) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
+        </li>
+         <li>
+          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
+          <div class="item-desc"><strong>Yami (-40) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/OVNI.gif" alt="OVNI"></div>
+          <div class="item-desc"><strong>OVNI (+30) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Chien.gif" alt="Chien"></div>
+          <div class="item-desc"><strong>Tokyo (+500) :</strong> Ultra rare ! Rapporte enormement de points et un boost de combo.</div>
+        </li>
+      </ul>
     </div>
+
     <button id="close-btn" class="ok-button">
       <span class="btn-label">FERMER</span>
     </button>
   </div>
 </div>
-       <div class="text-start" id="btnStart">Cliquer pour Continuer</div>
-</section>
+       <div class="text-start" id="btnStart">Appuyer sur Entrée/Espace pour Continuer</div>
+</main>
 
-    <script>// On récupère les éléments
-const openBtn = document.getElementById('open-details');
-const modal = document.getElementById('details-modal');
-const closeBtn = document.getElementById('close-btn');
+<audio id="RulMusic" src="../assets/sounds/Rules_Music.mp3" loop></audio>
+<audio id="clickRules" src="../assets/sounds/Open_Rules.mp3"></audio>
+<audio id="closeRules" src="../assets/sounds/Off_Rules.mp3"></audio>
 
-// Ouvrir
-openBtn.addEventListener('click', (e) => {
-  modal.classList.add('active');
-});
+<script>
+    // 1. Récupération des éléments audio et navigation
+    const rulMusic = document.getElementById('RulMusic');
+    const clickRulesSound = document.getElementById('clickRules'); 
+    const closeRulesSound = document.getElementById('closeRules'); 
 
-// Fermer
-closeBtn.addEventListener('click', (e) => {
-  // e.stopPropagation empêche le clic de remonter aux éléments parents
-  e.stopPropagation(); 
-  modal.classList.remove('active');
-});
+    const openBtn = document.getElementById('open-details');
+    const modal = document.getElementById('details-modal');
+    const closeBtn = document.getElementById('close-btn');
+    const btnStart = document.getElementById('btnStart');
 
-// Optionnel : Fermer si on clique sur le fond noir
-modal.addEventListener('click', (e) => {
-  if(e.target === modal) modal.classList.remove('active');
-});
+    // --- GESTION DU SON AU CHARGEMENT ---
+    window.addEventListener('load', () => {
+        if (rulMusic) {
+            rulMusic.volume = 0; 
+            rulMusic.play().then(() => {
+                let fadeIn = setInterval(() => {
+                    if (rulMusic.volume < 0.9) {
+                        rulMusic.volume += 0.05;
+                    } else {
+                        rulMusic.volume = 1;
+                        clearInterval(fadeIn);
+                    }
+                }, 100);
+            }).catch(e => console.log("L'audio attend une interaction."));
+        }
+    });
 
-document.getElementById('btnStart').onclick = () => {
-                window.location.href = "jeu.html";
-            };
+    // --- GESTION DE LA MODALE ---
+    openBtn.addEventListener('click', (e) => {
+        if (clickRulesSound) {
+            clickRulesSound.currentTime = 0;
+            clickRulesSound.play();
+        }
+        modal.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        if (closeRulesSound) {
+            closeRulesSound.currentTime = 0;
+            closeRulesSound.play();
+        }
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) {
+            if (closeRulesSound) {
+                closeRulesSound.currentTime = 0;
+                closeRulesSound.play();
+            }
+            modal.classList.remove('active');
+        }
+    });
+
+    // --- FONCTION COMMUNE POUR QUITTER LA PAGE ---
+    const leavePage = () => {
+        // On évite de relancer si le fondu est déjà en cours
+        if (btnStart.classList.contains('leaving')) return;
+        btnStart.classList.add('leaving');
+
+        if (rulMusic) {
+            let fadeOut = setInterval(() => {
+                if (rulMusic.volume > 0.1) {
+                    rulMusic.volume -= 0.1;
+                } else {
+                    clearInterval(fadeOut);
+                    window.location.href = "jeu.html";
+                }
+            }, 50);
+        } else {
+            window.location.href = "jeu.html";
+        }
+    };
+
+    // --- DÉCLENCHEURS POUR CONTINUER ---
+    
+    // 1. Clic sur le texte
+    btnStart.onclick = leavePage;
+
+    // 2. Touches Espace ou Entrée
+    document.addEventListener('keydown', (e) => {
+        // On vérifie si la modale est ouverte pour ne pas quitter par erreur en fermant la modale
+        const isModalOpen = modal.classList.contains('active');
+        
+        if ((e.key === "Enter" || e.key === " ") && !isModalOpen) {
+            leavePage();
+        }
+    });
 </script>
 </body>
 </html>
