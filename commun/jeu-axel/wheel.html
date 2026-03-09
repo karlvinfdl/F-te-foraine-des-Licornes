@@ -9,6 +9,11 @@
 <body class="page-wheel">
 
  <div class="scene" id="scene">
+  <!-- Audio pour le son de spin -->
+  <audio id="spinSound" preload="auto">
+    <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- class pour les roues -->
   <div class="game" id="wheelZone">
 <div class="arrow" aria-hidden="true">
@@ -38,6 +43,14 @@
     </div>
 
     <button id="spin" class="spin">JOUER</button>
+
+    <!-- Contrôle du volume -->
+    <div class="volume-control">
+      <label for="volumeSlider">🔊 Volume</label>
+      <input type="range" id="volumeSlider" min="0" max="100" value="50">
+      <span id="volumeValue">50%</span>
+    </div>
+
     <div id="result" class="result" aria-live="polite"></div>
   </div>
 

@@ -2,7 +2,7 @@
 body.intro{
   margin: 0;
   min-height: 100vh;
-  background: url("img/intro.webp") center 10% / cover no-repeat fixed;
+  background: url("img/fondindex.png") center 10% / cover no-repeat fixed;
 }
 
 .intro-layer{
@@ -426,6 +426,10 @@ body.intro{
   transform: translateX(-300px);
 }
 
+.page-wheel .scene.is-done #wheelZone{
+  transform: none;
+}
+
 
 .wheel-wrap{
   width: 550px;
@@ -451,13 +455,13 @@ body.intro{
   position: absolute;
   right: 60px;
   top: 50%;
-  width: min(640px, 50vw);
-  height: min(640px, 74vh);
+  width: min(324px, 50vw);
+  height: min(480px, 60vh);
 
   background: rgba(255,255,255,0.98);
   border-radius: 18px;
   box-shadow: 0 18px 40px rgba(0,0,0,.25);
-  padding: 22px 24px; /* symmetric padding */
+  padding: 22px 24px;
 
   transform: translateY(-50%) translateX(120%);
   opacity: 0;
@@ -473,16 +477,20 @@ body.intro{
 }
 
 .panel .panel-card{
-  height: 78px;
+  height: auto;
+  min-height: 60px;
   border-radius: 14px;
   background: #ffffff;
   margin-bottom: 14px;
   padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  text-align: center;
   font-size: 16px;
   box-shadow: inset 0 1px 0 rgba(0,0,0,.03);
+}
+
+.panel h2{
+  display: none !important;
 }
 
 .panel .panel-card:first-child{
@@ -492,71 +500,18 @@ body.intro{
   min-height: 110px;
 }
 
-/* RESTORE: stacked flex layout for answers (original) */
 .panel .panel-card:nth-child(2){
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: stretch;
-  justify-content: flex-end; /* push buttons slightly down */
   padding: 14px 12px 18px;
-  min-height: 150px; /* roomy like before */
+  min-height: auto;
 }
 
-/* Answer buttons: restore original sizing and spacing */
-.panel .panel-card:nth-child(2) .answer-btn,
-.panel .answer-btn{
-  display: block;
-  width: 100%;
-  padding: 14px 18px;
-  height: 60px;
-  border-radius: 14px;
-  border: 0;
-  background: linear-gradient(180deg, #9b2a8a, #6a0f5a);
-  color: #fff;
-  font-weight: 800;
-  cursor: pointer;
-  text-align: center;
-  font-size: 17px;
-  margin: 8px 0; /* vertical spacing between answers */
-}
-
-/* Ensure any leftover grid rules don't change layout */
-.panel .panel-card:nth-child(2){
-  grid-template-columns: none !important;
-}
-
-/* Single-column grid for answers */
-.panel .panel-card:nth-child(2){
-  display: grid;
-  grid-template-columns: 1fr; /* force one column */
-  gap: 12px;
-  align-items: stretch;
-  padding: 14px 12px 18px;
-  min-height: 140px;
-  grid-auto-rows: minmax(56px, auto);
-}
-
-/* Ensure answer buttons fill their grid cell */
-.panel .panel-card:nth-child(2) .answer-btn{
-  margin: 0;
-  width: 100%;
-  padding: 14px 18px;
-  align-self: stretch;
-}
-
-/* remove the responsive two-column override if present */
-@media (max-width: 800px){
-  .panel .panel-card:nth-child(2){
-    grid-template-columns: 1fr; /* keep single column on small screens too */
-  }
-}
-
+/* Answer buttons: stacked vertically */
+.panel .answer-btn,
 .answer-btn{
   display: block;
   width: 100%;
   padding: 14px 18px;
-  height: 60px;
+  height: auto;
   border-radius: 14px;
   border: 0;
   background: linear-gradient(180deg, #9b2a8a, #6a0f5a);
@@ -565,7 +520,7 @@ body.intro{
   cursor: pointer;
   text-align: center;
   font-size: 17px;
-  margin: 0; /* remove vertical margins so space-between is effective */
+  margin: 8px 0;
 }
 
 .answer-btn:hover{ transform: translateY(-3px); filter: brightness(1.06); }
@@ -582,7 +537,7 @@ body.intro{
 
 body.page-wheel{
   min-height: 100vh;
-  background: url("img/fondroue1.png") center center / cover no-repeat;
+  background: url("img/fondtest.png") center center / cover no-repeat;
 }
 
 /* Roue 2 - Personnalisable (Musique/Loto/etc) */
@@ -652,19 +607,24 @@ body.page-wheel3{
 }
 
 /* wheel2 - wheel toujours visible */
-/* wheel2 - wheel cachée au départ */
-/*
-.page-wheel2 #wheel {
-  opacity: 0;
-  transition: opacity 600ms ease;
-  margin-top: -30px;
-}
-*/
-
-/* wheel toujours visible */
 .page-wheel2 #wheel {
   opacity: 1;
   margin-top: -30px;
+}
+
+/* Animation vinyle pour wheel2 uniquement - quand le panel s'affiche (après le spin) */
+.page-wheel2 .scene.is-done #segments {
+  animation: vinyleRotate 2s linear infinite;
+  transition: none;
+}
+
+@keyframes vinyleRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* État quand on clique sur JOUER - la wheel apparaît */
@@ -679,7 +639,7 @@ body.page-wheel3{
 }
 
 .page-wheel .spin{
-  margin-top: 22px; /* espace entre roue et bouton */
+  margin-top: -5px; /* espace entre roue et bouton */
 }
 
 /* coeur de ma page - NOUVELLE VERSION SVG */
@@ -754,24 +714,6 @@ body.page-wheel3{
     opacity: 0; 
   }
 }
-/* make answer buttons stack vertically and be full-width inside the panel */
-.panel .panel-card:nth-child(2){
-  align-items: stretch; /* ensure children stretch to full width */
-}
-
-.panel .answer-btn{
-  display:block;
-  width:100%;
-  margin:8px 0;
-  padding:14px 18px;
-  border-radius:12px;
-  border:0;
-  background: linear-gradient(180deg, #9b2a8a, #6a0f5a);
-  color:#fff;
-  font-weight:800;
-  font-size:17px;
-  text-align:center;
-}
 
 body{ font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
 
@@ -787,4 +729,64 @@ body{ font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Hel
 #segments text.long {
   font-size: 8px; /* encore plus petit */
   /* on peut ajouter d'autres styles si nécessaire */
+}
+
+/* ===== CONTRÔLE DU VOLUME ===== */
+.volume-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  backdrop-filter: blur(4px);
+}
+
+.volume-control label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.volume-control input[type="range"] {
+  width: 120px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #fff, #e0e0e0);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #fff, #e0e0e0);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  border: none;
+}
+
+.volume-control span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  min-width: 40px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
