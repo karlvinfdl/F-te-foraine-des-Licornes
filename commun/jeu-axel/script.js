@@ -158,10 +158,10 @@ function getNextPage() {
   const body = document.body;
   if (body.classList.contains('page-wheel3')) {
     return 'index.html';
-  } else if (body.classList.contains('page-wheel2')) {
+} else if (body.classList.contains('page-wheel2')) {
     return 'wheel3.html';
   } else {
-    return 'wheel2.html';
+    return 'blindtest.html';
   }
 }
 
@@ -173,7 +173,11 @@ let questionTimer = null;
 
 const blindTestSongs = [
   { title: "Despacito", answer: "Despacito", choices: ["Despacito", "Doucement", "Latino"] },
-  { title: "Shape of You", answer: "Shape of You", choices: ["Shape of You", "Perfect", "Thinking Out Loud"] }
+  { title: "Shape of You", answer: "Shape of You", choices: ["Shape of You", "Perfect", "Thinking Out Loud"] },
+  { title: "Papa Outai", answer: "Papa Outai", choices: ["Papa Outai", "Bambino", "Dancing"], audio: "papaOutai" },
+  { title: "Billie Jean", answer: "Billie Jean", choices: ["Billie Jean", "Thriller", "Beat It"], audio: "billieJean" },
+  { title: "We Will Rock You", answer: "We Will Rock You", choices: ["We Will Rock You", "Bohemian Rhapsody", "Stayin' Alive"], audio: "weWillRock" },
+  { title: "One More Time", answer: "One More Time", choices: ["One More Time", "Harder Better Faster", "Veridis Quo"], audio: "daftPunk" }
 ];
 
 function showQuestionTimer(label, qObj) {
@@ -188,7 +192,7 @@ function showQuestionTimer(label, qObj) {
   if (scene) scene.classList.add('is-done');
   
   if (panelCards[0]) {
-    let timeLeft = 10;
+let timeLeft = 9; // Réduit de 10s à 9s
     panelCards[0].innerHTML = `
       <div style="text-align:center; width:100%;">
         <div style="font-size:24px; font-weight:bold; margin-bottom:10px;">⏱️ ${timeLeft}s</div>
@@ -227,10 +231,18 @@ function startBlindTest() {
     blindTestTimer = null;
   }
   
-  const despacitoAudio = document.getElementById('blindTestAudio');
+const despacitoAudio = document.getElementById('blindTestAudio');
   const shapeAudio = document.getElementById('shapeOfYouAudio');
+  const papaAudio = document.getElementById('papaOutaiAudio');
+  const billieAudio = document.getElementById('billieJeanAudio');
+const weRockAudio = document.getElementById('weWillRockAudio');
+  const daftAudio = document.getElementById('daftPunkAudio');
   if (despacitoAudio) despacitoAudio.pause();
   if (shapeAudio) shapeAudio.pause();
+  if (papaAudio) papaAudio.pause();
+  if (billieAudio) billieAudio.pause();
+  if (weRockAudio) weRockAudio.pause();
+  if (daftAudio) daftAudio.pause();
   
   const panel = document.getElementById('panel');
   const blindPhase = document.getElementById('blindTestPhase');
@@ -271,9 +283,17 @@ function startBlindTest() {
   const song = blindTestSongs[Math.floor(Math.random() * blindTestSongs.length)];
   console.log("🎵 Chanson sélectionnée:", song.title);
   
-  let audio = null;
+let audio = null;
   if (song.title === "Shape of You") {
     audio = document.getElementById('shapeOfYouAudio');
+  } else if (song.audio === "papaOutai") {
+    audio = document.getElementById('papaOutaiAudio');
+  } else if (song.audio === "billieJean") {
+    audio = document.getElementById('billieJeanAudio');
+} else if (song.audio === "weWillRock") {
+    audio = document.getElementById('weWillRockAudio');
+  } else if (song.audio === "daftPunk") {
+    audio = document.getElementById('daftPunkAudio');
   } else {
     audio = document.getElementById('blindTestAudio');
   }
@@ -287,18 +307,38 @@ function startBlindTest() {
     });
   }
   
-  let timeLeft = 7;
+let timeLeft = 6;
+  const totalTime = 6;
   
   const newTimerEl = document.getElementById('blindTestTimer');
   const newQuestionEl = document.getElementById('blindTestQuestion');
   
-  if (newTimerEl) newTimerEl.textContent = '⏱️ ' + timeLeft + 's';
+  // Timer dynamique avec barre de progression - version simplifiée
+  if (newTimerEl) {
+    // Reset complet
+    newTimerEl.style.transition = 'none';
+    newTimerEl.style.width = '100%';
+    newTimerEl.classList.remove('low', 'medium');
+    
+    // Force reflow puis animation
+    void newTimerEl.offsetWidth;
+    newTimerEl.style.transition = 'width ' + totalTime + 's linear';
+    newTimerEl.style.width = '0%';
+  }
   if (newQuestionEl) newQuestionEl.textContent = 'Devine le titre !';
   
   blindTestTimer = setInterval(() => {
     timeLeft--;
     const timerElUpdate = document.getElementById('blindTestTimer');
-    if (timerElUpdate) timerElUpdate.textContent = '⏱️ ' + timeLeft + 's';
+    if (timerElUpdate) {
+      // Changer la couleur selon le temps restant
+      timerElUpdate.classList.remove('low', 'medium');
+      if (timeLeft <= 2) {
+        timerElUpdate.classList.add('low');
+      } else if (timeLeft <= 3) {
+        timerElUpdate.classList.add('medium');
+      }
+    }
     
     if (timeLeft <= 0) {
       if (audio) audio.pause();
@@ -451,12 +491,24 @@ if (body.classList.contains('page-wheel3')) {
     { label: "Karlvin", color: "#FFE66D" },
     { label: "Alexis", color: "#95E1D3" },
   ];
+} else if (body.classList.contains('page-wheel2')) {
+  // Wheel2 : couleurs noires avec numéros
+  segments = [
+    { label: "1", color: "#000000" },
+    { label: "2", color: "#1a1a1a" },
+    { label: "3", color: "#2d2d2d" },
+    { label: "4", color: "#404040" },
+    { label: "5", color: "#000000" },
+    { label: "6", color: "#1a1a1a" },
+    { label: "7", color: "#2d2d2d" },
+    { label: "8", color: "#404040" },
+  ];
 } else {
   segments = [
     { label: "Facile", color: "#4fc3a3" },
     { label: "Moyen", color: "#f6c23e" },
     { label: "Facile", color: "#3fb993" },
-    { label: "Bonus 🎁", color: "#f39c12" },
+    { label: "Énigme", color: "#f39c12" },
     { label: "Facile", color: "#76c96a" },
     { label: "Difficile", color: "#e74c3c" },
     { label: "Moyen", color: "#f2b72f" },
@@ -565,7 +617,7 @@ if (wheel && segmentsGroup && spinBtn) {
     const index = Math.floor(((360 - norm) % 360) / slice) % segments.length;
     const label = segments[index].label;
     
-    // Gestion de "Rejoue ↻" pour toutes les pages
+// Gestion de "Rejoue ↻" pour toutes les pages
     if (label === "Rejoue ↻") {
       console.log("🔄 Rejoue détecté, reload de la page...");
       
@@ -585,6 +637,7 @@ if (wheel && segmentsGroup && spinBtn) {
       return;
     }
     
+    // Pour wheel2 : tous les numéros déclenchent le blind test
     if (document.body.classList.contains('page-wheel2')) {
       console.log("✅ wheel2 détecté, lancement blind test...");
       
@@ -675,8 +728,10 @@ const questionsWheel1 = {
     { q: "Si je fais une erreur :", choices: ["Je continue quand même", "Je gagne plus", "Je recommence à zéro"], answer: 2 },
     { q: "Plus je réussis :", choices: ["Moins je gagne", "Rien ne change", "Plus je gagne"], answer: 2 }
   ],
-  "Bonus 🎁": [
-    { q: "Quel est le cadeau ?", choices: ["Bonbon", "Étoile"], answer: 0 }
+  "Énigme": [
+    { q: "Complétez la suite : 1 - 3 - 5 - ?", choices: ["6", "7", "8"], answer: 1 },
+    { q: "Complétez la suite : 2 - 4 - 8 - 16 - ?", choices: ["24", "32", "36"], answer: 1 },
+    { q: "Complétez la suite : A - C - E - G - ?", choices: ["H", "I", "J"], answer: 1 }
   ],
   "Rejoue ↻": []
 };
@@ -700,10 +755,16 @@ const questionsWheel2 = {
     { q: "Si le son ne marche pas :", choices: ["Le site est muet", "Problème de son ou muted", "C'est normal"], answer: 1 },
     { q: "Plus on attend :", choices: ["Le site plante", "Il finit par charger", "On perd tout"], answer: 1 }
   ],
-  "Bonus 🎁": [
+"Bonus 🎁": [
     { q: "Quel est le super cadeau ?", choices: ["Trophée", "Couronne"], answer: 0 }
   ],
-  "Rejoua ↻": []
+  "Rejoue ↻": [
+    { q: "Vous pouvez rejouer !", choices: ["Merci !", "Super !"], answer: 0 }
+  ],
+  // Question spéciale pour le numéro 5
+  "5": [
+    { q: "Qui est surnommé le Roi de la Pop ?", choices: ["Michael Jackson", "Elvis Presley", "Justin Bieber"], answer: 0 }
+  ]
 };
 
 const questions = {
@@ -817,7 +878,10 @@ function checkAnswer(choiceIndex, correctIndex){
 
   if (choiceIndex === correctIndex){
     if (clickedBtn) clickedBtn.classList.add('correct');
-    if (feedbackCard) feedbackCard.textContent = 'Bonne réponse !';
+    if (feedbackCard) {
+      feedbackCard.textContent = 'Bonne réponse !';
+      feedbackCard.style.color = '#27ae60';
+    }
 
     correctCount++;
     if (choicesContainer) choicesContainer.dataset.answered = 'true';
@@ -846,7 +910,7 @@ function checkAnswer(choiceIndex, correctIndex){
       }
 
       if (spinBtn) spinBtn.disabled = false;
-    }, 900);
+    }, 2000);
 
     return;
   }
@@ -854,7 +918,10 @@ function checkAnswer(choiceIndex, correctIndex){
   lives = Math.max(0, lives - 1);
   updateLivesUI();
   if (clickedBtn) clickedBtn.classList.add('wrong');
-  if (feedbackCard) feedbackCard.textContent = `Mauvaise réponse — il vous reste ${lives} cœur(s)`;
+  if (feedbackCard) {
+    feedbackCard.textContent = `Mauvaise réponse — il vous reste ${lives} cœur(s)`;
+    feedbackCard.style.color = '#e67e22';
+  }
 
   if (lives === 0){
     setTimeout(() => { window.location.href = 'fail.html'; }, 800);
@@ -875,6 +942,10 @@ const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
 const blindTestAudio = document.getElementById('blindTestAudio');
 const shapeOfYouAudio = document.getElementById('shapeOfYouAudio');
+const papaOutaiAudio = document.getElementById('papaOutaiAudio');
+const billieJeanAudio = document.getElementById('billieJeanAudio');
+const weWillRockAudio = document.getElementById('weWillRockAudio');
+const daftPunkAudio = document.getElementById('daftPunkAudio');
 const spinSound = document.getElementById('spinSound');
 
 function updateVolume() {
@@ -888,6 +959,10 @@ function updateVolume() {
   
   if (blindTestAudio) blindTestAudio.volume = volume;
   if (shapeOfYouAudio) shapeOfYouAudio.volume = volume;
+  if (papaOutaiAudio) papaOutaiAudio.volume = volume;
+  if (billieJeanAudio) billieJeanAudio.volume = volume;
+  if (weWillRockAudio) weWillRockAudio.volume = volume;
+  if (daftPunkAudio) daftPunkAudio.volume = volume;
   if (spinSound) spinSound.volume = volume;
 }
 
