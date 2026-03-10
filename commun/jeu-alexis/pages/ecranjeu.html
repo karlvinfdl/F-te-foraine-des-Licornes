@@ -18,7 +18,7 @@
         <div class="infos-top">
             <span id="timer-display" style="font-family: 'Orbitron', sans-serif;">30</span>
             <span class="stat-indice" id="stat-indice">Indice : 1/3</span>
-            <span class="stat-progression" id="stat-progression">Mots : 0/6</span>
+            <span class="stat-progression" id="stat-progression">Mots restants : 6</span>
         </div>
     </header>
 
@@ -29,8 +29,8 @@
             </div>
             
             <div class="interaction-zone">
-                <div class="bulle-rose" id="bulle-indice" style="font-family: 'Oxanium', sans-serif;">Indice : Messagerie</div>
-                <button class="btn-retro btn-passer" id="btn-passer">PASSER</button>
+                <div class="bulle-rose" id="bulle-indice" style="font-family: 'Oxanium', sans-serif;">Indice : Chargement...</div>
+                <button class="btn-retro btn-passer" id="btn-passer">CHANGER D'INDICE</button>
             </div>
         </section>
 
@@ -46,7 +46,11 @@
 
             <div class="interaction-zone">
                 <input type="text" id="input-reponse" class="bulle-rose input-reponse" placeholder="Tape ta reponse ...">
-                <button class="btn-retro btn-valider" id="btn-valider">VALIDER</button>
+                
+                <div class="boutons-groupe">
+                    <button class="btn-retro btn-valider" id="btn-valider">VALIDER</button>
+                    <button class="btn-retro btn-passer-mot" id="btn-passer-mot">PASSER</button>
+                </div>
             </div>
         </section>
     </main>
@@ -62,15 +66,15 @@
     </div>
 
     <div id="overlay-you-win" class="overlay-ecran">
-    <div class="overlay-contenu">
-        <div class="image-container">
-            <img src="../images/écran victoire.png" alt="Trophée victoire" class="trophee-win">
+        <div class="overlay-contenu">
+            <div class="image-container">
+                <img src="../images/écran victoire.png" alt="Trophée victoire" class="trophee-win">
+            </div>
+            <h1 class="win-title">YOU WIN !</h1>
+            <p>Félicitations ! Le sorcier est vaincu.</p>
+            <p class="instruction">Press ESPACE pour rejouer</p>
         </div>
-        <p>Félicitations ! Le sorcier est vaincu.</p>
-        <p class="instruction">Press ESPACE pour rejouer</p>
     </div>
-
-</div>
 
     <script src="../js/main.js"></script>
 </body>

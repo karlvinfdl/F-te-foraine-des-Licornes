@@ -7,6 +7,13 @@ body, html {
     overflow: hidden; /* Empêche le scroll */
 }
 
+/* Application d'Orbitron partout pour l'uniformité */
+body, html, button, input, h1, h2, h3, p, span, div {
+    font-family: 'Orbitron', sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 body {
     /* Ton image de fond en PNG */
     background-color: #074151;
@@ -17,8 +24,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Courier New', Courier, monospace; /* Police style jeu vidéo */
 }
+
+/* =====================================================
+   ÉCRAN D'ACCUEIL
+===================================================== */
 
 .game-container {
     text-align: center;
@@ -28,37 +38,28 @@ body {
     gap: 130px; /* Espace entre le titre et le bouton */
 }
 
-/* Style de l'image de ton titre */
 .game-title {
     max-width: 80%;
     height: auto;
-    /* Optionnel : petit effet de flottement doux */
     animation: float 3s ease-in-out infinite;
 }
 
-/* Style du bouton */
 .blink-button {
-    background-color: #ffc0cb; /* Rose comme sur l'image */
+    background-color: #ffc0cb; 
     border: 4px solid #000;
     border-radius: 50px;
     padding: 15px 40px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 5px 0 #000;
-    
-    /* Déclenchement de l'animation de clignotement */
     animation: blinker 1.5s linear infinite;
 }
 
-/* Animation de clignotement (opacité) */
 @keyframes blinker {
-    50% {
-        opacity: 0.3;
-    }
+    50% { opacity: 0.3; }
 }
 
-/* Animation de flottement pour le titre */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
@@ -67,7 +68,7 @@ body {
 /* =====================================================
    PAGE DES REGLES
 ===================================================== */
-/* On cible le body uniquement quand il a la classe .page-regles */
+
 body.page-regles {
     margin: 0;
     padding: 0;
@@ -77,16 +78,13 @@ body.page-regles {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Couleur pour remplacer le blanc sur les côtés */
     background-color: #074151; 
     background-image: url('../images/ecranDeTitre.png'); 
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    font-family: 'Courier New', Courier, monospace;
 }
 
-/* Conteneur de centrage */
 .regles-wrapper {
     display: flex;
     justify-content: center;
@@ -95,9 +93,8 @@ body.page-regles {
     height: 100%;
 }
 
-/* La carte rose des règles */
 .regles-card {
-    background-color: #ffc0cb; /* Rose de ton image */
+    background-color: #ffc0cb; 
     border: 4px solid #000;
     border-radius: 30px;
     padding: 40px;
@@ -106,20 +103,17 @@ body.page-regles {
     box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
 }
 
-/* Sections internes */
 .regles-section {
     margin-bottom: 15px;
     color: #000;
 }
 
-/* Titres H3 spécifiques */
 .regles-titre {
     margin: 0 0 5px 0;
     font-size: 1.3rem;
     text-transform: uppercase;
 }
 
-/* Textes P spécifiques */
 .regles-texte {
     margin: 0;
     font-weight: bold;
@@ -127,39 +121,35 @@ body.page-regles {
     line-height: 1.4;
 }
 
-/* Listes spécifiques */
 .regles-liste {
     margin: 5px 0;
     padding-left: 20px;
-    list-style-type: none; /* On enlève les puces par défaut */
+    list-style-type: none;
 }
 
-/* Items de liste avec un tiret custom */
 .regles-item {
     font-weight: bold;
     margin-bottom: 3px;
 }
 
 .regles-item::before {
-    content: "- "; /* Ajoute un tiret devant chaque ligne */
+    content: "- ";
 }
 
 /* =====================================================
-   PAGE DE JEU - STRUCTURE
+   PAGE DE JEU - STRUCTURE & HUD
 ===================================================== */
-/* --- STYLE GLOBAL DU JEU --- */
+
 body.page-jeu {
     margin: 0;
     padding: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
     color: white;
 }
 
-/* Barre de stats (HUD) agrandie */
 .jeu-hud {
     position: absolute;
     top: 0;
@@ -167,42 +157,46 @@ body.page-jeu {
     padding: 20px 30px; 
     box-sizing: border-box;
     z-index: 10;
-    font-size: 1.4rem; 
+    font-size: 1.1rem; 
     display: flex;
-    align-items: center; /* Aligne verticalement les coeurs et les textes */
+    align-items: center; 
     justify-content: space-between;
 }
 
-/* On force les coeurs à rester en ligne horizontale */
 .vies-container {
     display: flex;
-    flex-direction: row; /* Force l'alignement horizontal */
-    gap: 5px; /* Espace serré entre les coeurs */
+    flex-direction: row; 
+    gap: 5px; 
     align-items: center;
-    min-width: 120px; /* Donne une zone fixe pour ne pas que ça bouge */
+    min-width: 120px;
 }
 
 .infos-top {
     display: flex;
     width: 100%;
-    justify-content: space-between; /* Écarte les deux infos aux extrémités */
+    justify-content: space-between; 
     font-weight: bold;
 }
 
-/* On force l'indice à se placer à droite de l'image de gauche (donc au milieu de l'écran) */
 .stat-indice {
     position: absolute;
     left: 50%;
-    transform: translateX(-110%); /* Décale juste à gauche du trait central */
+    transform: translateX(-110%);
 }
 
-/* On force la progression à se mettre tout à droite de l'écran */
 .stat-progression {
     position: absolute;
     right: 30px;
 }
 
-/* Séparation de l'écran en deux */
+#timer-display {
+    font-size: 1.5rem;
+}
+
+/* =====================================================
+   ECRAN SPLIT & PERSONNAGES
+===================================================== */
+
 .ecran-split {
     display: flex;
     height: 100%;
@@ -214,28 +208,23 @@ body.page-jeu {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Pour placer les contrôles en bas */
+    justify-content: flex-end; 
     padding-bottom: 40px;
-    background-size: cover;
-    background-position: center;
-    position: relative; /* AJOUT : Nécessaire pour centrer les persos par rapport au côté */
+    position: relative; 
 }
 
-/* Backgrounds spécifiques */
 .gauche {
+    background-image: url('../images/fond1.png');
     background-size: cover; 
     background-position: left center; 
-    background-image: url('../images/fond1.png');
     border-right: 2px solid rgba(255,255,255,0.3);
 }
 
 .droite {
+    background-image: url('../images/fond2.png');
     background-size: 200% 100%; 
     background-position: right center; 
-    background-image: url('../images/fond2.png');
 }
-
-/* --- MODIFICATIONS PERSONNAGES --- */
 
 .personnage-container, .sorcier-container {
     position: absolute;
@@ -248,29 +237,51 @@ body.page-jeu {
 }
 
 .pixel-sprite {
-    width: 300px; /* Taille agrandie */
+    width: 300px; 
     height: auto;
     image-rendering: pixelated;
 }
 
-/* --- RESTE DU CSS INCHANGÉ --- */
+/* =====================================================
+   INTERACTION & BOUTONS
+===================================================== */
 
-.bulle-rose {
+.interaction-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; 
+}
+
+/* La bulle d'indice et le champ de saisie sont maintenant identiques */
+.bulle-rose, .input-reponse {
     background-color: #f7c3d7;
-    color: #000000;
-    padding: 10px 25px;
+    color: #000 !important;
+    padding: 15px 25px;
     border-radius: 30px;
-    font-weight: bold;
     text-align: center;
-    min-width: 300px;
-    margin-bottom: 80px;
+    min-width: 380px;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
 }
 
 .input-reponse {
-    border: none;
     outline: none;
-    font-family: inherit;
-    width: 250px;
+}
+
+.input-reponse::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 12px;
+}
+
+/* Groupe pour aligner VALIDER et PASSER */
+.boutons-groupe {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px; 
+    justify-content: center;
+    width: 100%;
 }
 
 .btn-retro {
@@ -278,11 +289,16 @@ body.page-jeu {
     color: #000;
     border: 3px solid #000;
     border-radius: 50px;
-    padding: 15px 50px;
+    padding: 12px 30px;
     font-weight: bold;
     cursor: pointer;
-    text-transform: uppercase;
     box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    min-width: 170px;
+    font-size: 12px;
+}
+
+.btn-passer-mot {
+    background-color: #e0e0e0;
 }
 
 .btn-retro:active {
@@ -299,6 +315,7 @@ body.page-jeu {
     max-width: 200px;
     font-size: 0.9rem;
     margin-bottom: 20px;
+    border: 2px solid black;
 }
 
 .bulle-dialogue::after {
@@ -310,6 +327,10 @@ body.page-jeu {
     border-right: 10px solid transparent;
     border-top: 10px solid white;
 }
+
+/* =====================================================
+   ANIMATIONS & EFFETS JEU
+===================================================== */
 
 .licorne-anim {
     animation: bounce 1.5s infinite ease-in-out;
@@ -325,45 +346,42 @@ body.page-jeu {
     50% { transform: translateY(-15px); }
 }
 
-.interaction-zone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/* =====================================================
+   OVERLAYS (GAME OVER & WIN)
+===================================================== */
 
-/* --- OVERLAY GAME OVER --- */
 .overlay-ecran {
-    display: none; /* Caché par défaut */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond sombre */
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 1000;
     justify-content: center;
     align-items: center;
 }
 
 .overlay-contenu {
-    background-color: #f7c3d7; /* Rose comme tes bulles */
-    padding: 40px;
-    border-radius: 20px;
+    background-color: #f7c3d7;
+    padding: 50px 80px;
+    border-radius: 30px;
+    border: 5px solid black;
     text-align: center;
     color: black;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    width: 80%;       /* Prend 80% de la largeur de l'écran */
-    max-width: 800px; /* Mais ne dépasse pas 800px pour rester lisible */
+    width: 80%;       
+    max-width: 800px; 
 }
 
 .overlay-contenu h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 20px;
+    letter-spacing: 5px;
 }
 
 .overlay-contenu p {
-    font-family: 'Oxanium', sans-serif;
     font-size: 1.2rem;
     margin-bottom: 30px;
     font-weight: bold;
@@ -374,7 +392,26 @@ body.page-jeu {
     image-rendering: pixelated;
 }
 
-/* texte dans bouton */
+.win-title {
+    color: #FFD700;
+    text-shadow: 3px 3px 0px #000;
+    font-size: 4.5rem;
+    margin: 10px 0;
+}
+
+.trophee-win {
+    width: 250px;
+    image-rendering: pixelated;
+    margin-top: 20px;
+}
+
+.instruction {
+    font-size: 1rem !important;
+    opacity: 0.8;
+    margin-top: 20px;
+}
+
+/* Effets de boutons génériques */
 .btn-label {
   position: absolute;
   inset: 0;
@@ -385,28 +422,6 @@ body.page-jeu {
   pointer-events: none;
 }
 
-/* effet clic */
 .sprite-button:active {
   transform: translateY(4px);
-}
-
-/* Style spécifique pour le titre de victoire */
-.win-title {
-    font-family: 'Orbitron', sans-serif;
-    color: #FFD700; /* Couleur or */
-    text-shadow: 3px 3px 0px #000;
-    font-size: 4.5rem;
-    margin: 10px 0;
-}
-
-.trophee-win {
-    width: 180px;
-    image-rendering: pixelated;
-    margin-bottom: 10px;
-}
-
-.instruction {
-    font-size: 1rem !important;
-    opacity: 0.8;
-    margin-top: 20px;
 }
