@@ -22,7 +22,7 @@
       
       <div class="info-block">
         <div class="block-image">
-          <img src="../assets/images/Thumbail_3.png" alt="Step 1">
+          <img src="../assets/images/Thumbail1.png" alt="Step 1">
         </div>
         <div class="block-text">
           Cliquer sur le plus de cibles possibles pour gagner le plus de points.
@@ -31,7 +31,7 @@
 
       <div class="info-block">
         <div class="block-image">
-          <img src="../assets/images/Thumbail_game_2.png" alt="Step 2">
+          <img src="../assets/images/Thumbail2.png" alt="Step 2">
         </div>
         <div class="block-text">
           Évitez de cliquer sur les cibles malus, elles vous font perdre des points 
@@ -120,7 +120,7 @@
             rulMusic.volume = 0; 
             rulMusic.play().then(() => {
                 let fadeIn = setInterval(() => {
-                    if (rulMusic.volume < 0.9) {
+                    if (rulMusic.volume < 0.4) {
                         rulMusic.volume += 0.05;
                     } else {
                         rulMusic.volume = 1;

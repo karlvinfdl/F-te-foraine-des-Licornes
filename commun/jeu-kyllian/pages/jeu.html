@@ -10,7 +10,7 @@
 
 <body class="world_1"> <div id="levelContainer"></div>
 
-    <div id="startMessage" class="start-message">Prêt ?</div>
+    <div id="startMessage" class="start-message">Prêt(e) ?</div>
 
     <header class="game-infos">
         <div class="score">
@@ -28,7 +28,7 @@
 
    <div id="welcomeOverlay" class="welcome-overlay">
     <div class="welcome-content">
-        <img src="../assets/images/TJ.png" alt="Licorne Shooter" class="welcome-logo">
+        <img src="../assets/images/Logo_Pinata.png" alt="Licorne Shooter" class="welcome-logo">
         
         <div class="input-container">
             <input type="text" id="playerNameInput" placeholder="TON PSEUDO" maxlength="12">
@@ -50,19 +50,43 @@
     <div class="click-to-continue">Cliquer pour continuer</div>
 </div>
 
+
+<div id="pauseOverlay" class="pause-overlay">
+    <div class="pause-content">
+        <h2 class="pause-title">PAUSE</h2>
+        <div class="pause-buttons">
+            <button id="resumeBtn" class="btn-pause-menu">REPRENDRE</button>
+            <button id="settingsBtn" class="btn-pause-menu">RÉGLAGES</button>
+            <button id="quitBtn" class="btn-pause-menu btn-quit">QUITTER</button>
+        </div>
+    </div>
+</div>
+
+<div id="startMessage" class="restart-countdown"></div>
+
+
       <audio id="lvlMusicOne" src="../assets/sounds/Level_1.mp3" loop></audio>
       <audio id="lvlMusicTwo" src="../assets/sounds/Level_2.mp3" loop></audio>
       <audio id="lvlMusicThree" src="../assets/sounds/Level_1.mp3" loop></audio>
       <audio id="endLevelSound" src="../assets/sounds/Lvl_End.mp3" preload="auto"></audio>
 
-
-      <audio id="evilPopSound" src="../assets/sounds/Yami.mp3"></audio>
-      <audio id="ufoSound" src="../assets/sounds/OVNI.mp3"></audio>
-      <audio id="dogBarkSound" src="../assets/sounds/Tokyo.mp3" preload="auto"></audio>
       <audio id="popSound" src="../assets/sounds/Shooting.mp3" preload="auto"></audio>
       <audio id="popSoundTwo" src="../assets/sounds/Shooting_2.mp3" preload="auto"></audio>
       <audio id="bombSound" src="../assets/sounds/Bomb.mp3" preload="auto"></audio>
       <audio id="countDownSound" src="../assets/sounds/Countdown.mp3" preload="auto"></audio>
+
+
+
+      <audio id="lakituSaveSound" src="../assets/sounds/Lakitu_Good.mp3" preload="auto"></audio>
+      <audio id="lakituEvilSound" src="../assets/sounds/Lakitu_Bad.mp3" preload="auto"></audio>
+      <audio id="lakituHitSound" src="../assets/sounds/Shooting.mp3" preload="auto"></audio>
+      <audio id="evilPopSound" src="../assets/sounds/Yami.mp3"></audio>
+      <audio id="ufoSound" src="../assets/sounds/OVNI.mp3"></audio>
+      <audio id="dogBarkSound" src="../assets/sounds/Tokyo.mp3" preload="auto"></audio>
+     
+
+
+
 
       <script src="../assets/js/script.js"></script>
 </body>
