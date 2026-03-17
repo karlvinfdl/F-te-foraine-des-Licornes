@@ -2,32 +2,47 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/premierniveau.css">
-    <title>Unicorn - Mode Hardcore</title>
+    <!-- Responsive sur mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Lien vers ton fichier CSS -->
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="pixel-hud">
-        <div class="hud-header">
-            <img src="assets/images/licorne.png" class="mini-logo">
-            <div class="title-group">
-                <div id="level-display" class="level-txt">NIVEAU 1</div>
-                <div class="stars">⭐⭐⭐⭐</div>
-                <div class="hearts-container">
-                    <img src="assets/images/heart1.png" width="22" id="h1">
-                    <img src="assets/images/heart2.png" width="22" id="h2">
-                    <img src="assets/images/heart3.png" width="22" id="h3">
-                </div>
-            </div>
-        </div>
-        <div class="hud-footer">
-            <div class="coins">
-                <img src="assets/images/coins.png" width="22">
-                <span>17/17</span>
-            </div>
-        </div>
+    <!-- ====================
+    SECTION PRINCIPALE ÉCRAN
+    ========================= -->
+    <main class="screen hero">
+    <!-- Logo en haut à gauche -->
+    <div class="brand">
+    <img src="assets/images/licorne.png" alt="Logo Licorne" class="logo" width="160">
+    </div>
+    <!-- ====================
+    LOGO AU MILIEU (image)
+    ========================= -->
+        <div class="hero-content">
+    <img src="assets/images/tête-de-licorne-2.png" alt="Logo du jeu" class="hero-logo" width="280">
     </div>
 
-    <canvas id="game"></canvas>
-    <script src="assets/game.js"></script>
+    <!-- =========================
+    PANNEAU VERRE BULLE CENTRALE
+    ========================= -->
+    <section class="glass-panel border">
+        <div class="glass-content">
+        <p class="g-title">Bienvenue dans le jeu des montagnes Russes !</p>
+
+        <p class="g-mission"><strong>Ta mission :</strong></p>
+
+        <p class="g-text">Guide la licorne jusqu'au bout du parcours...</p>
+        <p class="g-text">Attention : ne la laisse surtout pas tomber !</p>
+
+        <p class="g-controls">Avancer • Reculer • Sauter</p>
+    </div>
+    </section>
+
+    <!-- =========================
+    BOUTON JOUER
+    ========================= -->
+    <button class="bulle-jouer" onclick="window.location.href='index1.html'">JOUER</button>
+</main>
 </body>
 </html>

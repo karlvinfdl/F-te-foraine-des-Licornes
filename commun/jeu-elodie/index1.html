@@ -2,47 +2,68 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <!-- Responsive sur mobile -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Lien vers ton fichier CSS -->
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/premierniveau.css">
+    <title>Unicorn - Mode Hardcore</title>
 </head>
 <body>
-    <!-- ====================
-    SECTION PRINCIPALE ÉCRAN
-    ========================= -->
-    <main class="screen hero">
-    <!-- Logo en haut à gauche -->
-    <div class="brand">
-    <img src="assets/images/licorne.png" alt="Logo Licorne" class="logo" width="160">
-    </div>
-    <!-- ====================
-    LOGO AU MILIEU (image)
-    ========================= -->
-        <div class="hero-content">
-    <img src="assets/images/tête-de-licorne-2.png" alt="Logo du jeu" class="hero-logo" width="280">
+    <!-- Pseudo overlay -->
+    <div id="pseudo-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; display:flex; justify-content:center; align-items:center;">
+        <div style="background:white; padding:30px; border-radius:15px; text-align:center; border:4px solid #000; font-family:sans-serif;">
+            <img src="assets/images/licornee.png" width="50"><br>
+            <input type="text" id="username" placeholder="Ton Pseudo" style="padding:10px; margin:15px; border:2px solid #000; text-align:center;"><br>
+            <button onclick="startGame()" style="background:#049b43; color:white; padding:10px 20px; border:none; cursor:pointer; font-weight:bold;">JOUER</button>
+        </div>
     </div>
 
-    <!-- =========================
-    PANNEAU VERRE BULLE CENTRALE
-    ========================= -->
-    <section class="glass-panel border">
-        <div class="glass-content">
-        <p class="g-title">Bienvenue dans le jeu des montagnes Russes !</p>
 
-        <p class="g-mission"><strong>Ta mission :</strong></p>
 
-        <p class="g-text">Guide la licorne jusqu'au bout du parcours...</p>
-        <p class="g-text">Attention : ne la laisse surtout pas tomber !</p>
-
-        <p class="g-controls">Avancer • Reculer • Sauter</p>
+    <!-- Victory final popup with confetti -->
+    <div id="victory-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:2000; flex-direction:column; justify-content:center; align-items:center; text-align:center; background:linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #f0932b); background-size:400% 400%; animation:gradient 15s ease infinite;">
+        <div style="background:rgba(255,255,255,0.95); padding:50px; border-radius:30px; border:8px solid #000; box-shadow:0 0 50px rgba(0,0,0,0.5); animation: bounce 2s infinite;">
+            <img src="assets/images/licornee.png" style="width:150px; margin-bottom:20px; image-rendering:pixelated;">
+            <h1 style="font-size:80px; color:#000; margin:10px 0; text-shadow:4px 4px 0 white; font-family:'Arial Black',sans-serif;">VICTOIRE TOTALE !</h1>
+            <h2 style="color:#ff6b6b; font-size:40px; margin:10px 0;">Félicitations <span id="victory-pseudo"></span> !</h2>
+            <div style="font-size:28px; margin:20px 0; line-height:1.5;">
+                <p>Niveau 3 terminé !</p>
+                <p>Pièces: <span id="victory-coins"></span></p>
+                <p>Étoiles: <span id="victory-stars"></span></p>
+            </div>
+            <button onclick="restartGame()" style="background:#ff6b6b; color:white; padding:20px 40px; border:none; border-radius:20px; font-size:24px; cursor:pointer; margin-top:20px; font-weight:bold; box-shadow:0 5px 15px rgba(0,0,0,0.3);">REJOUER</button>
+        </div>
+        <canvas id="confetti-canvas" style="position:absolute; top:0; left:0; pointer-events:none;"></canvas>
     </div>
-    </section>
 
-    <!-- =========================
-    BOUTON JOUER
-    ========================= -->
-    <button class="bulle-jouer">JOUER</button>
-</main>
+    <!-- Game over popup (existante) -->
+    <div id="end-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:2000; flex-direction:column; justify-content:center; align-items:center; text-align:center; font-family:sans-serif; background:rgba(0,0,0,0.7);">
+        <h1 id="end-title" style="font-size:80px; color: #e74c3c; margin-bottom: 20px; text-shadow: 4px 4px 0 #000;">GAME OVER</h1>
+        <img id="end-img" src="assets/images/licornedcd.png" style="width:250px; background:none; image-rendering:pixelated;">
+        <h2 id="player-display" style="color:white; margin-top:20px; font-size: 30px;"></h2>
+    </div>
+
+    <!-- HUD -->
+    <div class="pixel-hud middle-hud">
+        <div class="hud-header">
+            <img src="assets/images/licorne.png" class="mini-logo">
+            <div class="title-group">
+                <div id="level-display" class="level-txt">NIVEAU 1</div>
+                <div id="stars-container" class="stars"></div>
+                <div class="hearts-container">
+                    <img src="assets/images/heart1.png" width="22" id="h1">
+                    <img src="assets/images/heart2.png" width="22" id="h2">
+                    <img src="assets/images/heart3.png" width="22" id="h3">
+                </div>
+            </div>
+        </div>
+        <div class="hud-footer">
+            <div class="coins">
+                <img src="assets/images/coins.png" width="22">
+                <span>0/17</span>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="game"></canvas>
+    <script src="assets/game.js"></script>
 </body>
 </html>
+
