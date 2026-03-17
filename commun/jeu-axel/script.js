@@ -422,13 +422,17 @@ function showBlindTestQuestion(song) {
         
         if (choice === song.answer) {
           answered = true;
+          btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+          btn.style.boxShadow = '0 4px 15px rgba(46,204,113,0.5)';
+          btn.style.color = 'white';
+          btn.style.transform = 'scale(1.05)';
           
           const allBtns = container.querySelectorAll('.answer-btn');
           allBtns.forEach(b => b.disabled = true);
           
           if (questionCards[2]) {
-            questionCards[2].textContent = 'Bonne réponse !';
-            questionCards[2].style.color = 'green';
+            questionCards[2].textContent = 'Bonne réponse ! 🎉';
+            questionCards[2].style.color = '#27ae60';
           }
           
           correctCount++;
@@ -451,21 +455,24 @@ function showBlindTestQuestion(song) {
           }, 3000);
           
         } else {
+          answered = false; // Allow retry
+          btn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+          btn.style.boxShadow = '0 4px 15px rgba(231,76,60,0.5)';
+          btn.style.color = 'white';
+          btn.style.transform = 'scale(0.95)';
           btn.disabled = true;
-          btn.classList.add('wrong');
           
           lives = Math.max(0, lives - 1);
           updateLivesUI();
           
           if (questionCards[2]) {
             if (lives === 0) {
-              answered = true;
-              questionCards[2].textContent = 'Plus de vies !';
-              questionCards[2].style.color = 'red';
+              questionCards[2].textContent = 'Plus de vies ! 💀';
+              questionCards[2].style.color = '#e74c3c';
               setTimeout(() => window.location.href = 'fail.html', 1500);
             } else {
-              questionCards[2].textContent = 'Mauvaise réponse ! Réessayez.';
-              questionCards[2].style.color = 'orange';
+              questionCards[2].textContent = 'Mauvaise ! Réessayez... 🔥';
+              questionCards[2].style.color = '#e67e22';
             }
           }
         }
@@ -983,7 +990,7 @@ function updateVolume() {
   if (papaOutaiAudio) papaOutaiAudio.volume = volume;
   if (billieJeanAudio) billieJeanAudio.volume = volume;
   if (weWillRockAudio) weWillRockAudio.volume = volume;
-if (daftPunkAudio) daftPunkAudio.volume = volume;
+  if (daftPunkAudio) daftPunkAudio.volume = volume;
   if (brunoMarsAudio) brunoMarsAudio.volume = volume;
   if (macarenaAudio) macarenaAudio.volume = volume;
   if (queenAudio) queenAudio.volume = volume;
