@@ -766,10 +766,10 @@ const questionsWheel2 = {
 
 const questionsWheel3 = {
   "Elodie": [
-    { q: "Quelle est la couleur préférée d'Elodie ?", choices: ["Rose", "Bleu", "Vert"], answer: 0 },
+    { q: "Sur le jeux  ?", choices: ["Rose", "Bleu", "Vert"], answer: 0 },
     { q: "Elodie aime les... ?", choices: ["Fleurs", "Sports", "Voitures"], answer: 0 }
   ],
-  "Kylian": [
+  "Kyllian": [
     { q: "Kylian est bon en... ?", choices: ["Maths", "Dessin", "Cuisine"], answer: 0 },
     { q: "Quel sport aime Kylian ?", choices: ["Football", "Natation", "Escalade"], answer: 0 }
   ],
@@ -778,8 +778,8 @@ const questionsWheel3 = {
     { q: "Quel est le challenge préféré de Karlvin ?", choices: ["Difficile", "Facile", "Moyen"], answer: 0 }
   ],
   "Alexis": [
-    { q: "Alexis a gagné combien de badges ?", choices: ["Beaucoup", "Peu", "Aucun"], answer: 0 },
-    { q: "Quel est le super pouvoir d'Alexis ?", choices: ["Bonus", "Vitesse", "Force"], answer: 0 }
+    { q: "De quel couleur était le mage du jeux Devine le mot?", choices: ["Bleu", "Rouge", "Vert"], answer: 0 },
+    { q: "Quel est le super pouvoir du mage ?", choices: ["Eau", "Feux", "Terre"], answer: 1 }
   ]
 };
 
