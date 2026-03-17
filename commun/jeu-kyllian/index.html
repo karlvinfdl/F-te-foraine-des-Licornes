@@ -18,7 +18,7 @@
         <h1 class="welcome-title">ARE YOU READY ?</h1>
         <div class="action-area">
             <button id="enterBtn">START</button>
-            <p class="press-start">Appuyez sur Espace/Entrée</p>
+            <p class="press-start">Appuyez sur Espace ou Entrée</p>
         </div>
     </div>
 </div>
@@ -36,97 +36,151 @@
                 <a href="./pages/badges.html" class="menu-btn">BADGES</a>
             </div>
         </nav>
-
     </main>
+
+   <button id="homeSettingsBtn" class="floating-settings">
+    <div class="gear-icon">
+        <div class="gear-inner"></div>
+    </div>
+</button>
 
     <audio id="bgMusic" src="./assets/sounds/Home_Music.mp3" loop></audio>
     <audio id="clickSound" src="./assets/sounds/Demarrage.mp3"></audio>
     <audio id="btnClickSound" src="./assets/sounds/Game_Entry.mp3" preload="auto"></audio>
+
+
+
+<div id="settingsOverlay" class="modal-overlay">
+    <div class="modal-content settings-box">
+        <h2 class="pause-title" style="color: #000; margin-bottom: 20px;">RÉGLAGES</h2>
+        
+        <div class="setting-item">
+            <label>Musique</label>
+            <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="0.5">
+        </div>
+
+        <div class="setting-item">
+            <label>Bruitages</label>
+            <input type="range" id="sfxVolume" min="0" max="1" step="0.1" value="0.7">
+        </div>
+
+        <button id="closeSettingsBtn" class="btn-pause-menu" style="margin-top: 20px;">OK</button>
+    </div>
+</div>
+
+
+
 <script>
     const bgMusic = document.getElementById('bgMusic');
-    const clickSound = document.getElementById('clickSound'); 
-    const btnClickSound = document.getElementById('btnClickSound'); 
-    const homeOverlay = document.getElementById('homeOverlay');
-    const enterBtn = document.getElementById('enterBtn');
-    const menuButtons = document.querySelectorAll('.menu-btn');
+const clickSound = document.getElementById('clickSound'); 
+const btnClickSound = document.getElementById('btnClickSound'); 
+const homeOverlay = document.getElementById('homeOverlay');
+const enterBtn = document.getElementById('enterBtn');
+const menuButtons = document.querySelectorAll('.menu-btn');
 
-    let isStarted = false;
+// Éléments des réglages
+const settingsOverlay = document.getElementById('settingsOverlay');
+const homeSettingsBtn = document.getElementById('homeSettingsBtn');
+const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+const musicSlider = document.getElementById('musicVolume');
+const sfxSlider = document.getElementById('sfxVolume');
 
-    // 1. FONCTION D'ENTRÉE (L'OVERLAY)
-    function startExperience() {
-        if (isStarted) return;
-        isStarted = true;
+let isStarted = false;
 
-        // Déclenche l'animation CSS (Ouverture des portes)
-        homeOverlay.classList.add('opened');
+// 1. CHARGEMENT ET SYNC INITIALE
+window.addEventListener('DOMContentLoaded', () => {
+    const savedMusic = localStorage.getItem('musicVol') || 0.5;
+    const savedSfx = localStorage.getItem('sfxVol') || 0.7;
+    
+    musicSlider.value = savedMusic;
+    sfxSlider.value = savedSfx;
+    
+    if (bgMusic) bgMusic.volume = savedMusic;
+});
 
-        // Son de démarrage
-        if(clickSound) clickSound.play();
+// 2. GESTION DES VOLUMES EN TEMPS RÉEL
+// Pour que l'utilisateur entende le changement dès qu'il bouge le curseur
+musicSlider.oninput = () => {
+    if (bgMusic) bgMusic.volume = musicSlider.value;
+};
 
-        // On attend la fin précise de la transition CSS (1.2s)
-        setTimeout(() => {
-            homeOverlay.style.display = 'none'; 
-        }, 1200); 
+// 3. GESTION DE L'OVERLAY (Engrenage en haut à gauche)
+if(homeSettingsBtn) {
+    homeSettingsBtn.onclick = () => {
+        settingsOverlay.style.display = 'flex';
+    };
+}
 
-        // Musique de fond avec Fade In
+closeSettingsBtn.onclick = () => {
+    // Sauvegarde définitive
+    localStorage.setItem('musicVol', musicSlider.value);
+    localStorage.setItem('sfxVol', sfxSlider.value);
+    settingsOverlay.style.display = 'none';
+};
+
+// 4. LOGIQUE DE DÉMARRAGE (START)
+function startExperience() {
+    if (isStarted) return;
+    isStarted = true;
+    homeOverlay.classList.add('opened');
+    
+    if(clickSound) {
+        clickSound.volume = sfxSlider.value; // On utilise le volume des bruitages
+        clickSound.play();
+    }
+
+    setTimeout(() => { homeOverlay.style.display = 'none'; }, 1200); 
+
+    if (bgMusic) {
+        bgMusic.volume = 0;
+        bgMusic.play().then(() => {
+            let targetVol = parseFloat(musicSlider.value);
+            let fade = setInterval(() => {
+                if (bgMusic.volume < targetVol) {
+                    // On monte le volume progressivement jusqu'à la valeur du slider
+                    bgMusic.volume = Math.min(targetVol, bgMusic.volume + 0.05);
+                } else { 
+                    clearInterval(fade); 
+                }
+            }, 100);
+        }).catch(e => console.log("L'audio attend une interaction."));
+    }
+}
+
+// 5. BOUTONS DU MENU (JOUER, SCORES...)
+menuButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl === "#") return;
+        e.preventDefault(); 
+
+        // Fade out de la musique avant de quitter
         if (bgMusic) {
-            bgMusic.volume = 0;
-            bgMusic.play().then(() => {
-                let fade = setInterval(() => {
-                    if (bgMusic.volume < 0.4) {
-                        bgMusic.volume += 0.05;
-                    } else {
-                        bgMusic.volume = 1;
-                        clearInterval(fade);
-                    }
-                }, 100);
-            }).catch(e => console.log("L'audio attend une interaction utilisateur."));
+            let fadeOutInterval = setInterval(() => {
+                if (bgMusic.volume > 0.1) { 
+                    bgMusic.volume -= 0.1; 
+                } else { 
+                    bgMusic.pause(); 
+                    clearInterval(fadeOutInterval); 
+                }
+            }, 40);
         }
-    }
 
-    // 2. GESTION DES BOUTONS DU MENU
-    menuButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const targetUrl = this.getAttribute('href');
-            if (!targetUrl) return;
-
-            e.preventDefault(); 
-
-            // Fade Out de la musique
-            if (bgMusic) {
-                let fadeOutInterval = setInterval(() => {
-                    if (bgMusic.volume > 0.1) {
-                        bgMusic.volume -= 0.1;
-                    } else {
-                        bgMusic.pause();
-                        clearInterval(fadeOutInterval);
-                    }
-                }, 40);
-            }
-
-            // Son du bouton
-            if (btnClickSound) {
-                btnClickSound.currentTime = 0;
-                btnClickSound.play();
-            }
-
-            // Redirection après le son
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 1900); 
-        });
-    });
-
-    // ÉCOUTEURS
-    if (enterBtn) {
-        enterBtn.onclick = startExperience;
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' || e.code === 'Enter') {
-            startExperience();
+        if (btnClickSound) {
+            btnClickSound.volume = sfxSlider.value;
+            btnClickSound.currentTime = 0;
+            btnClickSound.play();
         }
+
+        setTimeout(() => { window.location.href = targetUrl; }, 1900); 
     });
+});
+
+// ÉCOUTEURS START
+if (enterBtn) enterBtn.onclick = startExperience;
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' || e.code === 'Enter') startExperience();
+});
 </script>
 </body>
 </html>

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/images/Lakitu.Favicon.png"/>
 </head>
+
 <body class="score-board">
     <h1 class="title">SCORES TOTAUX :</h1>
 
@@ -13,54 +14,69 @@
         </div>
 
     <div class="click-to-continue" id="btnContinue">
-        <span class="flashing-text">CLIQUER POUR CONTINUER</span>
+        <span class="flashing-text">APPUYER SUR ESPACE OU ENTRER POUR CONTINUER</span>
     </div>
 
  <audio id="scoreMusic" src="../assets/sounds/S_Scores.mp3" preload="auto"></audio>
 
     <script>
     window.onload = () => {
-        // 1. Lancement du son
-        const scoreMusic = document.getElementById('scoreMusic');
-        if (scoreMusic) {
-            scoreMusic.volume = 0.5; // Réglage du volume à 50%
-            scoreMusic.play().catch(e => {
-                console.log("Lecture auto bloquée, elle attend une interaction.");
-            });
-        }
-
-        // 2. Récupération des données
-        const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
-        const lastScore = localStorage.getItem('lastFinalScore');
-        const lastName = localStorage.getItem('lastPlayerName');
-
-        const scoreContainer = document.getElementById('scoreList');
-        scoreContainer.innerHTML = ""; 
-
-        // 3. Affichage du classement
-        leaderboard.forEach((entry, index) => {
-            const isSameName = entry.name.trim().toUpperCase() === lastName?.trim().toUpperCase();
-            const isSameScore = Number(entry.score) === Number(lastScore);
-            const isCurrentPlayer = isSameName && isSameScore;
-
-            const itemClass = isCurrentPlayer ? "score-item current-player" : "score-item";
-
-            scoreContainer.innerHTML += `
-                <div class="${itemClass}">
-                    <div class="rank">${index + 1}</div>
-                    <div class="score-bar">
-                        <span class="name">${entry.name} ${isCurrentPlayer ? "(MOI)" : ""}</span>
-                        <span class="value">: ${entry.score}</span>
-                    </div>
-                </div>
-            `;
+    // 1. Lancement du son
+    const scoreMusic = document.getElementById('scoreMusic');
+    if (scoreMusic) {
+        scoreMusic.volume = 0.5; // Réglage du volume à 50%
+        scoreMusic.play().catch(e => {
+            console.log("Lecture auto bloquée, elle attend une interaction.");
         });
+    }
 
-        // 4. Bouton continuer
-        document.getElementById('btnContinue').onclick = () => {
-            window.location.href = "remerciments.html";
-        };
+    // 2. Récupération des données
+    const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
+    const lastScore = localStorage.getItem('lastFinalScore');
+    const lastName = localStorage.getItem('lastPlayerName');
+
+    const scoreContainer = document.getElementById('scoreList');
+    scoreContainer.innerHTML = ""; 
+
+    // 3. Affichage du classement (limité aux 15 premiers)
+    // .slice(0, 15) permet de ne prendre que les 15 premiers éléments du tableau
+    leaderboard.slice(0, 15).forEach((entry, index) => {
+        const isSameName = entry.name.trim().toUpperCase() === lastName?.trim().toUpperCase();
+        const isSameScore = Number(entry.score) === Number(lastScore);
+        const isCurrentPlayer = isSameName && isSameScore;
+
+        const itemClass = isCurrentPlayer ? "score-item current-player" : "score-item";
+
+        scoreContainer.innerHTML += `
+            <div class="${itemClass}">
+                <div class="rank">${index + 1}</div>
+                <div class="score-bar">
+                    <span class="name">${entry.name} ${isCurrentPlayer ? "(MOI)" : ""}</span>
+                    <span class="value">: ${entry.score}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    // 4. Fonction pour passer à la page suivante
+    const goToNextPage = () => {
+        window.location.href = "remerciments.html";
     };
+
+    // Gestion du clic sur le bouton
+    const btnContinue = document.getElementById('btnContinue');
+    if (btnContinue) {
+        btnContinue.onclick = goToNextPage;
+    }
+
+    // 5. Gestion du clavier (Entrée ou Espace)
+    window.addEventListener('keydown', (e) => {
+        if (e.code === "Enter" || e.code === "Space") {
+            e.preventDefault(); // Empêche le scroll de la page avec Espace
+            goToNextPage();
+        }
+    });
+};
 </script>
 </body>
 </html>
