@@ -178,10 +178,10 @@ const blindTestSongs = [
   { title: "Papa Outai", answer: "Papa Outai", choices: ["Papa Outai", "Bambino", "Dancing"], audio: "papaOutai" },
   { title: "Billie Jean", answer: "Billie Jean", choices: ["Billie Jean", "Thriller", "Beat It"], audio: "billieJean" },
   { title: "We Will Rock You", answer: "We Will Rock You", choices: ["We Will Rock You", "Bohemian Rhapsody", "Stayin' Alive"], audio: "weWillRock" },
-  { title: "One More Time", answer: "One More Time", choices: ["One More Time", "Harder Better Faster", "Veridis Quo"], audio: "daftPunk" },
-  { title: "Bruno Mars", answer: "Bruno Mars", choices: ["Bruno Mars", "Uptown Funk", "24K Magic"] , audio: "brunomars" },
+  { title: "Get Lucky", answer: "Get Lucky", choices: ["One More Time", "Get Lucky", "Veridis Quo"], audio: "daftPunk" },
+  { title: "Uptown Funk", answer: "Uptown Funk", choices: ["Bruno Mars", "Uptown Funk", "24K Magic"] , audio: "brunomars" },
   { title: "Macarena", answer: "Macarena", choices: ["Macarena", "La Macarena", "Los Del Rio"] , audio: "macarena" },
-  { title: "Queen", answer: "Queen", choices: ["Queen", "We Are The Champions", "Bohemian"] , audio: "queen" }
+  { title: "We Will Rock You", answer: "We Will Rock You", choices: ["Queen", "We Are The Champions", "We Will Rock You"] , audio: "queen" }
 ];
 
 function showQuestionTimer(label, qObj) {
@@ -515,9 +515,6 @@ if (body.classList.contains('page-wheel3')) {
     { label: "3", color: "#2d2d2d" },
     { label: "4", color: "#404040" },
     { label: "5", color: "#000000" },
-    { label: "6", color: "#1a1a1a" },
-    { label: "7", color: "#2d2d2d" },
-    { label: "8", color: "#404040" },
   ];
 
  } else {
