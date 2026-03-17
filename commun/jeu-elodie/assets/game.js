@@ -99,11 +99,17 @@ function startGame() {
 function initItems() {
     collectibles = [];
     starsCollected = 0;
-    coinsCollected = 0;
-    for (let t = 0.1; t < 0.9; t += 0.07) {
+coinsCollected = 0;
+    const numCoins = 5;
+    const numStars = 4;
+    const totalCollectibles = numCoins + numStars;
+    const spacing = 0.8 / totalCollectibles;
+    for (let i = 0; i < totalCollectibles; i++) {
+        const t = 0.1 + i * spacing;
         let isGap = levels[currentLevel].gaps.some(g => t > g && t < g + 0.04);
         if (!isGap) {
-            collectibles.push({ t: t, type: Math.random() > 0.7 ? 'star' : 'coin', collected: false });
+            const type = i < numCoins ? 'coin' : 'star';
+            collectibles.push({ t: t, type: type, collected: false });
         }
     }
 }
@@ -133,19 +139,22 @@ function drawTrack() {
 
     ctx.lineWidth = 10;
     
-    // Pieds rails gris clair + ligne principale
+    // Pieds rails gris clair complet (début et fin)
     ctx.strokeStyle = '#ccc'; // Gris clair pieds
     ctx.lineWidth = 8;
     ctx.beginPath();
     ctx.moveTo(0, 560);
     ctx.lineTo(0, 560);
+    ctx.lineTo(3200, 560);
     ctx.stroke();
     
+    // Rail principal fin connecté
     ctx.lineWidth = 12;
     ctx.strokeStyle = config.color;
     ctx.beginPath();
     ctx.moveTo(0, 550);
-    ctx.lineTo(80, 550);
+    ctx.lineTo(320, 550);
+    ctx.lineTo(3200, 550);
     ctx.stroke();
     ctx.lineWidth = 10;
     
@@ -192,7 +201,7 @@ ctx.restore();
     ctx.save();
     ctx.translate(startPos.x + 60, startPos.y - 80); // Drapeau aligné niveau licorne/wagon
     if (images.startFlag.complete) {
-        ctx.drawImage(images.startFlag, -50, -120, 100, 150);
+        ctx.drawImage(images.startFlag, -35, -90, 70, 110);
     }
     ctx.restore();
 
@@ -200,7 +209,7 @@ ctx.restore();
     ctx.save();
     ctx.translate(endPos.x, endPos.y - 80);
     if (images.endFlag.complete) {
-        ctx.drawImage(images.endFlag, -50, -120, 100, 150);
+        ctx.drawImage(images.endFlag, -35, -90, 70, 110);
     }
     ctx.restore();
     
@@ -214,7 +223,7 @@ function drawPlayer() {
     const next = getCurvePoint(progress + 0.005, points);
     const angle = Math.atan2(next.y - pos.y, next.x - pos.x);
 
-    cameraX = Math.max(pos.x - canvas.width / 4, 0); // Pas de vide au début
+cameraX = Math.max(pos.x - canvas.width / 4, 100); // Rail début toujours visible
     currentUnicornX = pos.x;
     currentUnicornY = pos.y + jumpY;
 
@@ -226,10 +235,11 @@ function drawPlayer() {
     ctx.save();
     ctx.translate(pos.x - cameraX, pos.y + jumpY);
     ctx.rotate(angle);
-    if (images.wagon.complete) ctx.drawImage(images.wagon, -80, -80, 100, 100);
-    if (!invincible || Math.floor(Date.now() / 100) % 2) {
-    ctx.drawImage(images.unicorn, 10, -40, 50, 60); // Licorne dedans wagon (tête visible légèrement)
-    }
+    ctx.drawImage(images.wagon, -80, -80, 100, 100); // Wagon
+    ctx.save();
+    ctx.translate(0, -10); // Positionner licorne légèrement au-dessus
+    ctx.drawImage(images.unicorn, -30, -105, 65, 105); // Licorne agrandie au-dessus wagon
+    ctx.restore();
     ctx.restore();
 }
 
@@ -265,16 +275,16 @@ function showEndScreen(isWin) {
     const screen = document.getElementById('end-screen');
     const title = document.getElementById('end-title');
     const img = document.getElementById('end-img');
-    const playerScoreEl = document.getElementById('player-score');
-    const endLevelEl = document.getElementById('end-level');
+    const playerDisplay = document.getElementById('player-display');
     const endCoinsEl = document.getElementById('end-coins');
     const endStarsEl = document.getElementById('end-stars');
+    const endLivesEl = document.getElementById('end-lives');
 
     screen.style.display = "flex";
-    playerScoreEl.textContent = playerPseudo;
-    endLevelEl.textContent = levels[currentLevel].label;
-    endCoinsEl.textContent = coinsCollected + '/17';
+    playerDisplay.textContent = playerPseudo;
+endCoinsEl.textContent = coinsCollected + '/5';
     endStarsEl.textContent = starsCollected + '/4';
+    endLivesEl.textContent = lives + '/3';
 
     if (isWin) {
         title.textContent = "VICTOIRE !";
@@ -287,6 +297,24 @@ function showEndScreen(isWin) {
     }
 }
 
+function restartGame() {
+    currentLevel = 1;
+    progress = 0;
+    gameStarted = false;
+    lives = 3;
+    coinsCollected = 0;
+    starsCollected = 0;
+    document.querySelectorAll('[id^=h]').forEach(h => h.style.opacity = '1');
+    initItems();
+    updateStarsHUD();
+    document.getElementById("level-display").innerText = levels[1].label;
+    document.getElementById('end-screen').style.display = "none";
+}
+
+function goToParty() {
+    window.location.href = "premierepage.html";
+}
+
 function loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const bgImg = images[levels[currentLevel].bg];
@@ -297,13 +325,13 @@ function loop() {
     
     if (gameStarted) {
         checkCollision();
-        document.querySelector('.coins span').textContent = `${coinsCollected}/17`;
+document.querySelector('.coins span').textContent = `${coinsCollected}/5`;
         progress += levels[currentLevel].speed;
 
         if (progress > 0.98) {
             if (currentLevel < 3) {
 
-            alert(`Niveau ${currentLevel} réussi ! Pièces: ${coinsCollected}/17, Étoiles: ${starsCollected}/4, Vies: ${lives}/3. Appuyez sur Espace pour le suivant.`);
+    alert(`Niveau ${currentLevel} réussi !\n🪙 ${coinsCollected}/17 | ⭐ ${starsCollected}/4 | ❤️ ${lives}/3\nAppuyez sur Espace pour le suivant.`);
             currentLevel++;
             progress = 0;
             gameStarted = false; // On attend Espace pour le niveau suivant
