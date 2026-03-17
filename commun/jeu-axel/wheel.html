@@ -8,6 +8,18 @@
 </head>
 <body class="page-wheel">
 
+  <!-- Contrôle du volume top-right -->
+
+  <div class="volume-control">
+
+    <label for="volumeSlider">🔊 Volume</label>
+
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <span id="volumeValue">50%</span>
+
+  </div>
+
  <div class="scene" id="scene">
   <!-- Audio pour le son de spin -->
   <audio id="spinSound" preload="auto">
@@ -29,9 +41,38 @@
 
     <div class="wheel-wrap">
       <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
-        <g id="segments"></g>
+        <g id="segments">
+          <!-- Segment 0: Facile #4fc3a3 -->
+          <path d="M 100 100 L 100 8 A 92 92 0 0 1 171.5728752538099 42.42640687119285 Z" fill="#4fc3a3" stroke="#ffffff" stroke-width="3"></path>
+          <text x="152.12024349132503" y="30.70908718593678" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(22.5 152.12024349132503 30.70908718593678)">Facile</text>
+          <!-- Segment 1: Moyen #f6c23e -->
+          <path d="M 100 100 L 171.5728752538099 42.42640687119285 A 92 92 0 0 1 184.6473315043166 115.46913742480715 Z" fill="#f6c23e" stroke="#ffffff" stroke-width="3"></path>
+          <text x="174.28704680689725" y="83.28691281406322" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(67.5 174.28704680689725 83.28691281406322)">Moyen</text>
+          <!-- Segment 2: Facile #3fb993 -->
+          <path d="M 100 100 L 184.6473315043166 115.46913742480715 A 92 92 0 0 1 184.6473315043166 184.53086257519285 Z" fill="#3fb993" stroke="#ffffff" stroke-width="3"></path>
+          <text x="164.67242128893055" y="160.9911568895872" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(112.5 164.67242128893055 160.9911568895872)">Facile</text>
+          <!-- Segment 3: Énigme #f39c12 -->
+          <path d="M 100 100 L 184.6473315043166 184.53086257519285 A 92 92 0 0 1 171.5728752538099 257.5735931288071 Z" fill="#f39c12" stroke="#ffffff" stroke-width="3"></path>
+          <text x="143.83917850867492" y="195.2909128140632" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(157.5 143.83917850867492 195.2909128140632)">Énigme</text>
+          <!-- Segment 4: Facile #76c96a -->
+          <path d="M 100 100 L 171.5728752538099 257.5735931288071 A 92 92 0 0 1 115.3521247461901 257.5735931288071 Z" fill="#76c96a" stroke="#ffffff" stroke-width="3"></path>
+          <text x="121.01357871106943" y="195.2909128140632" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(202.5 121.01357871106943 195.2909128140632)">Facile</text>
+          <!-- Segment 5: Difficile #e74c3c -->
+          <path d="M 100 100 L 115.3521247461901 257.5735931288071 A 92 92 0 0 1 115.3521247461901 184.53086257519285 Z" fill="#e74c3c" stroke="#ffffff" stroke-width="3"></path>
+          <text x="60.03060284411181" y="160.9911568895872" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(247.5 60.03060284411181 160.9911568895872)">Difficile</text>
+          <!-- Segment 6: Moyen #f2b72f -->
+          <path d="M 100 100 L 115.3521247461901 184.53086257519285 A 92 92 0 0 1 15.35266849568337 115.46913742480715 Z" fill="#f2b72f" stroke="#ffffff" stroke-width="3"></path>
+          <text x="25.71295319310275" y="83.28691281406322" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(292.5 25.71295319310275 83.28691281406322)">Moyen</text>
+          <!-- Segment 7: Rejoue #2aa6a1 -->
+          <path d="M 100 100 L 15.35266849568337 115.46913742480715 A 92 92 0 0 1 15.35266849568337 42.42640687119285 Z" fill="#2aa6a1" stroke="#ffffff" stroke-width="3"></path>
+          <text x="47.87975649132503" y="30.70908718593678" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(337.5 47.87975649132503 30.70908718593678)">
+            <tspan x="47.88" dy="-6">Rejoue</tspan>
+            <tspan x="47.88" dy="12">↻</tspan>
+          </text>
+        </g>
 
         <circle cx="100" cy="100" r="78" fill="none" stroke="none" stroke-width="0" />
+
         <circle cx="100" cy="100" r="48" fill="#ffffff" />
         <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
           QUESTION /
@@ -43,15 +84,6 @@
     </div>
 
     <button id="spin" class="spin">JOUER</button>
-
-    <!-- Contrôle du volume -->
-    <div class="volume-control">
-      <label for="volumeSlider">🔊 Volume</label>
-      <input type="range" id="volumeSlider" min="0" max="100" value="50">
-      <span id="volumeValue">50%</span>
-    </div>
-
-    <div id="result" class="result" aria-live="polite"></div>
   </div>
 
   <!-- panel donc pop up -->

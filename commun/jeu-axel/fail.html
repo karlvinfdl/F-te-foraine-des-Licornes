@@ -8,15 +8,43 @@
 
 <body class="fail-page">
 
-<div class="fail-page">
+  <!-- Contrôle du volume top-right -->
+
+  <div class="volume-control">
+
+    <label for="volumeSlider">🔊 Volume</label>
+
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <span id="volumeValue">50%</span>
+
+  </div>
+
+<div class="fail-container">
 
 <h1 class="fail-title">Dommage ! Tente de ressayer</h1>
 
 <img src="img/tokyosad.png" class="fail-dog" alt="Tokyo triste">
 
+<!-- Badge Bronze flippable -->
+<div style="display: flex; justify-content: center; margin: 30px 0;">
+  <div class="ach-card">
+    <div class="ach-flip">
+      <div class="ach-face ach-front">
+        <img src="img/badgebronzeavant.png" alt="Badge bronze">
+      </div>
+      <div class="ach-face ach-back">
+        <img src="img/badgebronzearriere.png" alt="Badge bronze verso">
+      </div>
+    </div>
+  </div>
+</div>
+
 <button class="fail-btn" onclick="location.reload()">Ressayer</button>
 
 </div>
 
-</body>
+    <script src="script.js"></script>
+
+  </body>
 </html>

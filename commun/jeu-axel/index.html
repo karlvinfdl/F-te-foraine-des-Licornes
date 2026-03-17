@@ -9,6 +9,18 @@
 </head>
 
 <body class="intro">
+
+  <!-- Contrôle du volume top-right -->
+
+  <div class="volume-control">
+
+    <label for="volumeSlider">🔊 Volume</label>
+
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <span id="volumeValue">50%</span>
+
+  </div>
   <!-- Audio element caché -->
   <audio id="wheelAudio" preload="auto">
     <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">

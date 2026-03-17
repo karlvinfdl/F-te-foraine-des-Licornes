@@ -82,9 +82,9 @@ if (playBtn) {
 // ============================================
 const cards = document.querySelectorAll('.ach-card');
 
-if (!cards.length) {
-  console.warn("Aucune carte trouvée : vérifie .ach-card dans ton HTML");
-}
+// if (!cards.length) {
+//   console.warn("Aucune carte trouvée : vérifie .ach-card dans ton HTML");
+// }
 
 cards.forEach((card) => {
   const flip = card.querySelector('.ach-flip');
@@ -161,8 +161,9 @@ function getNextPage() {
 } else if (body.classList.contains('page-wheel2')) {
     return 'wheel3.html';
   } else {
-    return 'blindtest.html';
+    return 'wheel2.html';
   }
+
 }
 
 // ============================================
@@ -177,7 +178,10 @@ const blindTestSongs = [
   { title: "Papa Outai", answer: "Papa Outai", choices: ["Papa Outai", "Bambino", "Dancing"], audio: "papaOutai" },
   { title: "Billie Jean", answer: "Billie Jean", choices: ["Billie Jean", "Thriller", "Beat It"], audio: "billieJean" },
   { title: "We Will Rock You", answer: "We Will Rock You", choices: ["We Will Rock You", "Bohemian Rhapsody", "Stayin' Alive"], audio: "weWillRock" },
-  { title: "One More Time", answer: "One More Time", choices: ["One More Time", "Harder Better Faster", "Veridis Quo"], audio: "daftPunk" }
+  { title: "One More Time", answer: "One More Time", choices: ["One More Time", "Harder Better Faster", "Veridis Quo"], audio: "daftPunk" },
+  { title: "Bruno Mars", answer: "Bruno Mars", choices: ["Bruno Mars", "Uptown Funk", "24K Magic"] , audio: "brunomars" },
+  { title: "Macarena", answer: "Macarena", choices: ["Macarena", "La Macarena", "Los Del Rio"] , audio: "macarena" },
+  { title: "Queen", answer: "Queen", choices: ["Queen", "We Are The Champions", "Bohemian"] , audio: "queen" }
 ];
 
 function showQuestionTimer(label, qObj) {
@@ -235,14 +239,20 @@ const despacitoAudio = document.getElementById('blindTestAudio');
   const shapeAudio = document.getElementById('shapeOfYouAudio');
   const papaAudio = document.getElementById('papaOutaiAudio');
   const billieAudio = document.getElementById('billieJeanAudio');
-const weRockAudio = document.getElementById('weWillRockAudio');
+  const weRockAudio = document.getElementById('weWillRockAudio');
   const daftAudio = document.getElementById('daftPunkAudio');
+  const brunoAudio = document.getElementById('brunoMarsAudio');
+  const macarenaAudio = document.getElementById('macarenaAudio');
+  const queenAudio = document.getElementById('queenAudio');
   if (despacitoAudio) despacitoAudio.pause();
   if (shapeAudio) shapeAudio.pause();
   if (papaAudio) papaAudio.pause();
   if (billieAudio) billieAudio.pause();
   if (weRockAudio) weRockAudio.pause();
   if (daftAudio) daftAudio.pause();
+  if (brunoAudio) brunoAudio.pause();
+  if (macarenaAudio) macarenaAudio.pause();
+  if (queenAudio) queenAudio.pause();
   
   const panel = document.getElementById('panel');
   const blindPhase = document.getElementById('blindTestPhase');
@@ -294,6 +304,12 @@ let audio = null;
     audio = document.getElementById('weWillRockAudio');
   } else if (song.audio === "daftPunk") {
     audio = document.getElementById('daftPunkAudio');
+  } else if (song.audio === "brunomars") {
+    audio = document.getElementById('brunoMarsAudio');
+  } else if (song.audio === "macarena") {
+    audio = document.getElementById('macarenaAudio');
+  } else if (song.audio === "queen") {
+    audio = document.getElementById('queenAudio');
   } else {
     audio = document.getElementById('blindTestAudio');
   }
@@ -492,7 +508,7 @@ if (body.classList.contains('page-wheel3')) {
     { label: "Alexis", color: "#95E1D3" },
   ];
 } else if (body.classList.contains('page-wheel2')) {
-  // Wheel2 : couleurs noires avec numéros
+// Wheel2: 8 segments numbers black
   segments = [
     { label: "1", color: "#000000" },
     { label: "2", color: "#1a1a1a" },
@@ -503,7 +519,8 @@ if (body.classList.contains('page-wheel3')) {
     { label: "7", color: "#2d2d2d" },
     { label: "8", color: "#404040" },
   ];
-} else {
+
+ } else {
   segments = [
     { label: "Facile", color: "#4fc3a3" },
     { label: "Moyen", color: "#f6c23e" },
@@ -518,7 +535,7 @@ if (body.classList.contains('page-wheel3')) {
 
 let spinsDone = 0;
 let correctCount = 0;
-const maxSpins = 3;
+const maxSpins = 3; // Wheel1/2/3: 3 correct answers to advance
 
 if (wheel && segmentsGroup && spinBtn) {
   const cx = 100, cy = 100;
@@ -737,33 +754,49 @@ const questionsWheel1 = {
 };
 
 const questionsWheel2 = {
-  "Facile": [
-    { q: "Pour aller sur un site, on clique sur :", choices: ["Un lien", "Une image", "Un son"], answer: 0 },
-    { q: "Un écran noir signifie :", choices: ["Le site fonctionne", "Une erreur ou veille", "Le chargement"], answer: 1 },
-    { q: "Quand ça charge, on :", choices: ["Part jouer ailleurs", "On attend", "On ferme tout"], answer: 1 },
-    { q: "Un menu sert à :", choices: ["Naviguer", "Décorer", "Stocker"], answer: 0 }
+  "1": [
+    { q: "Pour aller sur un site, on clique sur :", choices: ["Un lien", "Une image", "Un son"], answer: 0 }
   ],
-  "Moyen": [
-    { q: "Pour valider un formulaire, on clique sur :", choices: ["Effacer", "Envoyer", "Supprimer"], answer: 1 },
-    { q: "Si le texte est petit, on peut :", choices: ["Le cacher", "Zoomer", "L'effacer"], answer: 1 },
-    { q: "Une vidéo qui ne marche pas :", choices: ["C'est normal", "Il y a un problème", "C'est terminé"], answer: 1 },
-    { q: "Pour retourner en arrière, on utilise :", choices: ["La flèche retour", "Le bouton jouer", "Le son"], answer: 0 }
+  "2": [
+    { q: "Un écran noir signifie :", choices: ["Le site fonctionne", "Une erreur ou veille", "Le chargement"], answer: 1 }
   ],
-  "Difficile": [
-    { q: "Un site lent veut dire :", choices: ["Il est cassé", "Problème de connexion ou serveur", "C'est fini"], answer: 1 },
-    { q: '"Erreur 500" signifie :', choices: ["Tout va bien", "Problème serveur", "Victoire"], answer: 1 },
-    { q: "Si le son ne marche pas :", choices: ["Le site est muet", "Problème de son ou muted", "C'est normal"], answer: 1 },
-    { q: "Plus on attend :", choices: ["Le site plante", "Il finit par charger", "On perd tout"], answer: 1 }
+  "3": [
+    { q: "Pour valider un formulaire, on clique sur :", choices: ["Effacer", "Envoyer", "Supprimer"], answer: 1 }
   ],
-"Bonus 🎁": [
-    { q: "Quel est le super cadeau ?", choices: ["Trophée", "Couronne"], answer: 0 }
+  "4": [
+    { q: "Si le texte est petit, on peut :", choices: ["Le cacher", "Zoomer", "L'effacer"], answer: 1 }
   ],
-  "Rejoue ↻": [
-    { q: "Vous pouvez rejouer !", choices: ["Merci !", "Super !"], answer: 0 }
-  ],
-  // Question spéciale pour le numéro 5
   "5": [
     { q: "Qui est surnommé le Roi de la Pop ?", choices: ["Michael Jackson", "Elvis Presley", "Justin Bieber"], answer: 0 }
+  ],
+  "6": [
+    { q: "Un site lent veut dire :", choices: ["Il est cassé", "Problème de connexion ou serveur", "C'est fini"], answer: 1 }
+  ],
+  "7": [
+    { q: '"Erreur 500" signifie :', choices: ["Tout va bien", "Problème serveur", "Victoire"], answer: 1 }
+  ],
+  "8": [
+    { q: "Si le son ne marche pas :", choices: ["Le site est muet", "Problème de son ou muted", "C'est normal"], answer: 1 }
+  ]
+};
+
+
+const questionsWheel3 = {
+  "Elodie": [
+    { q: "Quelle est la couleur préférée d'Elodie ?", choices: ["Rose", "Bleu", "Vert"], answer: 0 },
+    { q: "Elodie aime les... ?", choices: ["Fleurs", "Sports", "Voitures"], answer: 0 }
+  ],
+  "Kylian": [
+    { q: "Kylian est bon en... ?", choices: ["Maths", "Dessin", "Cuisine"], answer: 0 },
+    { q: "Quel sport aime Kylian ?", choices: ["Football", "Natation", "Escalade"], answer: 0 }
+  ],
+  "Karlvin": [
+    { q: "Karlvin résout les énigmes en combien de temps ?", choices: ["Rapide", "Lent", "Jamais"], answer: 0 },
+    { q: "Quel est le challenge préféré de Karlvin ?", choices: ["Difficile", "Facile", "Moyen"], answer: 0 }
+  ],
+  "Alexis": [
+    { q: "Alexis a gagné combien de badges ?", choices: ["Beaucoup", "Peu", "Aucun"], answer: 0 },
+    { q: "Quel est le super pouvoir d'Alexis ?", choices: ["Bonus", "Vitesse", "Force"], answer: 0 }
   ]
 };
 
@@ -784,12 +817,13 @@ const questions = {
   "Rejoue ↻": []
 };
 
+
 function pickQuestionFor(label){
   let questionsData;
   const body = document.body;
   
   if (body.classList.contains('page-wheel3')) {
-    questionsData = window.questions || {};
+    questionsData = questionsWheel3;
   } else if (body.classList.contains('page-wheel2')) {
     questionsData = questionsWheel2;
   } else {
@@ -946,6 +980,9 @@ const papaOutaiAudio = document.getElementById('papaOutaiAudio');
 const billieJeanAudio = document.getElementById('billieJeanAudio');
 const weWillRockAudio = document.getElementById('weWillRockAudio');
 const daftPunkAudio = document.getElementById('daftPunkAudio');
+const brunoMarsAudio = document.getElementById('brunoMarsAudio');
+const macarenaAudio = document.getElementById('macarenaAudio');
+const queenAudio = document.getElementById('queenAudio');
 const spinSound = document.getElementById('spinSound');
 
 function updateVolume() {
@@ -962,7 +999,10 @@ function updateVolume() {
   if (papaOutaiAudio) papaOutaiAudio.volume = volume;
   if (billieJeanAudio) billieJeanAudio.volume = volume;
   if (weWillRockAudio) weWillRockAudio.volume = volume;
-  if (daftPunkAudio) daftPunkAudio.volume = volume;
+if (daftPunkAudio) daftPunkAudio.volume = volume;
+  if (brunoMarsAudio) brunoMarsAudio.volume = volume;
+  if (macarenaAudio) macarenaAudio.volume = volume;
+  if (queenAudio) queenAudio.volume = volume;
   if (spinSound) spinSound.volume = volume;
 }
 
@@ -973,4 +1013,3 @@ if (volumeSlider) {
     updateVolume();
   });
 }
-

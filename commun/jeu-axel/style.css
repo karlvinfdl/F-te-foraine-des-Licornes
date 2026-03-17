@@ -412,7 +412,7 @@ body.intro{
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;     
+  overflow: visible !important;     
 }
 
 
@@ -751,17 +751,36 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+body * {
+  z-index: auto !important;
 }
 .volume-control {
-  display: flex;
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 10000 !important;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 25px;
-  backdrop-filter: blur(4px);
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #7a1f73, #3e0a3a) !important;
+  border-radius: 30px;
+  width: 280px !important;
+  height: 60px !important;
+  font-size: 18px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.volume-control label, .volume-control input, .volume-control span {
+  color: white !important;
+  text-shadow: 0 1px 3px black !important;
 }
 
 .volume-control label {

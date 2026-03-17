@@ -40,12 +40,31 @@
     <source src="sound/wewillrock.mp3" type="audio/mpeg">
   </audio>
   
-  <audio id="daftPunkAudio" preload="auto">
+<audio id="daftPunkAudio" preload="auto">
     <source src="sound/daftpunk.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Audio supplémentaires pour blind test -->
+  <audio id="brunoMarsAudio" preload="auto">
+    <source src="sound/brunomars.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="macarenaAudio" preload="auto">
+    <source src="sound/macarena.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="queenAudio" preload="auto">
+    <source src="sound/queen.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Contrôle du volume -->
+  <div class="volume-control">
+    <label for="volumeSlider">🔊 Volume</label>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    <span id="volumeValue">50%</span>
+  </div>
+
   <!-- class pour les roues -->
   <div class="game" id="wheelZone">
+
 <div class="arrow" aria-hidden="true">
       <svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
         <!-- Flèche pointing vers le bas -->
@@ -59,7 +78,7 @@
 
     <div class="wheel-wrap">
       <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
-        <g id="segments"></g>
+<g id="segments"><path d="M 100 100 L 100 8 A 92 92 0 0 1 187.49719949915414 71.57043651750485 Z" fill="#000000" stroke="#ffffff" stroke-width="3"></path><text x="139.96939715588817" y="44.98684438250358" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(36 139.96939715588817 44.98684438250358)">1</text><path d="M 100 100 L 187.49719949915414 71.57043651750485 A 92 92 0 0 1 154.07624321090753 174.42956348249515 Z" fill="#1a1a1a" stroke="#ffffff" stroke-width="3"></path><text x="164.67184310807045" y="121.01315561749642" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(108 164.67184310807045 121.01315561749642)">2</text><path d="M 100 100 L 154.07624321090753 174.42956348249515 A 92 92 0 0 1 45.92375678909248 174.42956348249515 Z" fill="#2d2d2d" stroke="#ffffff" stroke-width="3"></path><text x="100" y="168" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(180 100 168)">3</text><path d="M 100 100 L 45.92375678909248 174.42956348249515 A 92 92 0 0 1 12.50280050084588 71.57043651750482 Z" fill="#404040" stroke="#ffffff" stroke-width="3"></path><text x="35.32815689192957" y="121.01315561749644" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(252 35.32815689192957 121.01315561749644)">4</text><path d="M 100 100 L 12.50280050084588 71.57043651750482 A 92 92 0 0 1 99.99999999999999 8 Z" fill="#000000" stroke="#ffffff" stroke-width="3"></path><text x="60.03060284411182" y="44.986844382503584" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(324 60.03060284411182 44.986844382503584)">5</text></g>
 
         <circle cx="100" cy="100" r="78" fill="none" stroke="none" stroke-width="0" />
         <circle cx="100" cy="100" r="48" fill="#ffffff" />
@@ -73,15 +92,6 @@
     </div>
 
     <button id="spin" class="spin">JOUER</button>
-
-    <!-- Contrôle du volume -->
-    <div class="volume-control">
-      <label for="volumeSlider">🔊 Volume</label>
-      <input type="range" id="volumeSlider" min="0" max="100" value="50">
-      <span id="volumeValue">50%</span>
-    </div>
-
-    <div id="result" class="result" aria-live="polite"></div>
   </div>
 
   <!-- panel donc pop up -->
