@@ -162,27 +162,27 @@ function drawTrack() {
     animFrame += 0.1;
     collectibles.forEach(item => {
         if (!item.collected) {
-            const p = getCurvePoint(item.t, points);
-            const img = item.type === 'coin' ? images.coin : images.starItem;
-            ctx.save();
-            ctx.translate(p.x, p.y - 50);
-            ctx.scale(Math.sin(animFrame), 1);
-            if (img.complete) ctx.drawImage(img, -15, -15, 30, 30);
-    ctx.restore();
+        const p = getCurvePoint(item.t, points);
+        const img = item.type === 'coin' ? images.coin : images.starItem;
+        ctx.save();
+        ctx.translate(p.x, p.y - 50);
+        ctx.scale(Math.sin(animFrame), 1);
+        if (img.complete) ctx.drawImage(img, -15, -15, 30, 30);
+ctx.restore();
 
-            if (Math.hypot(p.x - currentUnicornX, (p.y - 50) - currentUnicornY) < 50) { 
-                item.collected = true;
-                if (item.type === 'coin') {
-                    coinsCollected++;
-                    playCoinSound();
-                } else {
-                    starsCollected++;
-                    updateStarsHUD();
-                    playStarSound();
-                }
+        if (Math.hypot(p.x - currentUnicornX, (p.y - 50) - currentUnicornY) < 50) { 
+            item.collected = true;
+            if (item.type === 'coin') {
+                coinsCollected++;
+                playCoinSound();
+            } else {
+                starsCollected++;
+                updateStarsHUD();
+                playStarSound();
             }
         }
-    });
+    }
+});
 
     // Drapeaux début et fin du parcours
     const startPos = getCurvePoint(0, points);
@@ -228,7 +228,7 @@ function drawPlayer() {
     ctx.rotate(angle);
     if (images.wagon.complete) ctx.drawImage(images.wagon, -80, -80, 100, 100);
     if (!invincible || Math.floor(Date.now() / 100) % 2) {
-    ctx.drawImage(images.unicorn, -35, -65, 70, 70); // Licorne normale dans wagon, tête visible
+    ctx.drawImage(images.unicorn, 10, -40, 50, 60); // Licorne dedans wagon (tête visible légèrement)
     }
     ctx.restore();
 }
@@ -302,13 +302,14 @@ function loop() {
 
         if (progress > 0.98) {
             if (currentLevel < 3) {
-                alert("Niveau réussi ! Appuyez sur Espace pour le suivant.");
-                currentLevel++;
-                progress = 0;
-                gameStarted = false; // On attend Espace pour le niveau suivant
-                initItems();
-                updateStarsHUD();
-                document.getElementById("level-display").innerText = levels[currentLevel].label;
+
+            alert(`Niveau ${currentLevel} réussi ! Pièces: ${coinsCollected}/17, Étoiles: ${starsCollected}/4, Vies: ${lives}/3. Appuyez sur Espace pour le suivant.`);
+            currentLevel++;
+            progress = 0;
+            gameStarted = false; // On attend Espace pour le niveau suivant
+            initItems();
+            updateStarsHUD();
+            document.getElementById("level-display").innerText = levels[currentLevel].label;
             } else {
                 showEndScreen(true);
             }
