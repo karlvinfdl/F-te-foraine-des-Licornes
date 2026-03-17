@@ -181,16 +181,13 @@ const blindTestSongs = [
   { title: "Get Lucky", answer: "Get Lucky", choices: ["One More Time", "Get Lucky", "Veridis Quo"], audio: "daftPunk" },
   { title: "Uptown Funk", answer: "Uptown Funk", choices: ["Bruno Mars", "Uptown Funk", "24K Magic"] , audio: "brunomars" },
   { title: "Macarena", answer: "Macarena", choices: ["Macarena", "La Macarena", "Los Del Rio"] , audio: "macarena" },
-  { title: "We Will Rock You", answer: "We Will Rock You", choices: ["Queen", "We Are The Champions", "We Will Rock You"] , audio: "queen" }
+  { title: "Another One Bites the Dust", answer: "Another One Bites the Dust", choices: ["Queen", "Another One Bites the Dust", "We Will Rock You"] , audio: "queen" }
 ];
 
 function showQuestionTimer(label, qObj) {
   const panel = document.getElementById('panel');
   const panelCards = panel.querySelectorAll('.panel-card');
   
-  panel.style.transform = 'translateY(-50%) translateX(0)';
-  panel.style.opacity = '1';
-  panel.style.pointerEvents = 'auto';
   panel.setAttribute('aria-hidden', 'false');
   
   if (scene) scene.classList.add('is-done');
@@ -262,19 +259,10 @@ const despacitoAudio = document.getElementById('blindTestAudio');
     return;
   }
   
-  panel.style.display = 'block';
-  panel.style.visibility = 'visible';
-  panel.style.opacity = '1';
-  panel.style.transform = 'translateY(-50%) translateX(0)';
-  panel.style.pointerEvents = 'auto';
+  scene.classList.add('is-done');
+  
   panel.setAttribute('aria-hidden', 'false');
-  
-  if (scene) scene.classList.add('is-done');
-  
-  blindPhase.style.visibility = 'visible';
-  blindPhase.style.opacity = '1';
   blindPhase.style.display = 'block';
-  
   const allPanelCards = document.querySelectorAll('#panel .panel-card');
   
   allPanelCards.forEach((card, idx) => {
@@ -372,18 +360,11 @@ function showBlindTestQuestion(song) {
   const panel = document.getElementById('panel');
   
   if (blindPhase) {
-    blindPhase.style.visibility = 'hidden';
-    blindPhase.style.opacity = '0';
     blindPhase.style.display = 'none';
   }
   
-  if (panel) {
-    panel.style.transform = 'translateY(-50%) translateX(0)';
-    panel.style.opacity = '1';
-    panel.style.pointerEvents = 'auto';
-    panel.setAttribute('aria-hidden', 'false');
-  }
   if (scene) scene.classList.add('is-done');
+  panel.setAttribute('aria-hidden', 'false');
   
   const allPanelCards = document.querySelectorAll('#panel .panel-card');
   console.log("📋 Cartes trouvées dans showBlindTestQuestion:", allPanelCards.length);
@@ -532,6 +513,7 @@ if (body.classList.contains('page-wheel3')) {
 
 let spinsDone = 0;
 let correctCount = 0;
+let blindTestPlayed = false;
 const maxSpins = 3; // Wheel1/2/3: 3 correct answers to advance
 
 if (wheel && segmentsGroup && spinBtn) {
@@ -651,14 +633,18 @@ if (wheel && segmentsGroup && spinBtn) {
       return;
     }
     
-    // Pour wheel2 : tous les numéros déclenchent le blind test
+    // Pour wheel2 : BLIND TEST SUR TOUS LES SPINS
     if (document.body.classList.contains('page-wheel2')) {
-      console.log("✅ wheel2 détecté, lancement blind test...");
+      console.log("✅ wheel2: BLIND TEST TOUS SPINS");
       
       spinsDone++;
-      console.log("🎰 Spin effectués:", spinsDone, "/", maxSpins);
+      console.log("🎰 Blindtest #", spinsDone, "/", maxSpins);
       
       if (scene) scene.classList.add('is-done');
+      
+      // Reset panel
+      const panel = document.getElementById('panel');
+      if (panel) panel.style.cssText = '';
       
       startBlindTest();
       spinning = false;
@@ -891,9 +877,10 @@ function showQuestion(qObj){
 
   if(panelCards[2]) panelCards[2].textContent = '';
 
+  scene.classList.add('is-done');
   panel.setAttribute('aria-hidden','false');
-  if(scene) scene.classList.add('is-done');
   if (spinBtn) spinBtn.disabled = true;
+
 }
 
 function checkAnswer(choiceIndex, correctIndex){
