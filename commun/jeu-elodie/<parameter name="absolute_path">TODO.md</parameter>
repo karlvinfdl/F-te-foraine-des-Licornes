@@ -1,0 +1,8 @@
+<parameter name="content"># Correction écran noir
+
+- [ ] Créer TODO.md (fait)
+- [ ] Modifier assets/game.js : gameStarted=true auto + initItems()
+- [ ] Tester localhost:8000/index1.html → rails/jeu visible
+- [ ] Ajouter fonctions manquantes si erreurs console
+- [ ] Completer
+</parameter>

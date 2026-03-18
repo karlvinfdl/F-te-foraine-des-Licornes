@@ -1,14 +1,21 @@
-# TODO: Ajout des drapeaux au début et fin des parcours (niveaux 1, 2, 3)
+# Plan refit specs exactes
 
-## Étapes planifiées:
-1. ✅ Créer ce fichier TODO.md
-2. ✅ Ajouter les sources des drapeaux dans l'objet `src` de game.js
-3. ✅ Charger les images des drapeaux dans `images`
-4. ✅ Dans `drawTrack()`, calculer positions début (t=0) et fin (t=1)
-5. ✅ Dessiner le drapeau de début (`drapeaunoiretblancdroit.png`) à t=0
-6. ✅ Dessiner le drapeau de fin (`drapeaunoiretblanc.png`) à t=1
-7. Tester dans le navigateur
-8. Marquer complet et supprimer TODO.md
+**Information Gathered** : game.js (spline points, camera, collect hypot<25, saut espace, niveaux 3, screens DOM). index1.html (HUD elements-column vertical lignes level-row/stars-row/hearts-row/coins-row). style.css (pixel-hud gauche).
 
-**Prochaines étapes après édition: Ouvrir index1.html pour vérifier les drapeaux aux extrémités du parcours sur tous les niveaux.**
+**Plan** :
+1. Rail : points droit start 0-400/ end 2800-3200 [DONE]
+2. Drapeaux : start x=10 fixe, end x=3100 bord droit [DONE]
+3. Caméra : lock x=0 pos.x < width/4, follow offset, max 3100-width [DONE]
+4. Collect collision <50px [50]
+5. Gap collision jumpY==0 [OK jumpY>=0]
+6. Licorne wagon Y précis [OK y-40 inside]
+7. Niveaux progress >0.98 show screen [1.1→0.98]
+8. HUD labels "VIES" "STARS" "PIÈCES" + icônes align horizontal lignes vertical [index1.html + style]
+9. initLevel() [initItems]
+
+**Dependent** : Aucun.
+
+**Followup** : Test localhost:5500, console clean.
+
+Approuve plan ?
 

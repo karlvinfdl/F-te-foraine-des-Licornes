@@ -1,259 +1,38 @@
-/* =========================
-RESET DE BASE
-   ========================= */
-/* Inclut padding et border dans les tailles des éléments */
-* { box-sizing: border-box; }
+/* Specs HUD pixel bulle gauche vertical lignes horizontal labels/icônes */
 
-/* Supprime les marges par défaut et force la hauteur plein écran */
-html, body {
-    height: 100%;
-    margin: 0%;
-}
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('assets/images/cielsoleil.png') cover; }
 
-/* =========================
-ÉCRAN PRINCIPAL
-========================= */
-
-.screen{
-    display: grid;/* prend toute la hauteur de l'écran */
-    place-items: center;  
-}          /* centre le contenu horizontal + vertical */
-/* Overlay sombre au-dessus du fond */
-.screen::before {
-    background: rgba(0, 0, 0, 0.4);
-    content: "";
-    position: absolute;
-}
-/* =========================
-EFFET VERRE (REFLET)
-========================= */
-.glass-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;                   /* prend toute la taille du parent */
-    border-radius: inherit;     /* même arrondi que le panneau */
-    width: 100%;
-    background: linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.25),
-        rgba(255, 255, 255, 0)
-    );                          /* reflet lumineux */
-    pointer-events: none;       /* laisse passer les clics */
-}
-/* =========================
-SECTION HERO (fond ciel)
-========================= */
-.hero {
-    min-height: 100vh;
-    position: relative;
-    background: url('images/cielsoleil.png') no-repeat center center fixed;
-    background-size: cover;     /* couvre tout l'écran */
-    background-position: center;
-}
-/* Logo en haut à gauche */
-.brand {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-}
-/* =========================
-    TITRE PRINCIPAL
-   ========================= */
-.hero-title {
-    
-    font-size: 64px;
-    text-align: center;
-}
-/* Bordure + ombre générique */
-.border {
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.25);
+/* PIXEL HUD GAUCHE */
+.pixel-hud {
+    position: absolute; top: 20px; left: 20px; background: white; border: 4px solid #000; border-radius: 15px; padding: 12px 20px; z-index: 100; font-family: 'Arial Black', sans-serif; min-width: 240px; box-shadow: 6px 6px 0 rgba(0,0,0,0.1); image-rendering: pixelated;
 }
 
-.hero {
-    padding-top: -500px;
-}
-.hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;   
-}
-.hero-logo {
-    width: 320px;
-    max-width: 90%;
-    height: auto;
-}
-.glass-panel{
-    margin-top: -500px;
-}
-/* =========================
-PANNEAU VERRE (CARTE)
-========================= */
-.glass-panel {
-    margin-top: -400px;
-    width: min(760px, 92vw);    /* responsive */
-    padding: 26px 34px;
-    border-radius: 10px;
-    position: relative;
-    z-index: 2;
+.hud-header { display: flex; align-items: flex-start; gap: 15px; }
+.mini-logo { width: 50px; height: 50px; background-size: cover; border: 2px solid #ddd; border-radius: 8px; }
+.elements-column { display: flex; flex-direction: column; gap: 4px; }
 
-    /* Effet verre flou */
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(12px) saturate(130%);
-    -webkit-backdrop-filter: blur(12px) saturate(130%);
+/* Lignes verticales */
+.level-row, .hud-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; }
+.stars-row { display: flex; gap: 2px; font-size: 18px; }
+.hearts-row { display: flex; gap: 4px; }
+.hearts-row img { width: 24px; height: 24px; transition: opacity 0.3s; }
 
-    /* Bord + ombre */
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    box-shadow: 0 18px 40px rgba(255, 255, 255, 0.37);
-}
-/* Carte encore plus floue */
-.glass-card {
-    background: rgba(255, 255, 255, 0.28);
-    border-radius: 50px;
-    backdrop-filter: blur(8px);
-}
-.glass-content {
-    text-align: center;
-}
-/* Zone des contrôles */
-.controls {
-    justify-content: space-around;
-    display: flex;
-}
-.g-play {
-    justify-content: center;
-}
-/* =========================
-ANCIEN STYLE BOUTON (non utilisé pour JOUER principal)
-========================= */
-.play-btn {
-    color: #ffffff;
-    position: absolute;
-    bottom: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 80%;
-    height: 74px;
-    border-radius: 22px;
-    background: #f3c23d;
-    border: none;
-    cursor: pointer;
-    font-size: 34px;
-    font-weight: 900;
-    box-shadow: 0 14px #d1b100;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    width: clamp(200px, 50%, 300px);
-}
-/* Effet enfoncé */
-.play-btn:active {
-    transform: translateX(-50%) translateY(4px);
-    box-shadow: 0 10px 0 #ffca60;
-}
-/* Légère luminosité au survol */
-.play-btn:hover {
-    filter: brightness(1.05);
-}
-/* =========================
-POLICE
-   ========================= */
+.coins-row { display: flex; align-items: center; gap: 8px; }
 
-@font-face {
-    font-family: "Poppins";
-    src: url("/commun/jeu-elodie/font/Poppins");
-}
-body {
-    font-family: "Poppins", sans-serif;
-    margin: 0;
+/* Screens overlay */
+#level-complete-screen, #end-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 200; font-family: 'Arial Black', sans-serif; text-align: center; }
+#level-title { font-size: 60px; color: #2ecc71; margin-bottom: 20px; }
+#end-title { font-size: 80px; color: #e74c3c; margin-bottom: 20px; }
+#end-img { width: 200px; margin-bottom: 20px; }
+.button-row { display: flex; gap: 20px; }
+.next-btn, .restart-btn, .menu-btn { padding: 15px 30px; font-size: 20px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Arial Black', sans-serif; color: white; }
+.next-btn, .restart-btn { background: #2ecc71; }
+.menu-btn { background: #e74c3c; }
 
-}
-/* ===============
-BOUTON JOUER 
-===============*/
-.bulle-jouer {
-    background-color: #FFD84D;     /* jaune */
-    color: #ffffff;                   /* texte noir */
-    border: none;
-    padding: 14px 38px;
-    font-weight: 900;
-    font-size: 34px;
-    letter-spacing: 1px;
-    cursor: pointer;
+/* Canvas */
+#game { display: block; width: 100vw; height: 100vh; background: transparent; image-rendering: pixelated; }
 
-    position: absolute;
-    bottom: 35px;
-    left: 50%;
-    transform: translateX(-50%);
+@media (max-width: 768px) { .pixel-hud { min-width: 200px; padding: 10px 15px; top: 10px; left: 10px; } }
 
-    border-radius: 18px;           /* coins arrondis */
-
-    /* Effet bouton en relief */
-    box-shadow: 0 6px 0 #d4a900;
-    transition: all 0.1s ease-in-out;
-}
-/* Animation quand on clique */
-.bulle-jouer:active {
-    transform: translateX(-50%) translateY(4px); /* descend */
-    box-shadow: 0 2px 0 #d4a900;                 /* ombre réduite */
-}
-/* ==============
-NAVBAR
-   ============== */
-.navbar {
-    position: fixed;
-    padding: 16px 0;
-}
-/* Liste menu */
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    gap: 24px;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-/* Liens */
-.navbar a {
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    font-weight: 600;
-}
-/* Conteneur navbar */
-.navbar {
-    max-width: 1200px;
-    height: 100%;
-    margin: 0 auto;
-    padding: 0% 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-/* Image logo */
-.logo {
-    height: 45px;
-    width: auto;
-    margin-left: 24px;
-}
-/* =============
-HEADER PAGE
-   ============= */
-
-.page-header-space {
-    height: calc(100vh - 64px); /* retire la hauteur de la navbar */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.page-header {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-/* Titre dans le header */
-.page-header h1 {
-    color: rgb(255, 131, 131);
-    font-size: 3rem;
-    margin: 0;
-    text-align: center;
-}
