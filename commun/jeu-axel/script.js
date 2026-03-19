@@ -145,7 +145,7 @@ if (spinBtn && scene) {
           spinSoundEl.pause();
           spinSoundEl.currentTime = 0;
         }
-      }, 5000);
+      }, 3000);
     }
     
     if (vinylePlayer) {
@@ -171,6 +171,9 @@ function getNextPage() {
 // ============================================
 let blindTestTimer = null;
 let questionTimer = null;
+
+let wheel2PlayedSongs = new Set();
+let wheel2SessionActive = false;
 
 const blindTestSongs = [
   { title: "Despacito", answer: "Despacito", choices: ["Despacito", "Doucement", "Latino"] },
@@ -231,6 +234,22 @@ function startBlindTest() {
     clearInterval(blindTestTimer);
     blindTestTimer = null;
   }
+
+  // Wheel2 no-repeat logic
+  if (!wheel2SessionActive) {
+    wheel2PlayedSongs.clear();
+    wheel2SessionActive = true;
+  }
+
+  let availableSongs = blindTestSongs.filter((song, idx) => !wheel2PlayedSongs.has(idx));
+  if (availableSongs.length === 0) {
+    wheel2PlayedSongs.clear();
+    availableSongs = blindTestSongs;
+  }
+  const song = availableSongs[Math.floor(Math.random() * availableSongs.length)];
+  const songIndex = blindTestSongs.indexOf(song);
+  wheel2PlayedSongs.add(songIndex);
+  console.log("🎵 Song selected:", song.title, "Played:", Array.from(wheel2PlayedSongs));
   
 const despacitoAudio = document.getElementById('blindTestAudio');
   const shapeAudio = document.getElementById('shapeOfYouAudio');
@@ -277,9 +296,6 @@ const despacitoAudio = document.getElementById('blindTestAudio');
       else if (idx === 3) card.textContent = '';
     }
   });
-  
-  const song = blindTestSongs[Math.floor(Math.random() * blindTestSongs.length)];
-  console.log("🎵 Chanson sélectionnée:", song.title);
   
 let audio = null;
   if (song.title === "Shape of You") {
@@ -347,13 +363,15 @@ let timeLeft = 6;
     if (timeLeft <= 0) {
       if (audio) audio.pause();
       clearInterval(blindTestTimer);
-      console.log("⏰ Timer terminé, affichage de la question...");
-      showBlindTestQuestion(song);
+  console.log("⏰ Timer terminé, affichage de la question...");
+  showBlindTestQuestion(song);
+  // Use the filtered song throughout
     }
   }, 1000);
 }
 
-function showBlindTestQuestion(song) {
+function showBlindTestQuestion(selectedSong) {
+  const song = selectedSong;
   console.log("🎯 showBlindTestQuestion appelé avec:", song.title);
   
   const blindPhase = document.getElementById('blindTestPhase');
@@ -437,6 +455,10 @@ function showBlindTestQuestion(song) {
           
           correctCount++;
           
+          // Reset wheel2 song tracking for next session
+          wheel2PlayedSongs.clear();
+          wheel2SessionActive = false;
+          
           setTimeout(() => {
             if (panel) {
               panel.setAttribute('aria-hidden', 'true');
@@ -491,9 +513,10 @@ const body = document.body;
 if (body.classList.contains('page-wheel3')) {
   segments = [
     { label: "Elodie", color: "#FF6B9D" },
-    { label: "Kylian", color: "#4ECDC4" },
+    { label: "Kyllian", color: "#4ECDC4" },
     { label: "Karlvin", color: "#FFE66D" },
     { label: "Alexis", color: "#95E1D3" },
+    { label: "Axel", color: "#3e9c19ff" },
   ];
 } else if (body.classList.contains('page-wheel2')) {
 // Wheel2: 8 segments numbers black
@@ -622,22 +645,24 @@ if (wheel && segmentsGroup && spinBtn) {
     
 // Gestion de "Rejoue ↻" pour toutes les pages
     if (label === "Rejoue ↻") {
-      console.log("🔄 Rejoue détecté, reload de la page...");
-      
-      if (result) result.textContent = `Résultat : ${label} - Rejouez !`;
-      
-      setTimeout(() => {
-        const panel = document.getElementById('panel');
-        if (panel) {
-          panel.setAttribute('aria-hidden', 'true');
-          panel.style.transform = 'translateY(-50%) translateX(120%)';
-        }
-        if (scene) scene.classList.remove('is-done');
-        if (spinBtn) spinBtn.disabled = false;
-      }, 1500);
-      
-      spinning = false;
-      return;
+      console.log("🔄 Rejoue détecté, FULL reset wheel.html");
+      if (document.body.classList.contains('page-wheel')) {
+        if (result) result.textContent = `Résultat : ${label} - Rejouez !`;
+        
+        setTimeout(() => {
+          const panel = document.getElementById('panel');
+          if (panel) {
+            panel.style.cssText = ''; // Full reset
+            panel.setAttribute('aria-hidden', 'true');
+          }
+          if (scene) scene.classList.remove('is-done');
+          if (spinBtn) spinBtn.disabled = false;
+          spinning = false;
+          angle = 0; // Reset wheel rotation
+          segmentsGroup.style.transform = 'rotate(0deg)';
+        }, 1500);
+        return;
+      }
     }
     
     // Pour wheel2 : BLIND TEST SUR TOUS LES SPINS
@@ -665,10 +690,22 @@ if (wheel && segmentsGroup && spinBtn) {
     
     if (result) result.textContent = `Résultat : ${label}`;
     
+    // Fix popup "Moyen" wheel.html only
+    if (document.body.classList.contains('page-wheel') && label === 'Moyen') {
+      setTimeout(() => {
+        const panel = document.getElementById('panel');
+        if (panel) panel.style.cssText = '';
+        scene.classList.add('is-done');
+      }, 100);
+    }
+    
     spinsDone++;
     const qObj = pickQuestionFor(label);
     if (qObj) {
       showQuestion(qObj);
+    } else if (label !== 'Kyllian') {
+      // Fallback except Kyllian (fixed key match)
+      showQuestion({q: `Catégorie ${label}`, choices: ['OK'], answer: 0});
     }
     
     spinning = false;
@@ -773,22 +810,27 @@ const questionsWheel2 = {
 
 const questionsWheel3 = {
   "Elodie": [
-    { q: "Sur le jeux  ?", choices: ["Rose", "Bleu", "Vert"], answer: 0 },
-    { q: "Elodie aime les... ?", choices: ["Fleurs", "Sports", "Voitures"], answer: 0 }
+    { q: "Quelle est le moyen de transport de la licorne sur le jeux Star Coaster ?", choices: ["Train", "Avion", "Wagon"], answer: 2 },
+    { q: "Combien il y a de niveau dans le Star Coaster?", choices: ["2", "4", "3"], answer: 2 }
   ],
   "Kyllian": [
     { q: "Kylian est bon en... ?", choices: ["Maths", "Dessin", "Cuisine"], answer: 0 },
     { q: "Quel sport aime Kylian ?", choices: ["Football", "Natation", "Escalade"], answer: 0 }
   ],
   "Karlvin": [
-    { q: "Karlvin résout les énigmes en combien de temps ?", choices: ["Rapide", "Lent", "Jamais"], answer: 0 },
-    { q: "Quel est le challenge préféré de Karlvin ?", choices: ["Difficile", "Facile", "Moyen"], answer: 0 }
+    { q: "Combien il y a t-il de biome (Monde) dans le Scrabble des Licornes ?", choices: ["2", "3", "4"], answer: 1 },
+    { q: "Combien de niveau de difficulté possède le Scrabble des Licornes", choices: ["1", "3", "2"], answer: 1 }
   ],
   "Alexis": [
     { q: "De quel couleur était le mage du jeux Devine le mot?", choices: ["Bleu", "Rouge", "Vert"], answer: 0 },
     { q: "Quel est le super pouvoir du mage ?", choices: ["Eau", "Feux", "Terre"], answer: 1 }
+  ],
+  "Axel": [
+    { q: "Quelle était le thème de la deuxième roue ?", choices: ["Question", "Musique", "Devinette"], answer: 1 },
+    { q: "1+1= ?", choices: ["10", "20", "2"], answer: 2 }
   ]
 };
+
 
 const questions = {
   "Niveau Facile": [
