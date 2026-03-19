@@ -32,7 +32,7 @@ const levels = {
 };
 
 let currentLevel = 1;
-let gameStarted = false; // Start stopped, rails visible
+let gameStarted = true; // Auto start sans game over début
 let progress = 0;
 let jumpY = 0, jumpV = 0, isJumping = false;
 let lives = 3;
@@ -46,6 +46,7 @@ let currentUnicornX = 0, currentUnicornY = 0;
 let fallRotation = 0;
 let fallY = 0;
 let falling = false;
+
 
 let audioCtx;
 document.addEventListener('click', () => audioCtx = new (window.AudioContext || window.webkitAudioContext)(), { once: true });
@@ -210,6 +211,20 @@ function drawPlayer() {
         }
     }
 
+    if (falling) {
+        fallY += 15;
+        fallRotation += 0.2;
+        ctx.save();
+        ctx.translate(pos.x - cameraX, pos.y + jumpY + fallY);
+        ctx.rotate(fallRotation);
+        ctx.drawImage(images.wagon, -100, -100, 140, 140);
+        ctx.translate(0, -40);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(images.dead, -40, -120, 80, 140);
+        ctx.restore();
+        return;
+    }
+
     ctx.save();
     ctx.translate(pos.x - cameraX, pos.y + jumpY);
     ctx.rotate(angle);
@@ -219,6 +234,7 @@ function drawPlayer() {
     ctx.drawImage(images.unicorn, -40, -120, 80, 140);
     ctx.restore();
 }
+
 
 function checkCollision() {
     if (invincible || falling) return;
