@@ -40,9 +40,21 @@
 
     <!-- Level Complete -->
     <div id="level-complete-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 200;">
-
         <div id="level-title" style="font-size: 60px; color: #2ecc71;">NIVEAU TERMINÉ !</div>
         <button class="next-btn" onclick="nextLevel()">NIVEAU SUIVANT</button>
+    </div>
+
+    <!-- Victory Niv 3 -->
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 250;"></canvas>
+    <div id="victory-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 250;">
+        <div id="victory-title" style="font-size: 60px; color: #ffd700;">VICTOIRE TOTALE ! 🎉</div>
+        <p style="font-size: 24px;">Scores cumulés :</p>
+        <p>Pièces: <span id="total-coins">0</span></p>
+        <p>Étoiles: <span id="total-stars">0</span></p>
+        <div style="display: flex; gap: 20px; margin-top: 20px;">
+            <button class="restart-btn" onclick="restartGame()">REJOUER</button>
+            <button class="menu-btn" onclick="goToParty()">RETOUR A LA FETE</button>
+        </div>
     </div>
 
     <!-- End Screen -->
