@@ -157,13 +157,12 @@ if (spinBtn && scene) {
 function getNextPage() {
   const body = document.body;
   if (body.classList.contains('page-wheel3')) {
-    return 'index.html';
-} else if (body.classList.contains('page-wheel2')) {
+    return 'card.html';
+  } else if (body.classList.contains('page-wheel2')) {
     return 'wheel3.html';
   } else {
     return 'wheel2.html';
   }
-
 }
 
 // ============================================
@@ -484,6 +483,7 @@ function showBlindTestQuestion(selectedSong) {
           btn.style.transform = 'scale(0.95)';
           btn.disabled = true;
           
+          enregistrerErreur();
           lives = Math.max(0, lives - 1);
           updateLivesUI();
           
@@ -873,6 +873,23 @@ function pickQuestionFor(label){
 let lives = 3;
 const maxToNext = 3;
 
+function enregistrerErreur() {
+  const bodyClasses = document.body.className;
+  let key;
+  if (bodyClasses.includes('page-wheel2')) key = 'fautesWheel2';
+  else if (bodyClasses.includes('page-wheel3')) key = 'fautesWheel3';
+  else if (bodyClasses.includes('page-wheel')) key = 'fautesWheel1';
+  else return;
+  
+  let fautes = parseInt(localStorage.getItem(key) || '0');
+  fautes++;
+  localStorage.setItem(key, fautes.toString());
+  console.log(`Fautes ${key}: ${fautes} (classes: ${bodyClasses})`);
+  
+  // Reset lives/page au début session
+  if (fautes === 1) lives = 3;
+}
+
 function updateLivesUI(){
   const hearts = document.querySelector('.hearts');
   if(!hearts) return;
@@ -982,6 +999,7 @@ function checkAnswer(choiceIndex, correctIndex){
     return;
   }
 
+  enregistrerErreur();
   lives = Math.max(0, lives - 1);
   updateLivesUI();
   if (clickedBtn) clickedBtn.classList.add('wrong');
