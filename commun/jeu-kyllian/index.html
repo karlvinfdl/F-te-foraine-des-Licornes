@@ -72,115 +72,110 @@
 
 <script>
     const bgMusic = document.getElementById('bgMusic');
-const clickSound = document.getElementById('clickSound'); 
-const btnClickSound = document.getElementById('btnClickSound'); 
-const homeOverlay = document.getElementById('homeOverlay');
-const enterBtn = document.getElementById('enterBtn');
-const menuButtons = document.querySelectorAll('.menu-btn');
+    const clickSound = document.getElementById('clickSound'); 
+    const btnClickSound = document.getElementById('btnClickSound'); 
+    const homeOverlay = document.getElementById('homeOverlay');
+    const enterBtn = document.getElementById('enterBtn');
+    const menuButtons = document.querySelectorAll('.menu-btn');
 
-// Éléments des réglages
-const settingsOverlay = document.getElementById('settingsOverlay');
-const homeSettingsBtn = document.getElementById('homeSettingsBtn');
-const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-const musicSlider = document.getElementById('musicVolume');
-const sfxSlider = document.getElementById('sfxVolume');
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const homeSettingsBtn = document.getElementById('homeSettingsBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const musicSlider = document.getElementById('musicVolume');
+    const sfxSlider = document.getElementById('sfxVolume');
 
-let isStarted = false;
+    let isStarted = false;
 
-// 1. CHARGEMENT ET SYNC INITIALE
-window.addEventListener('DOMContentLoaded', () => {
-    const savedMusic = localStorage.getItem('musicVol') || 0.5;
-    const savedSfx = localStorage.getItem('sfxVol') || 0.7;
-    
-    musicSlider.value = savedMusic;
-    sfxSlider.value = savedSfx;
-    
-    if (bgMusic) bgMusic.volume = savedMusic;
-});
-
-// 2. GESTION DES VOLUMES EN TEMPS RÉEL
-// Pour que l'utilisateur entende le changement dès qu'il bouge le curseur
-musicSlider.oninput = () => {
-    if (bgMusic) bgMusic.volume = musicSlider.value;
-};
-
-// 3. GESTION DE L'OVERLAY (Engrenage en haut à gauche)
-if(homeSettingsBtn) {
-    homeSettingsBtn.onclick = () => {
-        settingsOverlay.style.display = 'flex';
-    };
-}
-
-closeSettingsBtn.onclick = () => {
-    // Sauvegarde définitive
-    localStorage.setItem('musicVol', musicSlider.value);
-    localStorage.setItem('sfxVol', sfxSlider.value);
-    settingsOverlay.style.display = 'none';
-};
-
-// 4. LOGIQUE DE DÉMARRAGE (START)
-function startExperience() {
-    if (isStarted) return;
-    isStarted = true;
-    homeOverlay.classList.add('opened');
-    
-    if(clickSound) {
-        clickSound.volume = sfxSlider.value; // On utilise le volume des bruitages
-        clickSound.play();
-    }
-
-    setTimeout(() => { homeOverlay.style.display = 'none'; }, 1200); 
-
-    if (bgMusic) {
-        bgMusic.volume = 0;
-        bgMusic.play().then(() => {
-            let targetVol = parseFloat(musicSlider.value);
-            let fade = setInterval(() => {
-                if (bgMusic.volume < targetVol) {
-                    // On monte le volume progressivement jusqu'à la valeur du slider
-                    bgMusic.volume = Math.min(targetVol, bgMusic.volume + 0.05);
-                } else { 
-                    clearInterval(fade); 
-                }
-            }, 100);
-        }).catch(e => console.log("L'audio attend une interaction."));
-    }
-}
-
-// 5. BOUTONS DU MENU (JOUER, SCORES...)
-menuButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-        const targetUrl = this.getAttribute('href');
-        if (!targetUrl || targetUrl === "#") return;
-        e.preventDefault(); 
-
-        // Fade out de la musique avant de quitter
-        if (bgMusic) {
-            let fadeOutInterval = setInterval(() => {
-                if (bgMusic.volume > 0.1) { 
-                    bgMusic.volume -= 0.1; 
-                } else { 
-                    bgMusic.pause(); 
-                    clearInterval(fadeOutInterval); 
-                }
-            }, 40);
-        }
-
-        if (btnClickSound) {
-            btnClickSound.volume = sfxSlider.value;
-            btnClickSound.currentTime = 0;
-            btnClickSound.play();
-        }
-
-        setTimeout(() => { window.location.href = targetUrl; }, 1900); 
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedMusic = localStorage.getItem('musicVol') || 0.5;
+        const savedSfx = localStorage.getItem('sfxVol') || 0.7;
+        
+        musicSlider.value = savedMusic;
+        sfxSlider.value = savedSfx;
+        
+        if (bgMusic) bgMusic.volume = savedMusic;
     });
-});
 
-// ÉCOUTEURS START
-if (enterBtn) enterBtn.onclick = startExperience;
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' || e.code === 'Enter') startExperience();
-});
+    musicSlider.oninput = () => {
+        if (bgMusic) bgMusic.volume = musicSlider.value;
+        localStorage.setItem('musicVol', musicSlider.value); // Sauvegarde immédiate
+    };
+
+    // AJOUT : Sauvegarde immédiate du SFX pour les autres pages
+    sfxSlider.oninput = () => {
+        localStorage.setItem('sfxVol', sfxSlider.value);
+    };
+
+    if(homeSettingsBtn) {
+        homeSettingsBtn.onclick = () => {
+            settingsOverlay.style.display = 'flex';
+        };
+    }
+
+    closeSettingsBtn.onclick = () => {
+        localStorage.setItem('musicVol', musicSlider.value);
+        localStorage.setItem('sfxVol', sfxSlider.value);
+        settingsOverlay.style.display = 'none';
+    };
+
+    function startExperience() {
+        if (isStarted) return;
+        isStarted = true;
+        homeOverlay.classList.add('opened');
+        
+        if(clickSound) {
+            clickSound.volume = localStorage.getItem('sfxVol') || 0.7;
+            clickSound.play();
+        }
+
+        setTimeout(() => { homeOverlay.style.display = 'none'; }, 1200); 
+
+        if (bgMusic) {
+            bgMusic.volume = 0;
+            bgMusic.play().then(() => {
+                let targetVol = parseFloat(musicSlider.value);
+                let fade = setInterval(() => {
+                    if (bgMusic.volume < targetVol) {
+                        bgMusic.volume = Math.min(targetVol, bgMusic.volume + 0.05);
+                    } else { 
+                        clearInterval(fade); 
+                    }
+                }, 100);
+            }).catch(e => console.log("L'audio attend une interaction."));
+        }
+    }
+
+    menuButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const targetUrl = this.getAttribute('href');
+            if (!targetUrl || targetUrl === "#") return;
+            e.preventDefault(); 
+
+            if (bgMusic) {
+                let fadeOutInterval = setInterval(() => {
+                    if (bgMusic.volume > 0.1) { 
+                        bgMusic.volume -= 0.1; 
+                    } else { 
+                        bgMusic.pause(); 
+                        clearInterval(fadeOutInterval); 
+                    }
+                }, 40);
+            }
+
+            if (btnClickSound) {
+                btnClickSound.volume = localStorage.getItem('sfxVol') || 0.7;
+                btnClickSound.currentTime = 0;
+                btnClickSound.play();
+            }
+
+            setTimeout(() => { window.location.href = targetUrl; }, 1900); 
+        });
+    });
+
+    if (enterBtn) enterBtn.onclick = startExperience;
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') startExperience();
+    });
 </script>
 </body>
 </html>

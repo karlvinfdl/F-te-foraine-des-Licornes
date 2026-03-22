@@ -22,7 +22,7 @@
       
       <div class="info-block">
         <div class="block-image">
-          <img src="../assets/images/Thumbail1.png" alt="Step 1">
+          <img src="../assets/images/Miniature.png" alt="Step 1">
         </div>
         <div class="block-text">
           Cliquer sur le plus de cibles possibles pour gagner le plus de points.
@@ -39,14 +39,17 @@
       </div>
 
 
+
       <div class="info-block">
         <div class="block-image">
-          <img src="../assets/images/Thumbail.png" alt="Step 3">
+          <img src="../assets/images/0074.png" alt="Step 2">
         </div>
         <div class="block-text">
-          Enchainer les clics sur vos cibles pour obenir des bonus combo et d’achevement
+          Cliquez sur les cibles bonus pour gagner beaucoup de points rapidement
         </div>
       </div>
+
+
 
     </div>
 
@@ -73,39 +76,39 @@
       <ul class="items-list">
         <li>
           <div class="item-icon"><img src="../assets/images/Licornes-Package.png" class="img-licornes-groupe" alt="Licornes"></div>
-          <div class="item-desc"><strong>Cibles Normales (+10pts) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
+          <div class="item-desc"><strong>Cibles Normales (+25pts) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
         </li>
         <li>
           <div class="item-icon"><img src="../assets/images/Litimes.gif" class="starvy-img" alt="Starvy"></div>
-          <div class="item-desc"><strong>Starvy (+10s) :</strong> Rajoute 15 secondes de temps suplémentaire </div>
+          <div class="item-desc"><strong>Starvy (+10s & 120pts) :</strong> Rajoute 10 secondes de temps suplémentaire et donne 200pts </div>
         </li>
-        <li>
-          <div class="item-icon"><img src="../assets/images/Bomb.gif" alt="Bombe"></div>
-          <div class="item-desc"><strong>Bomby (-150pts) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
-        </li> 
-        <li>
+       <li>
           <div class="item-icon"><img src="../assets/images/OVNI.gif" alt="OVNI"></div>
-          <div class="item-desc"><strong>OVNI (+30pts) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
+          <div class="item-desc"><strong>OVNI (+180pts) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
         </li>
          <li>
-          <div class="item-icon"><img src="../assets/images/Lakitu.png" alt="Lakitu"></div>
-          <div class="item-desc"><strong>Lakitu (+) :</strong> Distribue des cibles classique et bonus à travers la map, cliquez 3 fois dessus pour découvrir la surprise qu'il cache... </div>
+          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
+          <div class="item-desc"><strong>Yami (-250pts) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
         </li>
         <li>
           <div class="item-icon"><img src="../assets/images/Boshi.png" alt="Boshi"></div>
-          <div class="item-desc"><strong>Boshi (+50) :</strong>Destrier caché de Lakitu n'apparait seulement qu'après avoir abattu sa monture nuage, fixe les pts gagné à 50 pendant 10 secondes sur n'importe quel cible (hors malus)</div>
+          <div class="item-desc"><strong>Boshi (+90) :</strong>Destrier caché de Lakitu n'apparait en tant que cible récurente seulement qu'après avoir abattu sa monture nuage, fixe les pts gagné à 50 pendant 10 secondes sur n'importe quel cible (hors malus)</div>
         </li>
         <li>
-          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
-          <div class="item-desc"><strong>Yami (-50pts) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
-        </li>
+          <div class="item-icon"><img src="../assets/images/Lakitu.png" alt="Lakitu"></div>
+          <div class="item-desc"><strong>Lakitu (+320) :</strong> Distribue des Boshis et bonus à travers la map, cliquez 3 fois dessus pour découvrir la surprise qu'il cache... </div>
+        </li> 
+        <li>
+          <div class="item-icon"><img src="../assets/images/Bomb.gif" alt="Bombe"></div>
+          <div class="item-desc"><strong>Bomby (-320pts) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
+        </li> 
          <li>
           <div class="item-icon"><img src="../assets/images/Evil_Lakitu.png" alt="Evil-Lakitu"></div>
-          <div class="item-desc"><strong>Evil Lakitu (-) :</strong> Distribue des cibles malus à travers la map, si vous le voyer évitez de lui cliquer dessus à vos dépends... </div>
+          <div class="item-desc"><strong>Evil Lakitu (-550pts) :</strong> Distribue des Bomby à travers la map, si vous le voyer évitez de lui cliquer dessus à vos dépends... </div>
         </li>
         <li>
           <div class="item-icon"><img src="../assets/images/Chien.gif" alt="Chien"></div>
-          <div class="item-desc"><strong>Tokyo (+500) :</strong> Ultra rare ! Rapporte enormement de points et un boost de combo.</div>
+          <div class="item-desc"><strong>Tokyo (+600) :</strong> Ultra rare ! Rapporte enormement de points et un boost de combo.</div>
         </li>
       </ul>
     </div>
@@ -124,7 +127,6 @@
 <audio id="closeRules" src="../assets/sounds/Off_Rules.mp3"></audio>
 
 <script>
-    // 1. Récupération des éléments audio et navigation
     const rulMusic = document.getElementById('RulMusic');
     const clickRulesSound = document.getElementById('clickRules'); 
     const closeRulesSound = document.getElementById('closeRules'); 
@@ -134,16 +136,20 @@
     const closeBtn = document.getElementById('close-btn');
     const btnStart = document.getElementById('btnStart');
 
-    // --- GESTION DU SON AU CHARGEMENT ---
+    // --- SYNCHRONISATION DES VOLUMES ---
+    const getSavedMusicVol = () => parseFloat(localStorage.getItem('musicVol') || 0.5);
+    const getSavedSfxVol = () => parseFloat(localStorage.getItem('sfxVol') || 0.7);
+
     window.addEventListener('load', () => {
         if (rulMusic) {
+            const targetMusicVol = getSavedMusicVol();
             rulMusic.volume = 0; 
             rulMusic.play().then(() => {
                 let fadeIn = setInterval(() => {
-                    if (rulMusic.volume < 0.4) {
-                        rulMusic.volume += 0.05;
+                    // On monte jusqu'au volume sauvegardé au lieu de 1
+                    if (rulMusic.volume < targetMusicVol) {
+                        rulMusic.volume = Math.min(targetMusicVol, rulMusic.volume + 0.05);
                     } else {
-                        rulMusic.volume = 1;
                         clearInterval(fadeIn);
                     }
                 }, 100);
@@ -151,9 +157,9 @@
         }
     });
 
-    // --- GESTION DE LA MODALE ---
     openBtn.addEventListener('click', (e) => {
         if (clickRulesSound) {
+            clickRulesSound.volume = getSavedSfxVol(); // Applique le volume SFX
             clickRulesSound.currentTime = 0;
             clickRulesSound.play();
         }
@@ -163,6 +169,7 @@
     closeBtn.addEventListener('click', (e) => {
         e.stopPropagation(); 
         if (closeRulesSound) {
+            closeRulesSound.volume = getSavedSfxVol(); // Applique le volume SFX
             closeRulesSound.currentTime = 0;
             closeRulesSound.play();
         }
@@ -172,6 +179,7 @@
     modal.addEventListener('click', (e) => {
         if(e.target === modal) {
             if (closeRulesSound) {
+                closeRulesSound.volume = getSavedSfxVol();
                 closeRulesSound.currentTime = 0;
                 closeRulesSound.play();
             }
@@ -179,11 +187,7 @@
         }
     });
 
-
-    
-    // --- FONCTION COMMUNE POUR QUITTER LA PAGE ---
     const leavePage = () => {
-        // On évite de relancer si le fondu est déjà en cours
         if (btnStart.classList.contains('leaving')) return;
         btnStart.classList.add('leaving');
 
@@ -201,16 +205,10 @@
         }
     };
 
-    // --- DÉCLENCHEURS POUR CONTINUER ---
-    
-    // 1. Clic sur le texte
     btnStart.onclick = leavePage;
 
-    // 2. Touches Espace ou Entrée
     document.addEventListener('keydown', (e) => {
-        // On vérifie si la modale est ouverte pour ne pas quitter par erreur en fermant la modale
         const isModalOpen = modal.classList.contains('active');
-        
         if ((e.key === "Enter" || e.key === " ") && !isModalOpen) {
             leavePage();
         }

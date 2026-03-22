@@ -52,18 +52,20 @@ window.onload = () => {
     const creditsText = document.getElementById('dynamicCreditsText');
     const btnRetry = document.getElementById('btnRetry');
     const btnHome = document.getElementById('btnHome');
-    const endMusic = document.getElementById('EndMusic'); // TA MUSIQUE
+    const endMusic = document.getElementById('EndMusic'); 
 
-    // --- LANCEMENT DE LA MUSIQUE ---
+    // --- LANCEMENT DE LA MUSIQUE SYNCHRONISÉ ---
     if (endMusic) {
-        endMusic.play().catch(e => console.log("Lecture auto bloquée par le navigateur"));
+        const savedVol = localStorage.getItem('musicVol') || 0.5;
+        endMusic.volume = parseFloat(savedVol); // On applique ton réglage ici
+        endMusic.play().catch(e => console.log("Lecture auto bloquée"));
     }
 
     // Affichage texte initial
     if (finalScoreDisplay) finalScoreDisplay.textContent = `${playerName} : ${lastScore}`;
     if (finalRankElement) finalRankElement.textContent = rank > 0 ? rank : "-";
 
-    // 4. LOGIQUE DYNAMIQUE DU PODIUM (1, 2, 3)
+    // 4. LOGIQUE DYNAMIQUE DU PODIUM (Le reste de ton code ne change pas)
     let confettiColors = ['#f5c2cf', '#000000']; 
 
     if (rank >= 1 && rank <= 3) {
@@ -106,7 +108,6 @@ window.onload = () => {
         });
     }
 
-    // 5. Texte Lakitu
     if (creditsText) {
         creditsText.innerHTML = `
             <p><strong>Bravo ${playerName} !</strong></p>
@@ -114,7 +115,6 @@ window.onload = () => {
         `;
     }
 
-    // 6. CONFETTIS (Gauche/Droite pour tous, Double pour le 1er)
     if (typeof confetti === 'function') {
         const fire = (particleCount, velocity, angle, x) => {
             confetti({
@@ -125,12 +125,8 @@ window.onload = () => {
                 colors: confettiColors
             });
         };
-
-        // Première salve latérale (Tout le monde)
         fire(100, 60, 60, 0.1);  
         fire(100, 60, 120, 0.9); 
-
-        // Deuxième salve (Seulement pour le premier)
         if (rank === 1) {
             setTimeout(() => {
                 fire(150, 70, 60, 0.1);  
@@ -139,7 +135,6 @@ window.onload = () => {
         }
     }
 
-    // 7. NAVIGATION AVEC FADE OUT MUSIQUE
     const fadeOutAndRedirect = (url) => {
         if (endMusic) {
             let fade = setInterval(() => {

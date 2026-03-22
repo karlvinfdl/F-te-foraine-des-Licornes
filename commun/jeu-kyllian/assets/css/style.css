@@ -147,8 +147,8 @@ body.page-accueil_3 {
 }
 
 @keyframes cloudsMove {
-    from { background-position: 0 0; }
-    to { background-position:  0 2000px; }
+    from { background-position: -2000px 0; }
+    to { background-position: 0 0; }
 }
 
 
@@ -844,12 +844,12 @@ body.world_1 { background: url('../assets/images/bg_level_1.png') center/cover #
    background-attachment: fixed;
    transition: transform 0.1s ease-out; /* Pour un retour au calme fluide */}
 
-body.world_2 { background: url('../assets/images/bg_level_2.png') center/cover #535353; 
+body.world_2 { background: url('../assets/images/bg_level_2.png') center/cover #506396; 
     background-size: cover;
     background-attachment: fixed;
     transition: transform 0.1s ease-out; /* Pour un retour au calme fluide */}
 
-body.world_3 { background: url('../assets/images/bg_level_3.png') center/cover #506396;
+body.world_3 { background: url('../assets/images/bg_level_3.png') center/cover #535353;
     background-size: cover;
     background-attachment: fixed;
     transition: transform 0.1s ease-out; /* Pour un retour au calme fluide */ }
@@ -901,7 +901,7 @@ body.world_2::before  {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("../images/Evil_Good_Lakitu.gif") repeat;
+    background: url("../images/Entry_Cloud.gif") repeat;
     background-size: 300px;
     opacity: 0.25;
     pointer-events: none;
@@ -914,17 +914,13 @@ body.world_3::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("../images/Clouds_2.gif") repeat;
+    background: url("../images/Evil_Good_Lakitu.gif") repeat;
     background-size: 300px;
     opacity: 0.25;
     pointer-events: none;
     animation: cloudsMove 60s linear infinite;
   }
 
-@keyframes cloudsMove {
-    from { background-position: 0 0; }
-    to { background-position: -2000px 0; }
-}
 
 
 /* UI Niveau & Pause */
@@ -1094,7 +1090,7 @@ body.world_3::before {
 
 .boshi-target {
     animation: boshi-sparkle 0.8s infinite alternate;
-    width: 130px;
+    width: 110px;
     z-index: 15;
 }
 

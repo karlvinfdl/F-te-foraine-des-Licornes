@@ -11,7 +11,7 @@ class UnicornShooter {
         this.isPaused = false;
         this.currentLevel = 1;
         this.difficultyMultiplier = 0.75; 
-        this.spawnRate = 1300; 
+        this.spawnRate = 700; 
         this.pseudo = "JOUEUR";
         this.targets = []; 
         this.timerInterval = null;
@@ -240,7 +240,7 @@ class UnicornShooter {
     }
 
     checkTimeAlert() {
-        if (this.timeLeft <= 10 && this.timeLeft > 0) {
+        if (this.timeLeft <= 12 && this.timeLeft > 0) {
             if (!this.isLowTimeActive) {
                 this.isLowTimeActive = true;
                 this.timerElement.classList.add('low-time-alert');
@@ -284,31 +284,43 @@ class UnicornShooter {
     }
 
     spawnLoop() {
-        if (this.isPlaying && !this.isPaused) {
+       if (this.isPlaying && !this.isPaused) {
             let img;
             let rand = Math.random();
-            
-            if (rand < 0.10) { 
+
+            // 1. LES RARETÉS FIXES (Priorité haute)
+            if (rand < 0.02) {
+                img = '../assets/images/Chien.gif'; 
+            } else if (rand < 0.07) { 
                 img = '../assets/images/Litimes.gif'; 
-            } else if (this.currentLevel >= 2 && rand < 0.11) {
+            } else if (rand < 0.10) {
+                img = '../assets/images/OVNI.gif'; // L'OVNI apparaît enfin (3% de chance)
+            } 
+            
+            // 2. LES APPARITIONS CONDITIONNELLES (Niveau 2+)
+            else if (this.currentLevel >= 2 && rand < 0.13) {
                 img = '../assets/images/Lakitu.gif';
-            } else if (this.currentLevel >= 2 && rand < 0.15) {
+            } else if (this.currentLevel >= 2 && rand < 0.17) {
                 img = '../assets/images/Evil_Lakitu.gif';
-            } else if (rand < 0.17) {
-                img = '../assets/images/Chien.gif';
-            } else if (rand < 0.27) {
-                img = '../assets/images/Bomb.gif';
-            } else if (rand < 0.35) {
-                img = '../assets/images/OVNI.gif';
-            } else if (rand < 0.45) {
-                img = '../assets/images/Licornes-3.png';
-            } else {
-                if (this.boshiUnlocked && Math.random() > 0.3) {
+            } 
+
+            // 3. LES MALUS GÉNÉRAUX (Ajustés selon le niveau)
+            // On utilise une marge plus large pour être sûr qu'ils sortent
+            else if (rand < (0.22 + (this.currentLevel * 0.03))) {
+                // Cette plage couvre environ 5 à 10% du spawn total
+                // On alterne entre Bombe et Licorne-3 pour plus de variété
+                img = Math.random() > 0.5 ? '../assets/images/Bomb.gif' : '../assets/images/Licornes-3.png';
+            } 
+            
+            // 4. LE BLOC COMMUN (Licornes de base + Boshi)
+            else {
+                if (this.boshiUnlocked && Math.random() < 0.15) {
                     img = '../assets/images/Boshi.png';
                 } else {
                     img = this.targetImages[Math.floor(Math.random() * this.targetImages.length)];
                 }
             }
+
             
             this.targets.push(new Target(img, this));
         }
@@ -353,9 +365,9 @@ class UnicornShooter {
 
         const commentElement = document.getElementById('endComment');
         if (this.score === 0) commentElement.textContent = "Tu as dormi ???";
-        else if (this.score < 600) commentElement.textContent = "Pas ouf, tout ça...";
-        else if (this.score < 1200) commentElement.textContent = "Mouais pas trop mal...";
-        else if (this.score < 2200) commentElement.textContent = "Je dirai pas que t'es meilleur mais tu progresses...";
+        else if (this.score < 1200) commentElement.textContent = "Pas ouf, tout ça...";
+        else if (this.score < 3000) commentElement.textContent = "Mouais pas trop mal...";
+        else if (this.score < 5500) commentElement.textContent = "Je dirai pas que t'es meilleur mais tu progresses...";
         else commentElement.textContent = "Mais c'est que tu commences à devenir bon dis moi !";
 
         const continueBtn = document.querySelector('.click-to-continue');
@@ -430,7 +442,6 @@ class Target {
             this.element.style.height = "auto";
         }
         if (this.isBoshi) {
-            this.element.style.width = "75px";
             this.element.style.height = "auto";
         }
 
@@ -447,38 +458,38 @@ class Target {
             this.x = this.side === 'left' ? -150 : window.innerWidth + 150;
             this.y = Math.random() * (window.innerHeight * 0.4);
             
-            // Vitesse horizontale très rapide
-            let speed = 8.5; 
+            // Vitesse horizontale ralentie
+            let speed = 4.0; 
             this.vx = this.side === 'left' ? (speed * mult) : -(speed * mult);
             this.vy = 0;
             this.gravity = 0;
-            // Rotation sur elle-même très rapide
-            this.rotationSpeed = 25; 
+            // Rotation ralentie
+            this.rotationSpeed = 10; 
         } 
         else if (isDropped) {
-            this.gravity = 0.03 * mult; 
-            this.vx = (Math.random() - 0.5) * 1.5 * mult; 
-            this.vy = 0.5 * mult;
+            this.gravity = 0.015 * mult; 
+            this.vx = (Math.random() - 0.5) * 0.8 * mult; 
+            this.vy = 0.25 * mult;
             this.x = 0; 
             this.y = 0;
-            this.rotationSpeed = (Math.random() - 0.5) * 2;
+            this.rotationSpeed = (Math.random() - 0.5) * 1;
         } 
         else if (this.isUFO || this.isLakitu || this.isEvilLakitu) {
             this.side = Math.random() > 0.5 ? 'left' : 'right';
             this.x = this.side === 'left' ? -150 : window.innerWidth + 150;
             this.y = Math.random() * (window.innerHeight * 0.25);
-            let speed = (this.isLakitu || this.isEvilLakitu) ? 1.0 : 2.0; 
+            let speed = (this.isLakitu || this.isEvilLakitu) ? 0.5 : 1.0; 
             this.vx = this.side === 'left' ? (speed * mult * levelSlowdown) : -(speed * mult * levelSlowdown);
-            this.vy = (Math.random() - 0.5) * 0.5; 
+            this.vy = (Math.random() - 0.5) * 0.25; 
             this.gravity = 0;
             this.rotationSpeed = 0;
         } else {
             this.x = Math.random() * (window.innerWidth - 270);
             this.y = window.innerHeight;
-            this.gravity = 0.025 * mult * levelSlowdown; 
-            this.vy = -(7.5 + Math.random() * 2) * mult; 
-            this.vx = (Math.random() - 0.5) * 2.5 * mult;
-            this.rotationSpeed = (Math.random() - 0.5) * 4;
+            this.gravity = 0.012 * mult * levelSlowdown; 
+            this.vy = -(4.0 + Math.random() * 1.5) * mult; 
+            this.vx = (Math.random() - 0.5) * 1.2 * mult;
+            this.rotationSpeed = (Math.random() - 0.5) * 2;
         }
 
         this.rotation = 0;
@@ -527,20 +538,20 @@ class Target {
 
         if (this.isBoshi) {
             if (this.game.boshiSound) { this.game.boshiSound.currentTime = 0; this.game.boshiSound.play(); }
-            this.game.score += 50;
+            this.game.score += 90;
             this.game.activateSuperCombo();
             this.showFloatingText("SUPER BOSHI! COMBO MAX", centerX, centerY, false, "#0077ff");
             this.createParticles(centerX, centerY, "#0077ff");
         } else if (this.isStarUnicorn) {
             if (this.game.guhaSound) { this.game.guhaSound.currentTime = 0; this.game.guhaSound.play(); }
             this.game.timeLeft += 10; 
-            this.game.score += 100;
+            this.game.score += 120;
             this.showFloatingText("TIME BONUS +10s!", centerX, centerY, false, "#FFD700");
             this.createParticles(centerX, centerY, "#FFD700");
             this.game.checkTimeAlert(); 
         } else if (this.isLakitu) {
             if (this.game.lakituSaveSound) { this.game.lakituSaveSound.currentTime = 0; this.game.lakituSaveSound.play(); }
-            this.game.score += 200; 
+            this.game.score += 320; 
             this.game.boshiUnlocked = true;
             this.showFloatingText("LAKITU LOOT!", centerX, centerY, false, "#00FF00");
             this.createParticles(centerX, centerY, "#FFFFFF");
@@ -552,7 +563,7 @@ class Target {
             this.game.targets.forEach(t => { if(t.isBomb) t.convertToBonus(); });
         } else if (this.isEvilLakitu) {
             if (this.game.lakituEvilSound) { this.game.lakituEvilSound.currentTime = 0; this.game.lakituEvilSound.play(); }
-            this.game.score = Math.max(0, this.game.score - 100);
+            this.game.score = Math.max(0, this.game.score - 550);
             this.showFloatingText("CHAOS & BOMBS!", centerX, centerY, true, "#FF0000");
             this.createParticles(centerX, centerY, "evil");
             const flash = document.createElement('div');
@@ -567,23 +578,23 @@ class Target {
             if (this.game.bombSound) { this.game.bombSound.currentTime = 0; this.game.bombSound.play(); }
             document.body.classList.add('screen-shake');
             setTimeout(() => document.body.classList.remove('screen-shake'), 500);
-            this.game.score = Math.max(0, this.game.score - 50); this.game.comboCount = 0;
-            this.showFloatingText("-50", centerX, centerY, true);
+            this.game.score = Math.max(0, this.game.score - 280); this.game.comboCount = 0;
+            this.showFloatingText("BOMBY -320", centerX, centerY, true);
             this.createParticles(centerX, centerY, "black");
         } else if (this.isDog) {
             if (this.game.dogSound) { this.game.dogSound.currentTime = 0; this.game.dogSound.play(); }
-            this.game.score += 500;
-            this.showFloatingText("EASTER EGG +500!", centerX, centerY, false, "#00FF00");
+            this.game.score += 600;
+            this.showFloatingText("EASTER EGG +600!", centerX, centerY, false, "#00FF00");
             this.createParticles(centerX, centerY, "#00FF00");
         } else if (this.isUFO) {
             if (this.game.ufoSound) { this.game.ufoSound.currentTime = 0; this.game.ufoSound.play(); }
-            this.game.score += 150;
-            this.showFloatingText("UFO +150!", centerX, centerY, false, "#00FFFF");
+            this.game.score += 180;
+            this.showFloatingText("UFO +180!", centerX, centerY, false, "#00FFFF");
             this.createParticles(centerX, centerY, "ufo");
         } else if (this.isEvilLicorne) {
             if (this.game.evilSound) { this.game.evilSound.currentTime = 0; this.game.evilSound.play(); }
-            this.game.score = Math.max(0, this.game.score - 40); this.game.comboCount = 0;
-            this.showFloatingText("-40", centerX, centerY, true);
+            this.game.score = Math.max(0, this.game.score - 250); this.game.comboCount = 0;
+            this.showFloatingText("-250", centerX, centerY, true);
             this.createParticles(centerX, centerY, "evil");
         } else {
             const now = Date.now();
@@ -592,7 +603,7 @@ class Target {
             this.game.lastHitTime = now;
             const s = this.game.popSounds[Math.floor(Math.random() * this.game.popSounds.length)];
             if (s) { s.currentTime = 0; s.play(); }
-            let pts = this.game.isSuperComboActive ? 50 : (10 * this.game.comboCount); 
+            let pts = this.game.isSuperComboActive ? 50 : (25 * this.game.comboCount); 
             this.game.score += pts;
             this.showFloatingText(`+${pts}`, centerX, centerY, false);
             this.createParticles(centerX, centerY, "#ff00ff");
@@ -604,8 +615,8 @@ class Target {
         const loot = new Target(img, this.game, true);
         loot.x = x; 
         loot.y = y;
-        loot.vx = (Math.random() - 0.5) * 6; 
-        loot.vy = -3 - Math.random() * 3;     
+        loot.vx = (Math.random() - 0.5) * 3; 
+        loot.vy = -1.5 - Math.random() * 1.5;     
         this.game.targets.push(loot);
     }
 
