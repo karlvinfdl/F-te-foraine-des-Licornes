@@ -20,6 +20,14 @@ class UnicornShooter {
         this.lastHitTime = 0;
         this.comboFreezeUntil = 0; 
 
+        // --- ÉTATS BOSHI & SUPER COMBO ---
+        this.isSuperComboActive = false;
+        this.superComboTimer = null;
+        this.boshiUnlocked = false;
+
+        // --- ÉTAT DÉCOMPTE FINAL ---
+        this.isLowTimeActive = false;
+
         // --- Récupération des éléments HTML ---
         this.gameArea = document.getElementById('levelContainer');
         this.scoreElement = document.getElementById('scoreValue');
@@ -52,9 +60,13 @@ class UnicornShooter {
         this.lakituSaveSound = document.getElementById('lakituSaveSound');
         this.lakituEvilSound = document.getElementById('lakituEvilSound');
         this.lakituHitSound = document.getElementById('lakituHitSound');
+        this.starSound = document.getElementById('starSound');
+        this.guhaSound = document.getElementById('guhaSound');
+        this.boshiSound = document.getElementById('boshiSound');
+        this.timerBeepSound = document.getElementById('timerBeepSound'); 
 
         this.updateMusicElement();
-        this.applyVolumes(); // Appliquer les volumes dès le début
+        this.applyVolumes();
 
         this.targetImages = [
             '../assets/images/Licornes-1.png', '../assets/images/Licornes-2.png',
@@ -65,6 +77,16 @@ class UnicornShooter {
         this.setupPause();
         this.setupKeyboard();
         this.setupSettings();
+    }
+
+    activateSuperCombo() {
+        this.isSuperComboActive = true;
+        if (this.superComboTimer) clearTimeout(this.superComboTimer);
+        this.scoreElement.style.color = "#0077ff"; 
+        this.superComboTimer = setTimeout(() => {
+            this.isSuperComboActive = false;
+            this.scoreElement.style.color = ""; 
+        }, 10000);
     }
 
     applyVolumes() {
@@ -78,7 +100,8 @@ class UnicornShooter {
         const allSfx = [
             ...this.popSounds, this.countDownSound, this.resumeSound, this.endLevelSound,
             this.bombSound, this.dogSound, this.ufoSound, this.evilSound,
-            this.lakituSaveSound, this.lakituEvilSound, this.lakituHitSound
+            this.lakituSaveSound, this.lakituEvilSound, this.lakituHitSound, 
+            this.starSound, this.timerBeepSound
         ];
         allSfx.forEach(s => { if(s) s.volume = sVol; });
     }
@@ -86,7 +109,6 @@ class UnicornShooter {
     setupSettings() {
         if(this.settingsBtn) {
             this.settingsBtn.onclick = () => { 
-                // Fix z-index et affichage devant la pause
                 this.settingsOverlay.style.zIndex = "3000";
                 this.settingsOverlay.style.display = 'flex'; 
             };
@@ -154,7 +176,6 @@ class UnicornShooter {
 
     setupKeyboard() {
         window.addEventListener('keydown', (e) => {
-            // Changement de niveau via Clavier
             if (this.endOverlay.style.display === "flex") {
                 if (e.code === "Space" || e.code === "Enter") {
                     e.preventDefault();
@@ -164,7 +185,6 @@ class UnicornShooter {
                 return;
             }
 
-            // Gestion de la pause en jeu
             if (!this.isPlaying) return;
             if (e.code === "Space" || e.code === "Escape") {
                 e.preventDefault(); 
@@ -185,6 +205,7 @@ class UnicornShooter {
             this.gameArea.style.pointerEvents = 'none';
             this.gameArea.style.filter = "blur(4px)";
             if (this.bgMusic) this.bgMusic.pause();
+            if (this.timerBeepSound) this.timerBeepSound.pause();
             clearInterval(this.timerInterval);
             clearTimeout(this.spawnTimeout);
         } else {
@@ -192,6 +213,7 @@ class UnicornShooter {
             this.gameArea.style.pointerEvents = 'auto';
             this.gameArea.style.filter = "none";
             if (this.bgMusic) this.bgMusic.play();
+            if (this.isLowTimeActive && this.timerBeepSound) this.timerBeepSound.play();
             this.startTimer();
             this.spawnLoop();
         }
@@ -217,12 +239,38 @@ class UnicornShooter {
         }, 3000);
     }
 
+    checkTimeAlert() {
+        if (this.timeLeft <= 10 && this.timeLeft > 0) {
+            if (!this.isLowTimeActive) {
+                this.isLowTimeActive = true;
+                this.timerElement.classList.add('low-time-alert');
+                if (this.timerBeepSound) {
+                    this.timerBeepSound.currentTime = 0;
+                    this.timerBeepSound.loop = true;
+                    this.timerBeepSound.play().catch(e => console.log("Audio bloqué"));
+                }
+            }
+        } else {
+            if (this.isLowTimeActive) this.stopTimeAlert();
+        }
+    }
+
+    stopTimeAlert() {
+        this.isLowTimeActive = false;
+        this.timerElement.classList.remove('low-time-alert');
+        if (this.timerBeepSound) {
+            this.timerBeepSound.pause();
+            this.timerBeepSound.currentTime = 0;
+        }
+    }
+
     startTimer() {
         if (this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(() => {
             if (this.isPlaying && !this.isPaused) {
                 this.timeLeft--;
                 this.updateUI();
+                this.checkTimeAlert();
                 if (this.timeLeft <= 0) this.endGame();
             }
         }, 1000);
@@ -239,13 +287,28 @@ class UnicornShooter {
         if (this.isPlaying && !this.isPaused) {
             let img;
             let rand = Math.random();
-            if (this.currentLevel >= 2 && rand < 0.006) img = '../assets/images/Lakitu.gif';
-            else if (this.currentLevel >= 2 && rand < 0.04) img = '../assets/images/Evil_Lakitu.gif';
-            else if (rand < 0.045) img = '../assets/images/Chien.gif';
-            else if (rand < 0.12) img = '../assets/images/Bomb.gif';
-            else if (rand < 0.18) img = '../assets/images/OVNI.gif';
-            else if (rand < 0.30) img = '../assets/images/Licornes-3.png';
-            else img = this.targetImages[Math.floor(Math.random() * this.targetImages.length)];
+            
+            if (rand < 0.10) { 
+                img = '../assets/images/Litimes.gif'; 
+            } else if (this.currentLevel >= 2 && rand < 0.11) {
+                img = '../assets/images/Lakitu.gif';
+            } else if (this.currentLevel >= 2 && rand < 0.15) {
+                img = '../assets/images/Evil_Lakitu.gif';
+            } else if (rand < 0.17) {
+                img = '../assets/images/Chien.gif';
+            } else if (rand < 0.27) {
+                img = '../assets/images/Bomb.gif';
+            } else if (rand < 0.35) {
+                img = '../assets/images/OVNI.gif';
+            } else if (rand < 0.45) {
+                img = '../assets/images/Licornes-3.png';
+            } else {
+                if (this.boshiUnlocked && Math.random() > 0.3) {
+                    img = '../assets/images/Boshi.png';
+                } else {
+                    img = this.targetImages[Math.floor(Math.random() * this.targetImages.length)];
+                }
+            }
             
             this.targets.push(new Target(img, this));
         }
@@ -258,7 +321,7 @@ class UnicornShooter {
         if (this.isPlaying && !this.isPaused) {
             this.targets.forEach((target, index) => {
                 target.move();
-                if (target.y > window.innerHeight + 100 || target.x > window.innerWidth + 300 || target.x < -300) {
+                if (target.y > window.innerHeight + 100 || target.y < -200 || target.x > window.innerWidth + 300 || target.x < -300) {
                     target.remove();
                     this.targets.splice(index, 1);
                 }
@@ -280,12 +343,21 @@ class UnicornShooter {
         this.isPlaying = false;
         clearInterval(this.timerInterval);
         clearTimeout(this.spawnTimeout);
+        this.stopTimeAlert();
+
         if (this.endLevelSound) { this.endLevelSound.currentTime = 0; this.endLevelSound.play(); }
         this.fadeOutAndStopMusic();
         this.totalScore += this.score;
         document.getElementById('finalScore').textContent = this.score;
         this.endOverlay.style.display = "flex";
-        
+
+        const commentElement = document.getElementById('endComment');
+        if (this.score === 0) commentElement.textContent = "Tu as dormi ???";
+        else if (this.score < 600) commentElement.textContent = "Pas ouf, tout ça...";
+        else if (this.score < 1200) commentElement.textContent = "Mouais pas trop mal...";
+        else if (this.score < 2200) commentElement.textContent = "Je dirai pas que t'es meilleur mais tu progresses...";
+        else commentElement.textContent = "Mais c'est que tu commences à devenir bon dis moi !";
+
         const continueBtn = document.querySelector('.click-to-continue');
         if (continueBtn) {
             continueBtn.onclick = (e) => {
@@ -300,6 +372,7 @@ class UnicornShooter {
         this.currentLevel++;
         this.updateMusicElement();
         this.applyVolumes();
+        this.boshiUnlocked = false; 
         document.body.className = `world_${this.currentLevel}`;
         document.querySelector('.current-level').textContent = `Level ${this.currentLevel}`;
         this.endOverlay.style.display = "none";
@@ -311,7 +384,17 @@ class UnicornShooter {
         this.initLevel();
     }
 
-    finishGame() { window.location.href = "scores.html"; }
+    finishGame() { 
+        let leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
+        const newEntry = { name: this.pseudo, score: this.totalScore };
+        leaderboard.push(newEntry);
+        leaderboard.sort((a, b) => b.score - a.score);
+        leaderboard = leaderboard.slice(0, 15);
+        localStorage.setItem('unicornLeaderboard', JSON.stringify(leaderboard));
+        localStorage.setItem('lastFinalScore', this.totalScore);
+        localStorage.setItem('lastPlayerName', this.pseudo);
+        window.location.href = "scores.html"; 
+    }
 }
 
 /**
@@ -330,6 +413,8 @@ class Target {
         this.isEvilLicorne = imgSrc.includes('Licornes-3.png');
         this.isLakitu = imgSrc.includes('Lakitu.gif') && !imgSrc.includes('Evil');
         this.isEvilLakitu = imgSrc.includes('Evil_Lakitu.gif');
+        this.isStarUnicorn = imgSrc.includes('Litimes.gif');
+        this.isBoshi = imgSrc.includes('Boshi.png');
 
         if (this.isBomb) this.element.classList.add('bomb-target');
         if (this.isDog) this.element.classList.add('dog-target');
@@ -337,18 +422,48 @@ class Target {
         if (this.isEvilLicorne) this.element.classList.add('evil-target');
         if (this.isLakitu) this.element.classList.add('lakitu-target');
         if (this.isEvilLakitu) this.element.classList.add('evil-lakitu-target');
+        if (this.isStarUnicorn) this.element.classList.add('star-target');
+        if (this.isBoshi) this.element.classList.add('boshi-target');
 
-        this.hp = this.isLakitu ? 3 : (this.isEvilLakitu ? 2 : 1);
+        if (this.isLakitu || this.isEvilLakitu) {
+            this.element.style.width = "90px";
+            this.element.style.height = "auto";
+        }
+        if (this.isBoshi) {
+            this.element.style.width = "75px";
+            this.element.style.height = "auto";
+        }
+
+        this.hp = this.isLakitu ? 3 : 1; 
         this.dropTimer = 0;
 
         const mult = this.game.difficultyMultiplier;
         const levelSlowdown = 1 + (this.game.currentLevel - 1) * 0.15;
 
-        if (isDropped) {
-            this.gravity = 0.05 * mult; 
+        // --- GESTION SPÉCIFIQUE LICORNE ÉTOILE (SPEED & SPIN) ---
+        if (this.isStarUnicorn) {
+            if (this.game.starSound) { this.game.starSound.currentTime = 0; this.game.starSound.play(); }
+            this.side = Math.random() > 0.5 ? 'left' : 'right';
+            this.x = this.side === 'left' ? -150 : window.innerWidth + 150;
+            this.y = Math.random() * (window.innerHeight * 0.4);
+            
+            // Vitesse horizontale très rapide
+            let speed = 8.5; 
+            this.vx = this.side === 'left' ? (speed * mult) : -(speed * mult);
+            this.vy = 0;
+            this.gravity = 0;
+            // Rotation sur elle-même très rapide
+            this.rotationSpeed = 25; 
+        } 
+        else if (isDropped) {
+            this.gravity = 0.03 * mult; 
             this.vx = (Math.random() - 0.5) * 1.5 * mult; 
-            this.vy = 0.8 * mult;
-        } else if (this.isUFO || this.isLakitu || this.isEvilLakitu) {
+            this.vy = 0.5 * mult;
+            this.x = 0; 
+            this.y = 0;
+            this.rotationSpeed = (Math.random() - 0.5) * 2;
+        } 
+        else if (this.isUFO || this.isLakitu || this.isEvilLakitu) {
             this.side = Math.random() > 0.5 ? 'left' : 'right';
             this.x = this.side === 'left' ? -150 : window.innerWidth + 150;
             this.y = Math.random() * (window.innerHeight * 0.25);
@@ -356,16 +471,17 @@ class Target {
             this.vx = this.side === 'left' ? (speed * mult * levelSlowdown) : -(speed * mult * levelSlowdown);
             this.vy = (Math.random() - 0.5) * 0.5; 
             this.gravity = 0;
+            this.rotationSpeed = 0;
         } else {
             this.x = Math.random() * (window.innerWidth - 270);
             this.y = window.innerHeight;
             this.gravity = 0.025 * mult * levelSlowdown; 
             this.vy = -(7.5 + Math.random() * 2) * mult; 
             this.vx = (Math.random() - 0.5) * 2.5 * mult;
+            this.rotationSpeed = (Math.random() - 0.5) * 4;
         }
 
         this.rotation = 0;
-        this.rotationSpeed = (this.isUFO || this.isLakitu || this.isEvilLakitu) ? 0 : (Math.random() - 0.5) * 4;
         this.game.gameArea.appendChild(this.element);
 
         this.element.onmousedown = (e) => { 
@@ -398,7 +514,7 @@ class Target {
     }
 
     dropItem() {
-        let img = this.isLakitu ? this.game.targetImages[0] : '../assets/images/Bomb.gif';
+        let img = this.isLakitu ? '../assets/images/Boshi.png' : '../assets/images/Bomb.gif';
         const d = new Target(img, this.game, true);
         d.x = this.x + 40; d.y = this.y + 40;
         this.game.targets.push(d);
@@ -409,21 +525,44 @@ class Target {
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        if (this.isLakitu) {
+        if (this.isBoshi) {
+            if (this.game.boshiSound) { this.game.boshiSound.currentTime = 0; this.game.boshiSound.play(); }
+            this.game.score += 50;
+            this.game.activateSuperCombo();
+            this.showFloatingText("SUPER BOSHI! COMBO MAX", centerX, centerY, false, "#0077ff");
+            this.createParticles(centerX, centerY, "#0077ff");
+        } else if (this.isStarUnicorn) {
+            if (this.game.guhaSound) { this.game.guhaSound.currentTime = 0; this.game.guhaSound.play(); }
+            this.game.timeLeft += 10; 
+            this.game.score += 100;
+            this.showFloatingText("TIME BONUS +10s!", centerX, centerY, false, "#FFD700");
+            this.createParticles(centerX, centerY, "#FFD700");
+            this.game.checkTimeAlert(); 
+        } else if (this.isLakitu) {
             if (this.game.lakituSaveSound) { this.game.lakituSaveSound.currentTime = 0; this.game.lakituSaveSound.play(); }
-            this.game.score += 200; this.game.comboFreezeUntil = Date.now() + 6000;
-            this.showFloatingText("LAKITU SAVED! COMBO FROZEN", centerX, centerY, false, "#00FF00");
+            this.game.score += 200; 
+            this.game.boshiUnlocked = true;
+            this.showFloatingText("LAKITU LOOT!", centerX, centerY, false, "#00FF00");
             this.createParticles(centerX, centerY, "#FFFFFF");
+            this.spawnLoot('../assets/images/Boshi.png', centerX, centerY);
+            this.spawnLoot('../assets/images/Boshi.png', centerX, centerY);
+            this.spawnLoot(this.game.targetImages[0], centerX, centerY);
+            this.spawnLoot(this.game.targetImages[1], centerX, centerY);
+            this.spawnLoot('../assets/images/Chien.gif', centerX, centerY);
             this.game.targets.forEach(t => { if(t.isBomb) t.convertToBonus(); });
-            for(let i=0; i<3; i++) this.game.targets.push(new Target(this.game.targetImages[0], this.game));
-            this.game.targets.push(new Target('../assets/images/Chien.gif', this.game));
         } else if (this.isEvilLakitu) {
             if (this.game.lakituEvilSound) { this.game.lakituEvilSound.currentTime = 0; this.game.lakituEvilSound.play(); }
             this.game.score = Math.max(0, this.game.score - 100);
-            this.showFloatingText("-100 & CHAOS!", centerX, centerY, true, "#FF0000");
+            this.showFloatingText("CHAOS & BOMBS!", centerX, centerY, true, "#FF0000");
             this.createParticles(centerX, centerY, "evil");
+            const flash = document.createElement('div');
+            flash.style.position = 'fixed'; flash.style.top = '0'; flash.style.left = '0';
+            flash.style.width = '100vw'; flash.style.height = '100vh';
+            flash.style.backgroundColor = 'rgba(255, 0, 0, 0.4)'; flash.style.zIndex = '9999';
+            flash.style.pointerEvents = 'none'; document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 200);
             this.game.targets.forEach(t => t.convertToMalus());
-            for(let i=0; i<3; i++) this.game.targets.push(new Target('../assets/images/Bomb.gif', this.game));
+            for(let i=0; i<3; i++) this.game.targets.push(new Target('../assets/images/Licornes-3.png', this.game));
         } else if (this.isBomb) {
             if (this.game.bombSound) { this.game.bombSound.currentTime = 0; this.game.bombSound.play(); }
             document.body.classList.add('screen-shake');
@@ -453,7 +592,7 @@ class Target {
             this.game.lastHitTime = now;
             const s = this.game.popSounds[Math.floor(Math.random() * this.game.popSounds.length)];
             if (s) { s.currentTime = 0; s.play(); }
-            let pts = 10 * this.game.comboCount; 
+            let pts = this.game.isSuperComboActive ? 50 : (10 * this.game.comboCount); 
             this.game.score += pts;
             this.showFloatingText(`+${pts}`, centerX, centerY, false);
             this.createParticles(centerX, centerY, "#ff00ff");
@@ -461,13 +600,38 @@ class Target {
         this.game.updateUI(); this.remove(); 
     }
 
-    convertToBonus() { if (this.isBomb) { this.isBomb = false; this.element.src = this.game.targetImages[0]; this.element.className = 'targets'; } }
-    convertToMalus() { if (!this.isBomb && !this.isLakitu && !this.isEvilLakitu && !this.isUFO && !this.isDog) { this.isBomb = true; this.element.src = '../assets/images/Bomb.gif'; this.element.className = 'targets bomb-target'; } }
+    spawnLoot(img, x, y) {
+        const loot = new Target(img, this.game, true);
+        loot.x = x; 
+        loot.y = y;
+        loot.vx = (Math.random() - 0.5) * 6; 
+        loot.vy = -3 - Math.random() * 3;     
+        this.game.targets.push(loot);
+    }
+
+    convertToBonus() { 
+        if (this.isBomb) { 
+            this.isBomb = false; 
+            this.element.src = this.game.targetImages[0]; 
+            this.element.className = 'targets'; 
+            this.element.style.width = ""; 
+        } 
+    }
+    
+    convertToMalus() { 
+        if (!this.isBomb && !this.isLakitu && !this.isEvilLakitu && !this.isUFO && !this.isDog) { 
+            this.isBomb = true; 
+            this.element.src = '../assets/images/Bomb.gif'; 
+            this.element.className = 'targets bomb-target'; 
+        } 
+    }
+
     showFloatingText(t, x, y, m, c = null) {
         const d = document.createElement('div'); d.className = m ? 'combo-text malus' : 'combo-text';
         d.textContent = t; if (c) d.style.color = c; d.style.left = `${x - 30}px`; d.style.top = `${y}px`;
         document.body.appendChild(d); setTimeout(() => d.remove(), 800);
     }
+
     createParticles(x, y, t) {
         let c = (t === "ufo" || t === "evil") ? 25 : 12;
         for (let i = 0; i < c; i++) {
@@ -479,6 +643,7 @@ class Target {
             document.body.appendChild(p); setTimeout(() => p.remove(), 600);
         }
     }
+
     remove() { if (this.element.parentNode) this.element.remove(); }
 }
 

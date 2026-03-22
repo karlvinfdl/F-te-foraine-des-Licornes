@@ -100,7 +100,7 @@
 }
 
 .press-start {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #fffcfc;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -539,8 +539,6 @@ body.page-règles > * {
   object-position: center; 
 }
 
-
-
 .block-text {
   font-size: 1.1rem;
   line-height: 1.3;
@@ -566,6 +564,9 @@ body.page-règles > * {
     font-size: 18px;
 }
 
+.player-text {
+    color: white;
+}
 
 /* **************************************************************************
     Overlay Ecran Règles   Overlay Ecran Règles   Overlay Ecran Règles
@@ -652,6 +653,16 @@ body.page-règles > * {
 /* Taille fixe pour les icônes/gifs */
 .item-icon {
     width: 110px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    flex-shrink: 0; /* Empêche l'image de s'écraser */
+}
+
+.starvy-img {
+    width: 440px;
     height: 90px;
     display: flex;
     justify-content: center;
@@ -988,18 +999,45 @@ body.world_3::before {
     width: 100px;
     filter: drop-shadow(0 0 10px red); /* Lueur rouge */
     animation: pulse-red 0.5s infinite alternate;
+    z-index: 25;
+}
+
+/* Harmonisation des deux nuages */
+.lakitu-target, 
+.evil-lakitu-target {
+    width: 140px !important;
+    height: auto;
+    /* Optionnel : petite ombre pour les faire ressortir */
+    filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.3));
+    z-index: 35;
+}
+
+.lakitu-target {
+    filter: drop-shadow(0px 0px 10px rgb(255, 254, 254));
+    animation: pulse-white 0.5s infinite alternate;
+}
+
+@keyframes pulse-white {
+    from { filter: drop-shadow(0 0 2px rgb(255, 255, 255)); }
+    to { filter: drop-shadow(0 0 15px rgb(216, 216, 216)); transform: scale(1.1); }
+}
+
+.evil-lakitu-target {
+    filter: drop-shadow(0px 0px 10px red);
+    animation: pulse-red 0.5s infinite alternate;
 }
 
 /* Taille spécifique pour la bombe */
 .targets.bomb-target {
     width: 150px;  /* Ajuste la largeur ici */
     height: 150px; /* Ajuste la hauteur ici */
-    z-index: 10;   /* Pour qu'elle passe au-dessus des licornes si besoin */
+    z-index: 30;   /* Pour qu'elle passe au-dessus des licornes si besoin */
 }
 
 .bomb-target {
     filter: drop-shadow(0 0 5px red);
     animation: pulse-red 0.5s infinite alternate;
+    width: 120px;
 }
 
 @keyframes pulse-red {
@@ -1014,10 +1052,15 @@ body.world_3::before {
     height: auto;  /* Garde les proportions de l'image */
     
     /* Optionnel : Ajoute un filtre pour le rendre encore plus "spatial" */
-    filter: drop-shadow(0 0 15px cyan); 
+    filter: drop-shadow(0 0 15px cyan);
+    z-index: 31; 
 }
 
-
+.star-target {
+    width: 210px;
+    filter: drop-shadow(0 0 15px #FFD700);
+    z-index: 29;
+}
 
 /* Style spécifique pour le chien (Easter Egg) */
 .targets.dog-target {
@@ -1025,7 +1068,7 @@ body.world_3::before {
     height: 90px;
     filter: drop-shadow(0 0 8px #ADFF2F) drop-shadow(0 0 15px #ADFF2F); /* Lueur verte */
     animation: bounce-dog 1s infinite alternate ease-in-out; /* Animation subtile */
-    z-index: 11; /* S'assure qu'il est au-dessus de tout le reste */
+    z-index: 50; /* S'assure qu'il est au-dessus de tout le reste */
 }
 
 @keyframes bounce-dog {
@@ -1047,6 +1090,30 @@ body.world_3::before {
     100% { opacity: 0; transform: translateY(-100px) scale(1); }
 }
 
+
+
+.boshi-target {
+    animation: boshi-sparkle 0.8s infinite alternate;
+    width: 130px;
+    z-index: 15;
+}
+
+@keyframes boshi-sparkle {
+    0% { filter: drop-shadow(0 0 5px #0077ff) brightness(1); }
+    100% { filter: drop-shadow(0 0 20px #00ffff) brightness(1.5) hue-rotate(90deg); }
+}
+
+.super-combo-active #scoreValue {
+    color: #0077ff !important;
+    text-shadow: 0 0 15px #00ffff, 0 0 25px #0077ff;
+    animation: pulse-score 0.5s infinite alternate;
+}
+
+@keyframes pulse-score {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+}
+
 /*-----------------------------------------------------------
   DECOMPTE NIVEAU     DECOMPTE NIVEAU      DECOMPTE NIVEAU
 ------------------------------------------------------------ */
@@ -1059,6 +1126,20 @@ body.world_3::before {
     color: white;
     text-shadow: 4px 4px 0 black;
     z-index: 500;
+}
+
+
+/* Animation de pulsation rouge pour les 10 dernières secondes */
+.low-time-alert {
+    color: #ff0000 !important;
+    animation: pulse-red 0.5s infinite alternate;
+    font-weight: bold;
+    transform: scale(1.2);
+}
+
+@keyframes pulse-red {
+    from { text-shadow: 0 0 5px #ff0000; transform: scale(1.1); }
+    to { text-shadow: 0 0 20px #ff0000; transform: scale(1.3); }
 }
 
 
@@ -1134,6 +1215,7 @@ body.world_3::before {
 /* ==========================================================================
    5. OVERLAY DE FIN (TRANSITION NIVEAU)
    ========================================================================== */
+
 .end-title {
     width: 100%;
     background: rgba(120, 120, 120, 0.9);
@@ -1144,6 +1226,7 @@ body.world_3::before {
     font-family: 'Arial Black', sans-serif;
     letter-spacing: 5px;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
 }
 
 .end-content {
@@ -1167,7 +1250,7 @@ body.world_3::before {
 .end-comment {
     font-size: 26px;
     font-weight: 900;
-    color: #333;
+    color: #000000;
 }
 
 .click-to-continue {
@@ -1179,6 +1262,8 @@ body.world_3::before {
     font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    margin-top: 50px;
+    animation: blink 1.5s infinite;
 }
 
 /* ==========================================================================
@@ -1378,7 +1463,7 @@ body.score-board > * {
 /* ==========================================================================
    6. BANDEROLE NOIRE & EFFET CLIGNOTANT SUR LE BLOC
    ========================================================================== */
-.click-to-continue {
+.tap-to-continue {
     width: 100%;
     background: rgba(60, 60, 60, 0.95); /* Couleur de base */
     color: white;
@@ -1387,7 +1472,7 @@ body.score-board > * {
     cursor: pointer;
     margin-top: 60px;
     position: fixed;
-    ; /* MODIFICATION : Monte la banderole de 20px par rapport au bas */
+    /* MODIFICATION : Monte la banderole de 20px par rapport au bas */
     left: 0;
     z-index: 1000;
 
@@ -1549,7 +1634,7 @@ body.ending-game::before {
 .btn {
     padding: 35px 110px;
     border-radius: 25px;
-    border: 2px solid #000;
+    border: 4px solid #000;
     background-color: #f3cfd3; /* Rose bouton */
     font-size: 30px;
     font-weight: bold;

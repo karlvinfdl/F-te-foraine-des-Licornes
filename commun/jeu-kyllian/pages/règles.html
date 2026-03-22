@@ -73,23 +73,31 @@
       <ul class="items-list">
         <li>
           <div class="item-icon"><img src="../assets/images/Licornes-Package.png" class="img-licornes-groupe" alt="Licornes"></div>
-          <div class="item-desc"><strong>Cibles Normales (+10) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
+          <div class="item-desc"><strong>Cibles Normales (+10pts) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Litimes.gif" class="starvy-img" alt="Starvy"></div>
+          <div class="item-desc"><strong>Starvy (+10s) :</strong> Rajoute 15 secondes de temps suplémentaire </div>
         </li>
         <li>
           <div class="item-icon"><img src="../assets/images/Bomb.gif" alt="Bombe"></div>
-          <div class="item-desc"><strong>Bomby (-50) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
-        </li>
-         <li>
-          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
-          <div class="item-desc"><strong>Yami (-40) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
-        </li>
+          <div class="item-desc"><strong>Bomby (-150pts) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
+        </li> 
         <li>
           <div class="item-icon"><img src="../assets/images/OVNI.gif" alt="OVNI"></div>
-          <div class="item-desc"><strong>OVNI (+30) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
+          <div class="item-desc"><strong>OVNI (+30pts) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
         </li>
          <li>
           <div class="item-icon"><img src="../assets/images/Lakitu.png" alt="Lakitu"></div>
           <div class="item-desc"><strong>Lakitu (+) :</strong> Distribue des cibles classique et bonus à travers la map, cliquez 3 fois dessus pour découvrir la surprise qu'il cache... </div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Boshi.png" alt="Boshi"></div>
+          <div class="item-desc"><strong>Boshi (+50) :</strong>Destrier caché de Lakitu n'apparait seulement qu'après avoir abattu sa monture nuage, fixe les pts gagné à 50 pendant 10 secondes sur n'importe quel cible (hors malus)</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
+          <div class="item-desc"><strong>Yami (-50pts) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
         </li>
          <li>
           <div class="item-icon"><img src="../assets/images/Evil_Lakitu.png" alt="Evil-Lakitu"></div>
@@ -109,6 +117,7 @@
 </div>
        <div class="text-start" id="btnStart">Appuyer sur Entrée ou Espace pour Continuer</div>
 </main>
+
 
 <audio id="RulMusic" src="../assets/sounds/Rules_Music.mp3" loop></audio>
 <audio id="clickRules" src="../assets/sounds/Open_Rules.mp3"></audio>
@@ -170,6 +179,8 @@
         }
     });
 
+
+    
     // --- FONCTION COMMUNE POUR QUITTER LA PAGE ---
     const leavePage = () => {
         // On évite de relancer si le fondu est déjà en cours
