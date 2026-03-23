@@ -36,7 +36,7 @@ const baseDeMots = {
     ],
     difficile: [
         { mot: "interface", indices: ["C’est ce que l’on voit à l’écran", "Permet d’interagir avec un site ou une application", "Contient des boutons, menus et images"] },
-        { mot: "base de données", indices: ["Sert à stocker beaucoup d’informations", "Organise les données de manière structurée", "Utilisée par les sites web et applications"] },
+        { mot: "base de donnée", indices: ["Sert à stocker beaucoup d’informations", "Organise les données de manière structurée", "Utilisée par les sites web et applications"] },
         { mot: "automatisation", indices: ["Permet de faire une tâche automatiquement", "Évite de répéter la même action manuellement", "Fait gagner du temps"] },
         { mot: "sécurité informatique", indices: ["Protège les données et les comptes", "Évite les piratages", "Utilise des mots de passe et protections spéciales"] },
     ]
