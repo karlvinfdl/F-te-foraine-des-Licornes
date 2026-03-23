@@ -133,6 +133,7 @@ body.page-accueil_3 {
     align-items: center;
     overflow: hidden;
     font-family: 'Arial Black', sans-serif;
+    overflow-x: hidden;
  }
     
   body.page-accueil_3::before {
@@ -755,9 +756,15 @@ PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAGE JEU / PAG
     box-sizing: border-box; /* Meilleure gestion des tailles */
 }
 
-body {
+body.world_1, body.world_2, body.world_3 {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Empêche le scroll si une cible sort de l'écran */
+    position: fixed;  /* Verrouille l'écran pour éviter le décalage sur mobile/clic */
+    user-select: none; /* Empêche la sélection de texte/images pendant qu'on clique */
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
 }
 
 /* ==========================================================================
@@ -962,7 +969,7 @@ body.world_3::before {
 
 
 
-/* Secousse de l'écran */
+/* Secousse de l'écran : Bomby */
 .screen-shake {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
     /* On force un léger zoom pour éviter les bords blancs pendant que ça vibre */
@@ -971,10 +978,17 @@ body.world_3::before {
 }
 
 @keyframes shake {
-    10%, 90% { transform: translate3d(-2px, -2px, 0) scale(1.05); }
-    20%, 80% { transform: translate3d(4px, 2px, 0) scale(1.05); }
-    30%, 50%, 70% { transform: translate3d(-6px, -4px, 0) scale(1.05); }
-    40%, 60% { transform: translate3d(6px, 4px, 0) scale(1.05); }
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-12px, -12px) rotate(-3deg); } /* Déplacement plus grand */
+    20% { transform: translate(12px, 10px) rotate(3deg); }
+    30% { transform: translate(-12px, 8px) rotate(-2.5deg); }
+    40% { transform: translate(12px, -10px) rotate(2.5deg); }
+    50% { transform: translate(-10px, 12px) rotate(-2deg); }
+    60% { transform: translate(10px, -8px) rotate(2deg); }
+    70% { transform: translate(-12px, 10px) rotate(-1.5deg); }
+    80% { transform: translate(12px, -12px) rotate(1.5deg); }
+    90% { transform: translate(-8px, 8px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
 }
 
 /* ==========================================================================

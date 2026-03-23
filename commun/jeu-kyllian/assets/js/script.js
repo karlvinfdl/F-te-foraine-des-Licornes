@@ -10,7 +10,7 @@ class UnicornShooter {
         this.isPlaying = false;
         this.isPaused = false;
         this.currentLevel = 1;
-        this.difficultyMultiplier = 0.75; 
+        this.difficultyMultiplier = 0.95; 
         this.spawnRate = 700; 
         this.pseudo = "JOUEUR";
         this.targets = []; 
@@ -367,7 +367,7 @@ class UnicornShooter {
         if (this.score === 0) commentElement.textContent = "Tu as dormi ???";
         else if (this.score < 1200) commentElement.textContent = "Pas ouf, tout ça...";
         else if (this.score < 3000) commentElement.textContent = "Mouais pas trop mal...";
-        else if (this.score < 5500) commentElement.textContent = "Je dirai pas que t'es meilleur mais tu progresses...";
+        else if (this.score < 6500) commentElement.textContent = "Je dirai pas que t'es meilleur mais tu progresses...";
         else commentElement.textContent = "Mais c'est que tu commences à devenir bon dis moi !";
 
         const continueBtn = document.querySelector('.click-to-continue');
@@ -459,7 +459,7 @@ class Target {
             this.y = Math.random() * (window.innerHeight * 0.4);
             
             // Vitesse horizontale ralentie
-            let speed = 4.0; 
+            let speed = 10.0; 
             this.vx = this.side === 'left' ? (speed * mult) : -(speed * mult);
             this.vy = 0;
             this.gravity = 0;
@@ -579,7 +579,7 @@ class Target {
             document.body.classList.add('screen-shake');
             setTimeout(() => document.body.classList.remove('screen-shake'), 500);
             this.game.score = Math.max(0, this.game.score - 280); this.game.comboCount = 0;
-            this.showFloatingText("BOMBY -320", centerX, centerY, true);
+            this.showFloatingText("BOMBY -320!!", centerX, centerY, true);
             this.createParticles(centerX, centerY, "black");
         } else if (this.isDog) {
             if (this.game.dogSound) { this.game.dogSound.currentTime = 0; this.game.dogSound.play(); }
@@ -594,7 +594,7 @@ class Target {
         } else if (this.isEvilLicorne) {
             if (this.game.evilSound) { this.game.evilSound.currentTime = 0; this.game.evilSound.play(); }
             this.game.score = Math.max(0, this.game.score - 250); this.game.comboCount = 0;
-            this.showFloatingText("-250", centerX, centerY, true);
+            this.showFloatingText("CHEH -250!", centerX, centerY, true);
             this.createParticles(centerX, centerY, "evil");
         } else {
             const now = Date.now();
