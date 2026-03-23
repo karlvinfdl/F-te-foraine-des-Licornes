@@ -1,0 +1,427 @@
+/* Reset de base pour que l'image prenne tout l'écran */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Empêche le scroll */
+}
+
+/* Application d'Orbitron partout pour l'uniformité */
+body, html, button, input, h1, h2, h3, p, span, div {
+    font-family: 'Orbitron', sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body {
+    /* Ton image de fond en PNG */
+    background-color: #074151;
+    background-image: url('../images/fondfinal.png'); 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =====================================================
+   ÉCRAN D'ACCUEIL
+===================================================== */
+
+.game-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 130px; /* Espace entre le titre et le bouton */
+}
+
+.game-title {
+    max-width: 80%;
+    height: auto;
+    animation: float 3s ease-in-out infinite;
+}
+
+.blink-button {
+    background-color: #ffc0cb; 
+    border: 4px solid #000;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #000;
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.3; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* =====================================================
+   PAGE DES REGLES
+===================================================== */
+
+body.page-regles {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #074151; 
+    background-image: url('../images/ecranDeTitre.png'); 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.regles-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.regles-card {
+    background-color: #ffc0cb; 
+    border: 4px solid #000;
+    border-radius: 30px;
+    padding: 40px;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+}
+
+.regles-section {
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.regles-titre {
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+}
+
+.regles-texte {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.regles-liste {
+    margin: 5px 0;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.regles-item {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.regles-item::before {
+    content: "- ";
+}
+
+/* =====================================================
+   PAGE DE JEU - STRUCTURE & HUD
+===================================================== */
+
+body.page-jeu {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: white;
+}
+
+.jeu-hud {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px 30px; 
+    box-sizing: border-box;
+    z-index: 10;
+    font-size: 1.1rem; 
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+}
+
+.vies-container {
+    display: flex;
+    flex-direction: row; 
+    gap: 5px; 
+    align-items: center;
+    min-width: 120px;
+}
+
+.infos-top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between; 
+    font-weight: bold;
+}
+
+.stat-indice {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-110%);
+}
+
+.stat-progression {
+    position: absolute;
+    right: 30px;
+}
+
+#timer-display {
+    font-size: 1.5rem;
+}
+
+/* =====================================================
+   ECRAN SPLIT & PERSONNAGES
+===================================================== */
+
+.ecran-split {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.cote {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; 
+    padding-bottom: 40px;
+    position: relative; 
+}
+
+.gauche {
+    background-image: url('../images/fond1.png');
+    background-size: cover; 
+    background-position: left center; 
+    border-right: 2px solid rgba(255,255,255,0.3);
+}
+
+.droite {
+    background-image: url('../images/fond2.png');
+    background-size: 200% 100%; 
+    background-position: right center; 
+}
+
+.personnage-container, .sorcier-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pixel-sprite {
+    width: 300px; 
+    height: auto;
+    image-rendering: pixelated;
+}
+
+/* =====================================================
+   INTERACTION & BOUTONS
+===================================================== */
+
+.interaction-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; 
+}
+
+/* La bulle d'indice et le champ de saisie sont maintenant identiques */
+.bulle-rose, .input-reponse {
+    background-color: #f7c3d7;
+    color: #000 !important;
+    padding: 15px 25px;
+    border-radius: 30px;
+    text-align: center;
+    min-width: 380px;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.input-reponse {
+    outline: none;
+}
+
+.input-reponse::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 12px;
+}
+
+/* Groupe pour aligner VALIDER et PASSER */
+.boutons-groupe {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px; 
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-retro {
+    background-color: #ffffff;
+    color: #000;
+    border: 3px solid #000;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    min-width: 170px;
+    font-size: 12px;
+}
+
+.btn-passer-mot {
+    background-color: #e0e0e0;
+}
+
+.btn-retro:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.bulle-dialogue {
+    background: white;
+    color: black;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+    max-width: 200px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    border: 2px solid black;
+}
+
+.bulle-dialogue::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+}
+
+/* =====================================================
+   ANIMATIONS & EFFETS JEU
+===================================================== */
+
+.licorne-anim {
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.coeur.perdu {
+    filter: grayscale(1);
+    opacity: 0.3;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* =====================================================
+   OVERLAYS (GAME OVER & WIN)
+===================================================== */
+
+.overlay-ecran {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-contenu {
+    background-color: #f7c3d7;
+    padding: 50px 80px;
+    border-radius: 30px;
+    border: 5px solid black;
+    text-align: center;
+    color: black;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 80%;       
+    max-width: 800px; 
+}
+
+.overlay-contenu h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+}
+
+.overlay-contenu p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.licorne-mort {
+    width: 250px;
+    image-rendering: pixelated;
+}
+
+.win-title {
+    color: #FFD700;
+    text-shadow: 3px 3px 0px #000;
+    font-size: 4.5rem;
+    margin: 10px 0;
+}
+
+.trophee-win {
+    width: 250px;
+    image-rendering: pixelated;
+    margin-top: 20px;
+}
+
+.instruction {
+    font-size: 1rem !important;
+    opacity: 0.8;
+    margin-top: 20px;
+}
+
+/* Effets de boutons génériques */
+.btn-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.sprite-button:active {
+  transform: translateY(4px);
+}

@@ -1,0 +1,36 @@
+Titres → Press Start 2P
+HUD / timer → Orbitron
+Textes longs → Oxanium
+
+Oxanium : 
+<link> : 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+
+@import : 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+</style>
+
+Orbitron :
+<link> :
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+
+@import : 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&display=swap');
+</style>
+
+Press Start 2P :
+<link> :
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+@import :
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&family=Press+Start+2P&display=swap');
+</style>
