@@ -3,41 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pinata</title>
     <link rel="stylesheet" href="./assets/css/style.css">
+     <link rel="shortcut icon" href="./assets/images/Lakitu.Favicon.png"/>
 </head>
 
-<body class="page-accueil">
+<body class="page-accueil_3">
 
- <!-- Header -->
-  <header>
-    <div class="navbar">
-        <div class="logo-utilisateur"><img src="./assets/images/licorne_1.png"></div>
-    <nav>
-<ul>
-    <li>Ahkimi974 : Rang 1</li>
-</ul>
-    </nav>
+    <div id="homeOverlay" class="home-overlay">
+    <div class="cloud-door top"></div>
+    <div class="cloud-door bottom"></div>
+
+    <div class="home-content">
+        <h1 class="welcome-title">ARE YOU READY ?</h1>
+        <div class="action-area">
+            <button id="enterBtn">START</button>
+            <p class="press-start">Appuyez sur Espace ou Entrée</p>
+        </div>
     </div>
-    </header>
-
-
-    <!-- Ecran Titre du Jeu -->
-<section class="acceuil-jeu">
-<div class="titre">
-    Jeu de Tir des Licornes
 </div>
 
-<div class="home-page">
-<button>Start</button>
-<button>Badges</button>
+    <main class="menu-container">
+        
+        <div class="logo-area">
+            <img src="./assets/images/Logo_Pinata.png" alt="Piñata Logo" class="main-logo">
+        </div>
+
+        <nav class="nav-bar">
+            <div class="nav-line"></div> <div class="buttons-wrapper">
+                <a href="./pages/règles.html" class="menu-btn">JOUER</a>
+                <a href="./pages/scores.html" class="menu-btn">SCORES</a>
+                <a href="./pages/badges.html" class="menu-btn">BADGES</a>
+            </div>
+        </nav>
+    </main>
+
+   <button id="homeSettingsBtn" class="floating-settings">
+    <div class="gear-icon">
+        <div class="gear-inner"></div>
+    </div>
+</button>
+
+    <audio id="bgMusic" src="./assets/sounds/Home_Music.mp3" loop></audio>
+    <audio id="clickSound" src="./assets/sounds/Demarrage.mp3"></audio>
+    <audio id="btnClickSound" src="./assets/sounds/Game_Entry.mp3" preload="auto"></audio>
+
+
+
+<div id="settingsOverlay" class="modal-overlay">
+    <div class="modal-content settings-box">
+        <h2 class="pause-title" style="color: #000; margin-bottom: 20px;">RÉGLAGES</h2>
+        
+        <div class="setting-item">
+            <label>Musique</label>
+            <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="0.5">
+        </div>
+
+        <div class="setting-item">
+            <label>Bruitages</label>
+            <input type="range" id="sfxVolume" min="0" max="1" step="0.1" value="0.7">
+        </div>
+
+        <button id="closeSettingsBtn" class="btn-pause-menu" style="margin-top: 20px;">OK</button>
+    </div>
 </div>
 
-<div class="regles">
-<button>Comment Jouer</button>
-</div>
 
 
-</section>
+<script>
+    const bgMusic = document.getElementById('bgMusic');
+    const clickSound = document.getElementById('clickSound'); 
+    const btnClickSound = document.getElementById('btnClickSound'); 
+    const homeOverlay = document.getElementById('homeOverlay');
+    const enterBtn = document.getElementById('enterBtn');
+    const menuButtons = document.querySelectorAll('.menu-btn');
+
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const homeSettingsBtn = document.getElementById('homeSettingsBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const musicSlider = document.getElementById('musicVolume');
+    const sfxSlider = document.getElementById('sfxVolume');
+
+    let isStarted = false;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedMusic = localStorage.getItem('musicVol') || 0.5;
+        const savedSfx = localStorage.getItem('sfxVol') || 0.7;
+        
+        musicSlider.value = savedMusic;
+        sfxSlider.value = savedSfx;
+        
+        if (bgMusic) bgMusic.volume = savedMusic;
+    });
+
+    musicSlider.oninput = () => {
+        if (bgMusic) bgMusic.volume = musicSlider.value;
+        localStorage.setItem('musicVol', musicSlider.value); // Sauvegarde immédiate
+    };
+
+    // AJOUT : Sauvegarde immédiate du SFX pour les autres pages
+    sfxSlider.oninput = () => {
+        localStorage.setItem('sfxVol', sfxSlider.value);
+    };
+
+    if(homeSettingsBtn) {
+        homeSettingsBtn.onclick = () => {
+            settingsOverlay.style.display = 'flex';
+        };
+    }
+
+    closeSettingsBtn.onclick = () => {
+        localStorage.setItem('musicVol', musicSlider.value);
+        localStorage.setItem('sfxVol', sfxSlider.value);
+        settingsOverlay.style.display = 'none';
+    };
+
+    function startExperience() {
+        if (isStarted) return;
+        isStarted = true;
+        homeOverlay.classList.add('opened');
+        
+        if(clickSound) {
+            clickSound.volume = localStorage.getItem('sfxVol') || 0.7;
+            clickSound.play();
+        }
+
+        setTimeout(() => { homeOverlay.style.display = 'none'; }, 1200); 
+
+        if (bgMusic) {
+            bgMusic.volume = 0;
+            bgMusic.play().then(() => {
+                let targetVol = parseFloat(musicSlider.value);
+                let fade = setInterval(() => {
+                    if (bgMusic.volume < targetVol) {
+                        bgMusic.volume = Math.min(targetVol, bgMusic.volume + 0.05);
+                    } else { 
+                        clearInterval(fade); 
+                    }
+                }, 100);
+            }).catch(e => console.log("L'audio attend une interaction."));
+        }
+    }
+
+    menuButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const targetUrl = this.getAttribute('href');
+            if (!targetUrl || targetUrl === "#") return;
+            e.preventDefault(); 
+
+            if (bgMusic) {
+                let fadeOutInterval = setInterval(() => {
+                    if (bgMusic.volume > 0.1) { 
+                        bgMusic.volume -= 0.1; 
+                    } else { 
+                        bgMusic.pause(); 
+                        clearInterval(fadeOutInterval); 
+                    }
+                }, 40);
+            }
+
+            if (btnClickSound) {
+                btnClickSound.volume = localStorage.getItem('sfxVol') || 0.7;
+                btnClickSound.currentTime = 0;
+                btnClickSound.play();
+            }
+
+            setTimeout(() => { window.location.href = targetUrl; }, 1900); 
+        });
+    });
+
+    if (enterBtn) enterBtn.onclick = startExperience;
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') startExperience();
+    });
+</script>
 </body>
 </html>

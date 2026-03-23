@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Remerciements - Unicorn Shooter</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/Lakitu.Favicon.png"/>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body class="ending-game">
+
+    <div class="credits-layout">
+        <h1>Merci d’avoir joué !!</h1>
+
+        <div class="score-final">
+            <div class="rank-final" id="finalRank">?</div>
+            <div class="final-score-text" id="finalScoreDisplay">Chargement...</div>
+        </div>
+
+        <div class="credits-box">
+            <img src="../assets/images/Lakitu.png" class="credits-img" alt="Lakitu">
+            <div class="credits-text" id="dynamicCreditsText">
+                </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn" id="btnRetry">Recommencer</button>
+            <button class="btn" id="btnHome">Retour à l'accueil</button>
+        </div>
+    </div>
+
+    <audio id="EndMusic" src="../assets/sounds/Credits_Music.mp3" loop></audio>
+
+
+<script>
+window.onload = () => {
+    // 1. Récupération des données
+    const lastScore = parseInt(localStorage.getItem('lastFinalScore')) || 0;
+    const playerName = localStorage.getItem('lastPlayerName') || "Joueur";
+    const leaderboard = JSON.parse(localStorage.getItem('unicornLeaderboard')) || [];
+
+    // 2. Calcul du rang
+    const rank = leaderboard.findIndex(e => 
+        e.name === playerName && Number(e.score) === lastScore
+    ) + 1;
+
+    // 3. Sélection des éléments
+    const finalRankElement = document.getElementById('finalRank');
+    const scoreBanner = document.querySelector('.score-final');
+    const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+    const creditsBox = document.querySelector('.credits-box');
+    const creditsText = document.getElementById('dynamicCreditsText');
+    const btnRetry = document.getElementById('btnRetry');
+    const btnHome = document.getElementById('btnHome');
+    const endMusic = document.getElementById('EndMusic'); 
+
+    // --- LANCEMENT DE LA MUSIQUE SYNCHRONISÉ ---
+    if (endMusic) {
+        const savedVol = localStorage.getItem('musicVol') || 0.5;
+        endMusic.volume = parseFloat(savedVol); // On applique ton réglage ici
+        endMusic.play().catch(e => console.log("Lecture auto bloquée"));
+    }
+
+    // Affichage texte initial
+    if (finalScoreDisplay) finalScoreDisplay.textContent = `${playerName} : ${lastScore}`;
+    if (finalRankElement) finalRankElement.textContent = rank > 0 ? rank : "-";
+
+    // 4. LOGIQUE DYNAMIQUE DU PODIUM (Le reste de ton code ne change pas)
+    let confettiColors = ['#f5c2cf', '#000000']; 
+
+    if (rank >= 1 && rank <= 3) {
+        let color = "";
+        if (rank === 1) {
+            color = "#FFD700"; 
+            confettiColors = ['#FFD700', '#FFF9E3', '#000000'];
+        } else if (rank === 2) {
+            color = "#C0C0C0"; 
+            confettiColors = ['#C0C0C0', '#FFFFFF', '#000000'];
+        } else if (rank === 3) {
+            color = "#CD7F32"; 
+            confettiColors = ['#CD7F32', '#F5E6D7', '#000000'];
+        }
+
+        if (scoreBanner) {
+            scoreBanner.style.backgroundColor = "black";
+            scoreBanner.style.border = `3px solid ${color}`;
+            scoreBanner.style.color = "white";
+        }
+
+        if (finalRankElement) {
+            finalRankElement.style.backgroundColor = color;
+            finalRankElement.style.color = "black";
+            finalRankElement.style.fontWeight = "bold";
+        }
+
+        if (creditsBox) {
+            creditsBox.style.backgroundColor = "black";
+            creditsBox.style.border = `3px solid ${color}`;
+            creditsBox.style.color = "white";
+        }
+
+        [btnRetry, btnHome].forEach(btn => {
+            if (btn) {
+                btn.style.backgroundColor = color;
+                btn.style.color = "black";
+                btn.style.fontWeight = "bold";
+            }
+        });
+    }
+
+    if (creditsText) {
+        creditsText.innerHTML = `
+            <p><strong>Bravo ${playerName} !</strong></p>
+            <p>Tu termines à la ${rank}${rank === 1 ? 'er' : 'e'} place avec ${lastScore} points.</p>
+        `;
+    }
+
+    if (typeof confetti === 'function') {
+        const fire = (particleCount, velocity, angle, x) => {
+            confetti({
+                particleCount,
+                angle,
+                spread: 55,
+                origin: { x, y: 0.6 },
+                colors: confettiColors
+            });
+        };
+        fire(100, 60, 60, 0.1);  
+        fire(100, 60, 120, 0.9); 
+        if (rank === 1) {
+            setTimeout(() => {
+                fire(150, 70, 60, 0.1);  
+                fire(150, 70, 120, 0.9); 
+            }, 400); 
+        }
+    }
+
+    const fadeOutAndRedirect = (url) => {
+        if (endMusic) {
+            let fade = setInterval(() => {
+                if (endMusic.volume > 0.1) {
+                    endMusic.volume -= 0.1;
+                } else {
+                    clearInterval(fade);
+                    window.location.href = url;
+                }
+            }, 50);
+        } else {
+            window.location.href = url;
+        }
+    };
+
+    if (btnRetry) btnRetry.onclick = () => fadeOutAndRedirect("jeu.html");
+    if (btnHome) btnHome.onclick = () => fadeOutAndRedirect("../index.html");
+};
+</script>
+</body>
+</html>

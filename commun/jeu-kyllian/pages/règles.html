@@ -3,58 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pinata</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/Lakitu.Favicon.png"/>
 </head>
 <body class="page-règles">
 
+<div class="wii-container">
+  <header class="wii-header">
+    <div class="game-thumbnail">
+      <img src="../assets/images/TJ2.png" alt="Icon">
+    </div>
+    <h1>Le stand du Tir à la cible – Mini-jeux interactifs</h1>
+  </header>
 
-    <div class="game-title">
-<h1>Le stand du Tir à la cible – Mini-jeux interactifs</h1>
-</div>
-
-<section class="instructions">
-
-        <div class="rules">
-        <h3>Règle 1</h3>
-        <p>Cliquer sur vos cibles pour ne pas les faire tomber et gagner le plus de points</p>
-
-        <div class="licornes">
-         
-          <img src="../assets/images/licorne_variante_1.png">
-           <img src="../assets/images/licorne_variante_2.png">
+  <main class="wii-content">
+    <div class="triple-column-wrapper">
+      
+      <div class="info-block">
+        <div class="block-image">
+          <img src="../assets/images/Miniature.png" alt="Step 1">
         </div>
+        <div class="block-text">
+          Cliquer sur le plus de cibles possibles pour gagner le plus de points.
         </div>
+      </div>
+
+      <div class="info-block">
+        <div class="block-image">
+          <img src="../assets/images/Thumbail2.png" alt="Step 2">
+        </div>
+        <div class="block-text">
+          Évitez de cliquer sur les cibles malus, elles vous font perdre des points 
+        </div>
+      </div>
+
+
+
+      <div class="info-block">
+        <div class="block-image">
+          <img src="../assets/images/0074.png" alt="Step 2">
+        </div>
+        <div class="block-text">
+          Cliquez sur les cibles bonus pour gagner beaucoup de points rapidement
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <footer class="wii-footer">
+  <div class="players-info">
+    <span class="player-icons">👤</span>
+    <span class="player-text">1 player</span>
+  </div>
+
+<div class="rule-message">Si vous voulez mettre pause durant la partie appuyer sur Espace</div>
+
+  <div class="ok-button" id="open-details">
+    <span class="btn-label">Details Items</span>
+  </div>
+</footer>
+
+<div id="details-modal" class="modal-overlay">
+  <div class="modal-content">
+    <header class="modal-header">
+      <h1>Détails des Objets</h1>
+    </header>
     
-       <div class="rules">
-        <h3>Règle 2</h3>
-        <p>Ne cliquer pas sur les cibles noires ou violettes sous peine de penalité</p>
+    <div class="modal-body">
+      <ul class="items-list">
+        <li>
+          <div class="item-icon"><img src="../assets/images/Licornes-Package.png" class="img-licornes-groupe" alt="Licornes"></div>
+          <div class="item-desc"><strong>Cibles Normales (+25pts) :</strong> Cliquez pour gagner des points. Enchaînez pour les combos !</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Litimes.gif" class="starvy-img" alt="Starvy"></div>
+          <div class="item-desc"><strong>Starvy (+10s & 120pts) :</strong> Rajoute 10 secondes de temps suplémentaire et donne 200pts </div>
+        </li>
+       <li>
+          <div class="item-icon"><img src="../assets/images/OVNI.gif" alt="OVNI"></div>
+          <div class="item-desc"><strong>OVNI (+180pts) :</strong> Cible rare ! Il rapporte beaucoup de plus de points qu'un cible normale </div>
+        </li>
+         <li>
+          <div class="item-icon"><img src="../assets/images/Licornes-3.png" alt="Licorne-Maléfique"></div>
+          <div class="item-desc"><strong>Yami (-250pts) :</strong> Évitez-le ! Il vous fait perdre des points et il s'en délecte.</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Boshi.png" alt="Boshi"></div>
+          <div class="item-desc"><strong>Boshi (+90) :</strong>Destrier caché de Lakitu n'apparait en tant que cible récurente seulement qu'après avoir abattu sa monture nuage, fixe les pts gagné à 50 pendant 10 secondes sur n'importe quel cible (hors malus)</div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Lakitu.png" alt="Lakitu"></div>
+          <div class="item-desc"><strong>Lakitu (+320) :</strong> Distribue des Boshis et bonus à travers la map, cliquez 3 fois dessus pour découvrir la surprise qu'il cache... </div>
+        </li> 
+        <li>
+          <div class="item-icon"><img src="../assets/images/Bomb.gif" alt="Bombe"></div>
+          <div class="item-desc"><strong>Bomby (-320pts) :</strong> Évitez-les ! Ils font perdre des points et brisent votre combo.</div>
+        </li> 
+         <li>
+          <div class="item-icon"><img src="../assets/images/Evil_Lakitu.png" alt="Evil-Lakitu"></div>
+          <div class="item-desc"><strong>Evil Lakitu (-550pts) :</strong> Distribue des Bomby à travers la map, si vous le voyer évitez de lui cliquer dessus à vos dépends... </div>
+        </li>
+        <li>
+          <div class="item-icon"><img src="../assets/images/Chien.gif" alt="Chien"></div>
+          <div class="item-desc"><strong>Tokyo (+600) :</strong> Ultra rare ! Rapporte enormement de points et un boost de combo.</div>
+        </li>
+      </ul>
+    </div>
 
-        <div class="licornes">
-        <img src="../assets/images/licorne_variante_6.png">
-        <img src="../assets/images/licorne_variante_4.png">
-        </div>
-        </div>
+    <button id="close-btn" class="ok-button">
+      <span class="btn-label">FERMER</span>
+    </button>
+  </div>
+</div>
+       <div class="text-start" id="btnStart">Appuyer sur Entrée ou Espace pour Continuer</div>
+</main>
 
 
-        <div class="rules">
-        <h3>Règle 3</h3>
-        <p>Enchainer les clics sur vos cibles pour obenir des bonus combo et d’achevement</p>
+<audio id="RulMusic" src="../assets/sounds/Rules_Music.mp3" loop></audio>
+<audio id="clickRules" src="../assets/sounds/Open_Rules.mp3"></audio>
+<audio id="closeRules" src="../assets/sounds/Off_Rules.mp3"></audio>
 
-        <div class="licornes">
-       <img src="../assets/images/licorne_variante_3.png">
-       <img src="../assets/images/licorne_variante_5.png">      
-        </div>
-        </div>
+<script>
+    const rulMusic = document.getElementById('RulMusic');
+    const clickRulesSound = document.getElementById('clickRules'); 
+    const closeRulesSound = document.getElementById('closeRules'); 
 
-       
+    const openBtn = document.getElementById('open-details');
+    const modal = document.getElementById('details-modal');
+    const closeBtn = document.getElementById('close-btn');
+    const btnStart = document.getElementById('btnStart');
 
-        <div class="text-start">Cliquer pour Continuer</div>
-                
-    </section>
+    // --- SYNCHRONISATION DES VOLUMES ---
+    const getSavedMusicVol = () => parseFloat(localStorage.getItem('musicVol') || 0.5);
+    const getSavedSfxVol = () => parseFloat(localStorage.getItem('sfxVol') || 0.7);
+
+    window.addEventListener('load', () => {
+        if (rulMusic) {
+            const targetMusicVol = getSavedMusicVol();
+            rulMusic.volume = 0; 
+            rulMusic.play().then(() => {
+                let fadeIn = setInterval(() => {
+                    // On monte jusqu'au volume sauvegardé au lieu de 1
+                    if (rulMusic.volume < targetMusicVol) {
+                        rulMusic.volume = Math.min(targetMusicVol, rulMusic.volume + 0.05);
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, 100);
+            }).catch(e => console.log("L'audio attend une interaction."));
+        }
+    });
+
+    openBtn.addEventListener('click', (e) => {
+        if (clickRulesSound) {
+            clickRulesSound.volume = getSavedSfxVol(); // Applique le volume SFX
+            clickRulesSound.currentTime = 0;
+            clickRulesSound.play();
+        }
+        modal.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        if (closeRulesSound) {
+            closeRulesSound.volume = getSavedSfxVol(); // Applique le volume SFX
+            closeRulesSound.currentTime = 0;
+            closeRulesSound.play();
+        }
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) {
+            if (closeRulesSound) {
+                closeRulesSound.volume = getSavedSfxVol();
+                closeRulesSound.currentTime = 0;
+                closeRulesSound.play();
+            }
+            modal.classList.remove('active');
+        }
+    });
+
+    const leavePage = () => {
+        if (btnStart.classList.contains('leaving')) return;
+        btnStart.classList.add('leaving');
+
+        if (rulMusic) {
+            let fadeOut = setInterval(() => {
+                if (rulMusic.volume > 0.1) {
+                    rulMusic.volume -= 0.1;
+                } else {
+                    clearInterval(fadeOut);
+                    window.location.href = "jeu.html";
+                }
+            }, 50);
+        } else {
+            window.location.href = "jeu.html";
+        }
+    };
+
+    btnStart.onclick = leavePage;
+
+    document.addEventListener('keydown', (e) => {
+        const isModalOpen = modal.classList.contains('active');
+        if ((e.key === "Enter" || e.key === " ") && !isModalOpen) {
+            leavePage();
+        }
+    });
+</script>
 </body>
 </html>
-
-<main class="game-area">
-    <div class="game-overlay">
-    <div class="overlay-content"></main>
