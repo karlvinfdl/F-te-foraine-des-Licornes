@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question Stand</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-wheel page-wheel3">
+
+  <!-- Contrôle du volume top-right -->
+
+  <div class="volume-control">
+
+    <label for="volumeSlider">🔊 Volume</label>
+
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <span id="volumeValue">50%</span>
+
+  </div>
+
+ <div class="scene" id="scene">
+  <!-- Audio pour le son de spin -->
+  <audio id="spinSound" preload="auto">
+    <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- class pour les roues -->
+  <div class="game" id="wheelZone">
+<div class="arrow" aria-hidden="true">
+      <svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
+        <!-- Flèche pointing vers le bas -->
+        <path d="M25 40 L0 10 L12 10 L12 0 L38 0 L38 10 L50 10 Z" 
+              fill="#fff" 
+              stroke="#0b3a44" 
+              stroke-width="2"
+              stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="wheel-wrap">
+      <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
+        <g id="segments">
+          <path d="M 100 100 L 100 8 A 92 92 0 0 1 187.49719949915414 71.57043651750485 Z" fill="#FF6B9D" stroke="#ffffff" stroke-width="3"></path>
+          <text x="143.839" y="39.929" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(45 143.839 39.929)">Elodie</text>
+          <path d="M 100 100 L 187.49719949915414 71.57043651750485 A 92 92 0 0 1 100 174.42956348249515 Z" fill="#4ECDC4" stroke="#ffffff" stroke-width="3"></path>
+          <text x="164.672" y="121.014" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(135 164.672 121.014)">Kylian</text>
+          <path d="M 100 100 L 100 174.42956348249515 A 92 92 0 0 1 12.50280050084588 71.57043651750482 Z" fill="#FFE66D" stroke="#ffffff" stroke-width="3"></path>
+          <text x="56.161" y="121.014" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(225 56.161 121.014)">Karlvin</text>
+          <path d="M 100 100 L 12.50280050084588 71.57043651750482 A 92 92 0 1 1 100 8 Z" fill="#95E1D3" stroke="#ffffff" stroke-width="3"></path>
+          <text x="35.328" y="39.929" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(315 35.328 39.929)">Alexis</text>
+        </g>
+
+
+        <circle cx="100" cy="100" r="78" fill="none" stroke="none" stroke-width="0" />
+        <circle cx="100" cy="100" r="48" fill="#ffffff" />
+        <text x="100" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+          QUESTION
+        </text>
+        <text x="100" y="115" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3a44">
+          STAND
+        </text>
+      </svg>
+    </div>
+
+    <button id="spin" class="spin">JOUER</button>
+  </div>
+
+  <!-- panel donc pop up -->
+  <aside class="panel" id="panel" aria-hidden="true">
+    <div class="hearts" aria-hidden="false"></div>
+    <h2>Question Stand</h2>
+    <div class="panel-card">Question 1</div>
+    <div class="panel-card"></div>
+    <div class="panel-card"></div>
+  </aside>
+</div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
