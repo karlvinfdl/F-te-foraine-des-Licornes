@@ -295,16 +295,20 @@ body.intro{
 
 /* Partie badge */
 .ach-grid{
-  margin-top: 30px;
+  margin-top: 60px;
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
+.page-card .ach-grid {
+  gap: 5px !important;
+}
+
 .ach-card{
-  width: 180px;
-  height: 180px;
+  width: 280px;
+  height: 280px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -327,8 +331,8 @@ body.intro{
 }
 
 .ach-face img{
-  width: 110%;
-  height: 110%;
+  width: 108%;
+  height: 108%;
   object-fit: contain;
 }
 
