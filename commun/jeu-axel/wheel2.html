@@ -6,11 +6,11 @@
 <title>Blind Test</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page-wheel page-wheel2">
+<body class="page-wheelPM page-wheel2PM">
 
- <div class="scene" id="scene">
+ <div class="scenePM" id="scene">
 <!-- Lecteur vinyle (visible au départ) -->
-  <div class="vinyle-player" id="vinylePlayer">
+  <div class="vinyle-playerPM" id="vinylePlayer">
     <img src="img/lecvinyle.svg" alt="Lecteur vinyle" />
   </div>
 
@@ -56,16 +56,16 @@
   </audio>
 
   <!-- Contrôle du volume -->
-  <div class="volume-control">
+  <div class="volume-controlPM">
     <label for="volumeSlider">🔊 Volume</label>
     <input type="range" id="volumeSlider" min="0" max="100" value="50">
     <span id="volumeValue">50%</span>
   </div>
 
   <!-- class pour les roues -->
-  <div class="game" id="wheelZone">
+  <div class="gamePM" id="wheelZone">
 
-<div class="arrow" aria-hidden="true">
+<div class="arrowPM" aria-hidden="true">
       <svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
         <!-- Flèche pointing vers le bas -->
         <path d="M25 40 L0 10 L12 10 L12 0 L38 0 L38 10 L50 10 Z" 
@@ -76,7 +76,7 @@
       </svg>
     </div>
 
-    <div class="wheel-wrap">
+    <div class="wheel-wrapPM">
       <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
 <g id="segments"><path d="M 100 100 L 100 8 A 92 92 0 0 1 187.49719949915414 71.57043651750485 Z" fill="#000000" stroke="#ffffff" stroke-width="3"></path><text x="139.96939715588817" y="44.98684438250358" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(36 139.96939715588817 44.98684438250358)">1</text><path d="M 100 100 L 187.49719949915414 71.57043651750485 A 92 92 0 0 1 154.07624321090753 174.42956348249515 Z" fill="#1a1a1a" stroke="#ffffff" stroke-width="3"></path><text x="164.67184310807045" y="121.01315561749642" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(108 164.67184310807045 121.01315561749642)">2</text><path d="M 100 100 L 154.07624321090753 174.42956348249515 A 92 92 0 0 1 45.92375678909248 174.42956348249515 Z" fill="#2d2d2d" stroke="#ffffff" stroke-width="3"></path><text x="100" y="168" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(180 100 168)">3</text><path d="M 100 100 L 45.92375678909248 174.42956348249515 A 92 92 0 0 1 12.50280050084588 71.57043651750482 Z" fill="#404040" stroke="#ffffff" stroke-width="3"></path><text x="35.32815689192957" y="121.01315561749644" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(252 35.32815689192957 121.01315561749644)">4</text><path d="M 100 100 L 12.50280050084588 71.57043651750482 A 92 92 0 0 1 99.99999999999999 8 Z" fill="#000000" stroke="#ffffff" stroke-width="3"></path><text x="60.03060284411182" y="44.986844382503584" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#ffffff" transform="rotate(324 60.03060284411182 44.986844382503584)">5</text></g>
 
@@ -91,23 +91,23 @@
       </svg>
     </div>
 
-    <button id="spin" class="spin">JOUER</button>
+    <button id="spin" class="spin spinPM">JOUER</button>
   </div>
 
   <!-- panel donc pop up -->
-  <aside class="panel" id="panel" aria-hidden="true">
-    <div class="hearts" aria-hidden="false"></div>
+  <aside class="panelPM" id="panel" aria-hidden="true">
+    <div class="heartsPM" aria-hidden="false"></div>
     <h2>Blind Test</h2>
 <!-- Zone de phase de jeu -->
-    <div id="blindTestPhase" class="panel-card">
-      <div class="timer-container">
-        <div id="blindTestTimer" class="timer-bar"></div>
+    <div id="blindTestPhase" class="panel-cardPM">
+      <div class="timer-containerPM">
+        <div id="blindTestTimer" class="timer-barPM"></div>
       </div>
       <div id="blindTestQuestion">Devine le titre !</div>
     </div>
-    <div class="panel-card">Question 1</div>
-    <div class="panel-card"></div>
-    <div class="panel-card"></div>
+    <div class="panel-cardPM">Question 1</div>
+    <div class="panel-cardPM"></div>
+    <div class="panel-cardPM"></div>
   </aside>
 </div>
 

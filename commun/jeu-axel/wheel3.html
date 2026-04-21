@@ -6,11 +6,11 @@
   <title>Question Stand</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page-wheel page-wheel3">
+<body class="page-wheelPM page-wheel3PM">
 
   <!-- Contrôle du volume top-right -->
 
-  <div class="volume-control">
+  <div class="volume-controlPM">
 
     <label for="volumeSlider">🔊 Volume</label>
 
@@ -20,15 +20,15 @@
 
   </div>
 
- <div class="scene" id="scene">
+ <div class="scenePM" id="scene">
   <!-- Audio pour le son de spin -->
   <audio id="spinSound" preload="auto">
     <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">
   </audio>
 
   <!-- class pour les roues -->
-  <div class="game" id="wheelZone">
-<div class="arrow" aria-hidden="true">
+  <div class="gamePM" id="wheelZone">
+<div class="arrowPM" aria-hidden="true">
       <svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
         <!-- Flèche pointing vers le bas -->
         <path d="M25 40 L0 10 L12 10 L12 0 L38 0 L38 10 L50 10 Z" 
@@ -39,7 +39,7 @@
       </svg>
     </div>
 
-    <div class="wheel-wrap">
+    <div class="wheel-wrapPM">
       <svg id="wheel" viewBox="0 0 200 200" role="img" aria-label="Roue de jeu">
         <g id="segments">
           <path d="M 100 100 L 100 8 A 92 92 0 0 1 187.49719949915414 71.57043651750485 Z" fill="#FF6B9D" stroke="#ffffff" stroke-width="3"></path>
@@ -64,16 +64,16 @@
       </svg>
     </div>
 
-    <button id="spin" class="spin">JOUER</button>
+    <button id="spin" class="spinPM spinPM">JOUER</button>
   </div>
 
   <!-- panel donc pop up -->
-  <aside class="panel" id="panel" aria-hidden="true">
-    <div class="hearts" aria-hidden="false"></div>
+  <aside class="panelPM" id="panel" aria-hidden="true">
+    <div class="heartsPM" aria-hidden="false"></div>
     <h2>Question Stand</h2>
-    <div class="panel-card">Question 1</div>
-    <div class="panel-card"></div>
-    <div class="panel-card"></div>
+    <div class="panel-cardPM">Question 1</div>
+    <div class="panel-cardPM"></div>
+    <div class="panel-cardPM"></div>
   </aside>
 </div>
 
