@@ -31,7 +31,7 @@ function playWithAudioJS() {
 // ============================================
 // BOUTON PLAY - Effet paillages
 // ============================================
-const playBtn = document.querySelector(".play");
+const playBtn = document.querySelector(".playPM");
 
 function rand(min, max) {
   return Math.random() * (max - min) + min;
@@ -45,7 +45,7 @@ function burstSparkles(btn, clientX, clientY) {
 
   for (let i = 0; i < count; i++) {
     const s = document.createElement("span");
-    s.className = "spark";
+    s.className = "sparkPM";
     s.style.left = `${x}px`;
     s.style.top = `${y}px`;
 
@@ -80,14 +80,14 @@ if (playBtn) {
 // ============================================
 // BADGES - Effet flip 3D
 // ============================================
-const cards = document.querySelectorAll('.ach-card');
+const cards = document.querySelectorAll('.ach-cardPM');
 
 // if (!cards.length) {
 //   console.warn("Aucune carte trouvée : vérifie .ach-card dans ton HTML");
 // }
 
 cards.forEach((card) => {
-  const flip = card.querySelector('.ach-flip');
+  const flip = card.querySelector('.ach-flipPM');
 
   if (!flip) {
     console.warn("Flip introuvable dans une carte : vérifie .ach-flip");
@@ -127,7 +127,7 @@ const spinBtn = document.getElementById("spin");
 const result = document.getElementById("result");
 const scene = document.getElementById("scene");
 
-const vinylePlayer = document.querySelector('.vinyle-player');
+const vinylePlayer = document.querySelector('.vinyle-playerPM');
 
 if (spinBtn && scene) {
   spinBtn.addEventListener("click", () => {
@@ -156,9 +156,9 @@ if (spinBtn && scene) {
 
 function getNextPage() {
   const body = document.body;
-  if (body.classList.contains('page-wheel3')) {
+  if (body.classList.contains('page-wheel3PM')) { 
     return 'card.html';
-  } else if (body.classList.contains('page-wheel2')) {
+  } else if (body.classList.contains('page-wheel2PM')) { // Ajout PM
     return 'wheel3.html';
   } else {
     return 'wheel2.html';
@@ -188,7 +188,7 @@ const blindTestSongs = [
 
 function showQuestionTimer(label, qObj) {
   const panel = document.getElementById('panel');
-  const panelCards = panel.querySelectorAll('.panel-card');
+  const panelCards = panel.querySelectorAll('.panel-cardPM');
   
   panel.setAttribute('aria-hidden', 'false');
   
@@ -281,7 +281,7 @@ const despacitoAudio = document.getElementById('blindTestAudio');
   
   panel.setAttribute('aria-hidden', 'false');
   blindPhase.style.display = 'block';
-  const allPanelCards = document.querySelectorAll('#panel .panel-card');
+  const allPanelCards = document.querySelectorAll('#panel .panel-cardPM');
   
   allPanelCards.forEach((card, idx) => {
     if (card.id !== 'blindTestPhase') {
@@ -337,7 +337,7 @@ let timeLeft = 6;
     // Reset complet
     newTimerEl.style.transition = 'none';
     newTimerEl.style.width = '100%';
-    newTimerEl.classList.remove('low', 'medium');
+    newTimerEl.classList.remove('lowPM', 'mediumPM');
     
     // Force reflow puis animation
     void newTimerEl.offsetWidth;
@@ -383,7 +383,7 @@ function showBlindTestQuestion(selectedSong) {
   if (scene) scene.classList.add('is-done');
   panel.setAttribute('aria-hidden', 'false');
   
-  const allPanelCards = document.querySelectorAll('#panel .panel-card');
+  const allPanelCards = document.querySelectorAll('#panel .panel-cardPM');
   console.log("📋 Cartes trouvées dans showBlindTestQuestion:", allPanelCards.length);
   
   const questionCards = [];
@@ -426,7 +426,7 @@ function showBlindTestQuestion(selectedSong) {
     song.choices.forEach((choice) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'answer-btn';
+      btn.className = 'answer-btnPM';
       btn.textContent = choice;
       btn.style.display = 'block';
       btn.style.width = '100%';
@@ -444,7 +444,7 @@ function showBlindTestQuestion(selectedSong) {
           btn.style.color = 'white';
           btn.style.transform = 'scale(1.05)';
           
-          const allBtns = container.querySelectorAll('.answer-btn');
+          const allBtns = container.querySelectorAll('.answer-btnPM');
           allBtns.forEach(b => b.disabled = true);
           
           if (questionCards[2]) {
@@ -510,7 +510,7 @@ function showBlindTestQuestion(selectedSong) {
 let segments;
 const body = document.body;
 
-if (body.classList.contains('page-wheel3')) {
+if (body.classList.contains('page-wheel3PM')) {
   segments = [
     { label: "Elodie", color: "#FF6B9D" },
     { label: "Kyllian", color: "#4ECDC4" },
@@ -518,7 +518,7 @@ if (body.classList.contains('page-wheel3')) {
     { label: "Alexis", color: "#95E1D3" },
     { label: "Axel", color: "#3e9c19ff" },
   ];
-} else if (body.classList.contains('page-wheel2')) {
+} else if (body.classList.contains('page-wheel2PM')) {
 // Wheel2: 8 segments numbers black
   segments = [
     { label: "1", color: "#000000" },
@@ -646,11 +646,11 @@ if (wheel && segmentsGroup && spinBtn) {
 // Gestion de "Rejoue ↻" pour toutes les pages
     if (label === "Rejoue ↻") {
       console.log("🔄 Rejoue détecté, FULL reset wheel.html");
-      if (document.body.classList.contains('page-wheel')) {
+      if (document.body.classList.contains('page-wheelPM')) {
         if (result) result.textContent = `Résultat : ${label} - Rejouez !`;
         
         setTimeout(() => {
-          const panel = document.getElementById('panel');
+          const panel = document.getElementById('panelPM');
           if (panel) {
             panel.style.cssText = ''; // Full reset
             panel.setAttribute('aria-hidden', 'true');
@@ -666,13 +666,13 @@ if (wheel && segmentsGroup && spinBtn) {
     }
     
     // Pour wheel2 : BLIND TEST SUR TOUS LES SPINS
-    if (document.body.classList.contains('page-wheel2')) {
+    if (document.body.classList.contains('page-wheel2PM')) {
       console.log("✅ wheel2: BLIND TEST TOUS SPINS");
       
       spinsDone++;
       console.log("🎰 Blindtest #", spinsDone, "/", maxSpins);
       
-      if (scene) scene.classList.add('is-done');
+      if (scene) scene.classList.add('is-donePM');
       
       // Reset panel
       const panel = document.getElementById('panel');
@@ -691,7 +691,7 @@ if (wheel && segmentsGroup && spinBtn) {
     if (result) result.textContent = `Résultat : ${label}`;
     
     // Fix popup "Moyen" wheel.html only
-    if (document.body.classList.contains('page-wheel') && label === 'Moyen') {
+    if (document.body.classList.contains('page-wheelPM') && label === 'Moyen') {
       setTimeout(() => {
         const panel = document.getElementById('panel');
         if (panel) panel.style.cssText = '';
@@ -854,9 +854,9 @@ function pickQuestionFor(label){
   let questionsData;
   const body = document.body;
   
-  if (body.classList.contains('page-wheel3')) {
+  if (body.classList.contains('page-wheel3PM')) {
     questionsData = questionsWheel3;
-  } else if (body.classList.contains('page-wheel2')) {
+  } else if (body.classList.contains('page-wheel2PM')) {
     questionsData = questionsWheel2;
   } else {
     questionsData = questionsWheel1;
@@ -876,9 +876,9 @@ const maxToNext = 3;
 function enregistrerErreur() {
   const bodyClasses = document.body.className;
   let key;
-  if (bodyClasses.includes('page-wheel2')) key = 'fautesWheel2';
-  else if (bodyClasses.includes('page-wheel3')) key = 'fautesWheel3';
-  else if (bodyClasses.includes('page-wheel')) key = 'fautesWheel1';
+  if (bodyClasses.includes('page-wheel2PM')) key = 'fautesWheel2';
+  else if (bodyClasses.includes('page-wheel3PM')) key = 'fautesWheel3';
+  else if (bodyClasses.includes('page-wheelPM')) key = 'fautesWheel1';
   else return;
   
   let fautes = parseInt(localStorage.getItem(key) || '0');
@@ -891,7 +891,7 @@ function enregistrerErreur() {
 }
 
 function updateLivesUI(){
-  const hearts = document.querySelector('.hearts');
+  const hearts = document.querySelector('.heartsPM');
   if(!hearts) return;
   
   let html = '';
@@ -921,7 +921,7 @@ function showQuestion(qObj){
   
   const panel = document.getElementById('panel');
   if(!panel) return;
-  const panelCards = panel.querySelectorAll('.panel-card');
+  const panelCards = panel.querySelectorAll('.panel-cardPM');
 
   if(panelCards[0]) panelCards[0].textContent = qObj.q || '';
 
@@ -933,7 +933,7 @@ function showQuestion(qObj){
     (qObj.choices || []).forEach((c, i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'answer-btn';
+      btn.className = 'answer-btnPM';
       btn.textContent = c;
       btn.disabled = false;
       btn.addEventListener('click', () => checkAnswer(i, qObj.answer));
@@ -950,10 +950,10 @@ function showQuestion(qObj){
 }
 
 function checkAnswer(choiceIndex, correctIndex){
-  const panelCards = document.querySelectorAll('.panel-card');
+  const panelCards = document.querySelectorAll('.panel-cardPM');
   const feedbackCard = panelCards[2] || null;
   const choicesContainer = panelCards[1];
-  const buttons = choicesContainer ? Array.from(choicesContainer.querySelectorAll('.answer-btn')) : [];
+  const buttons = choicesContainer ? Array.from(choicesContainer.querySelectorAll('.answer-btnPM')) : [];
 
   if (choicesContainer && choicesContainer.dataset.answered === 'true') return;
 
@@ -1015,7 +1015,7 @@ function checkAnswer(choiceIndex, correctIndex){
 }
 
 function gameOver(){
-  const panelCards = document.querySelectorAll('.panel-card');
+  const panelCards = document.querySelectorAll('.panel-cardPM');
   if(panelCards[0]) panelCards[0].textContent = 'Game Over — plus de vies';
   if(scene) scene.classList.add('is-done');
 }

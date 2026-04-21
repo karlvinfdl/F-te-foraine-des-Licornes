@@ -5,46 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La roulette des licornes</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
 </head>
 
-<body class="intro">
+<body class="introPM">
 
-  <!-- Contrôle du volume top-right -->
-
-  <div class="volume-control">
-
+  <div class="volume-controlPM">
     <label for="volumeSlider">🔊 Volume</label>
-
     <input type="range" id="volumeSlider" min="0" max="100" value="50">
-
     <span id="volumeValue">50%</span>
-
   </div>
-  <!-- Audio element caché -->
+
   <audio id="wheelAudio" preload="auto">
     <source src="sound/LUCKY WHEEL SPIN SOUND EFFECTS  Copyright Free.mp3" type="audio/mpeg">
   </audio>
   
-  <main class="intro-layer">
-    <section class="wheels" aria-label="Choix du mode de jeu">
-      <a class="wheel wheel--quest" href="#qr">
+  <main class="intro-layerPM">
+    <section class="wheelsPM" aria-label="Choix du mode de jeu">
+      <div class="wheelPM wheel--questPM">
         <img src="img/questwheel.webp" alt="Question / Réponse">
-      </a>
+      </div>
 
-      <a class="wheel wheel--blind" href="#blind">
+      <div class="wheelPM wheel--blindPM">
         <img src="img/blindwheel.webp" alt="Blind Test">
-      </a>
+      </div>
 
-      <a class="wheel wheel--stand" href="#stand">
+      <div class="wheelPM wheel--standPM">
         <img src="img/standwheel.webp" alt="Question Stand">
-      </a>
+      </div>
     </section>
 
-   <button type="button" class="play">JOUER</button>
+    <button type="button" class="playPM">
+      <span>JOUER</span>
+    </button>
   </main>
+
   <script src="script.js"></script>
 </body>
-
-
 </html>

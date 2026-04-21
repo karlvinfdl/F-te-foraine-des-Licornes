@@ -1,29 +1,27 @@
 /* ===== INTRO (fond + superposition) ===== */
-body.intro{
+/* Remplace ou ajoute ces versions avec PM */
+
+body.introPM {
   margin: 0;
   min-height: 100vh;
   background: url("img/fondindex.png") center 10% / cover no-repeat fixed;
 }
 
-.intro-layer{
+.intro-layerPM {
   position: relative;
   min-height: 100vh;
   display: block; 
 }
 
-/* ===== WHEELS ===== */
-.wheels{
+.wheelsPM {
   position: fixed;
-  bottom: 55vh;  /* idéal pour ton image */
+  bottom: 55vh;
   left: 0;
   width: 100%;
   pointer-events: none;
 }
 
-
-
-/* roue individuelle */
-.wheel{
+.wheelPM {
   position: absolute;
   width: 500px; 
   transform: translateX(-50%);
@@ -31,38 +29,30 @@ body.intro{
   pointer-events: auto;
 }
 
+/* N'oublie pas les variantes de position */
+.wheel--questPM { left: 26%; }
+.wheel--blindPM { left: 50%; }
+.wheel--standPM { left: 74%; }
 
-.wheel--quest { left: 26%; }
-.wheel--blind { left: 50%; }
-.wheel--stand { left: 74%; }
-
-/* image interne */
-.wheel img{
+.wheelPM img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-/* Hover magique */
-.wheel:hover{
+.wheelPM:hover {
   transform: translateX(-50%) scale(1.12);
   filter: drop-shadow(0 12px 24px rgba(0,0,0,.35));
   z-index: 10;
   cursor: pointer;
 }
 
-
-@media (prefers-reduced-motion: reduce){
-  .wheel{ transition: none; }
-}
-
-/* bouton jouer*/
-.play{
+.playPM {
+  /* Copie ici tout le style que tu as pour .play dans ton CSS */
   position: absolute;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-
   width: 320px;
   height: 74px;
   border: 0;
@@ -85,7 +75,7 @@ body.intro{
   overflow: hidden;   /* garde les paillettes dedans */
 }
 
-.play:hover{
+.playPM:hover{
   transform: translateX(-50%) translateY(-2px) scale(1.02);
   filter: brightness(1.08) saturate(1.1);
   box-shadow:
@@ -94,17 +84,17 @@ body.intro{
     inset 0 1px 0 rgba(255,255,255,.28);
 }
 
-.play:active{
+.playPM:active{
   transform: translateX(-50%) translateY(1px) scale(.99);
 }
 
-.play:focus-visible{
+.playPM:focus-visible{
   outline: 3px solid rgba(255,255,255,.55);
   outline-offset: 4px;
 }
 
 /* petite brillance qui bouge au hover */
-.play::before{
+.playPM::before{
   content:"";
   position:absolute;
   inset:-30% -75%;
@@ -115,13 +105,13 @@ body.intro{
   pointer-events:none;
 }
 
-.play:hover::before{
+.playPM:hover::before{
   opacity: 1;
   transform: translateX(30%);
 }
 
 /* particules */
-.play .spark{
+.playPM .spark{
   position:absolute;
   width: 8px;
   height: 8px;
@@ -143,7 +133,7 @@ body.intro{
 }
 
 /* bouton spécifique à la page wheel */
-.spin{
+.spinPM{
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -178,7 +168,7 @@ body.intro{
 }
 
 /* Effet de brillance qui traverse */
-.spin::before {
+.spinPM::before {
   content: "";
   position: absolute;
   top: 0;
@@ -207,12 +197,12 @@ body.intro{
 }
 
 /* Override pour wheel2 - autre couleur */
-.page-wheel2 .spin {
+.page-wheel2PM .spinPM {
   background: linear-gradient(180deg, #e74c3c, #c0392b);
   animation: pulse-red 2s ease-in-out infinite;
 }
 
-.page-wheel2 .spin::before {
+.page-wheel2PM .spinPM::before {
   animation: shine-red 3s ease-in-out infinite;
 }
 
@@ -240,12 +230,12 @@ body.intro{
 }
 
 /* Override pour wheel3 */
-.page-wheel3 .spin {
+.page-wheel3PM .spinPM {
   background: linear-gradient(180deg, #9b59b6, #8e44ad);
   animation: pulse-purple 2s ease-in-out infinite;
 }
 
-.page-wheel3 .spin::before {
+.page-wheel3PM .spinPM::before {
   animation: shine-purple 3s ease-in-out infinite;
 }
 
@@ -273,20 +263,20 @@ body.intro{
 }
 
 /* Effet au survol */
-.spin:hover {
+.spinPM:hover {
   transform: translateY(-3px) scale(1.08);
   filter: brightness(1.15);
   box-shadow: 0 15px 35px rgba(0,0,0,.3);
 }
 
-.spin:active {
+.spinPM:active {
   transform: translateY(1px) scale(0.98);
 }
 
 /* === EFFETS DU BOUTON JOUER (SPIN) === */
 
 /* overrides si .play a des règles conflictuelles */
-.spin {
+.spinPM {
   /* annulez propriétés indésirables héritées */
   transform: none;
   isolation: auto;
@@ -294,26 +284,27 @@ body.intro{
 }
 
 /* Partie badge */
-.ach-grid{
-  margin-top: 60px;
+.ach-gridPM{
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 
-.page-card .ach-grid {
-  gap: 5px !important;
+/* Déclenche le pivotement au survol de la carte */
+.ach-cardPM:hover .ach-flipPM {
+  transform: rotateY(180deg);
 }
 
-.ach-card{
-  width: 280px;
-  height: 280px;
+.ach-cardPM{
+  width: 180px;
+  height: 180px;
   perspective: 1000px;
   cursor: pointer;
 }
 
-.ach-flip{
+.ach-flipPM{
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
@@ -321,7 +312,7 @@ body.intro{
   position: relative;
 }
 
-.ach-face{
+.ach-facePM{
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
@@ -330,18 +321,19 @@ body.intro{
   justify-content: center;
 }
 
-.ach-face img{
-  width: 108%;
-  height: 108%;
+.ach-facePM img{
+  width: 110%;
+  height: 110%;
   object-fit: contain;
 }
 
-.ach-card:nth-child(3) .ach-front img {
+.wheel1-diamantPM .ach-frontPM img,
+.wheel2-diamantPM .ach-frontPM img,
+.wheel3-diamantPM .ach-frontPM img {
   width: 120%;
   height: 120%;
 }
-
-.ach-back{
+.ach-backPM{
   transform: rotateY(180deg);
 }
 
@@ -356,7 +348,7 @@ body.intro{
 }
 
 /* Partie roue */
-.game{
+.gamePM{
   margin-top: 10px;
   display: flex;
   flex-direction: column;
@@ -375,7 +367,7 @@ body.intro{
 }
 
 /* Arrow - Flèche élégante simple */
-.arrow {
+.arrowPM {
   width: 50px;
   height: 40px;
   margin-bottom: -6px;
@@ -383,7 +375,7 @@ body.intro{
   animation: arrow-bounce 1.8s ease-in-out infinite;
 }
 
-.arrow svg {
+.arrowPM svg {
   width: 100%;
   height: 100%;
 }
@@ -405,11 +397,11 @@ body.intro{
   text-align: center;
 }
 
-#spin.play{
+#spin.playPM{
   margin-top: 0; 
 }
 /* scene donc centre de ma roue*/
-.scene{
+.scenePM{
   position: relative;
   width: 100vw;
   min-height: 80vh;   
@@ -426,16 +418,16 @@ body.intro{
 }
 
 
-.scene.is-done #wheelZone{
+.scenePM.is-done #wheelZone{
   transform: translateX(-300px);
 }
 
-.page-wheel .scene.is-done #wheelZone{
+.page-wheel .scenePM.is-done #wheelZone{
   transform: none;
 }
 
 
-.wheel-wrap{
+.wheel-wrapPM{
   width: 550px;
   height: 550px;
   display: flex;
@@ -455,7 +447,7 @@ body.intro{
   transform: none !important;
 }
 
-.panel{
+.panelPM{
   position: absolute;
   right: 60px;
   top: 50%;
@@ -474,14 +466,14 @@ body.intro{
   transition: transform 600ms ease, opacity 300ms ease;
 }
 
-.scene.is-done .panel{
+.scenePM.is-done .panelPM{
   transform: translateY(-50%) translateX(0);
   opacity: 1;
   pointer-events: auto;
   z-index: 100;
 }
 
-.panel .panel-card{
+.panelPM .panel-cardPM{
   height: auto;
   min-height: 60px;
   border-radius: 14px;
@@ -494,25 +486,25 @@ body.intro{
   box-shadow: inset 0 1px 0 rgba(0,0,0,.03);
 }
 
-.panel h2{
+.panelPM h2{
   display: none !important;
 }
 
-.panel .panel-card:first-child{
+.panelPM .panel-cardPM:first-child{
   font-size: 18px;
   font-weight: 800;
   text-align: center;
   min-height: 110px;
 }
 
-.panel .panel-card:nth-child(2){
+.panelPM .panel-cardPM:nth-child(2){
   padding: 14px 12px 18px;
   min-height: auto;
 }
 
 /* Answer buttons: stacked vertically */
-.panel .answer-btn,
-.answer-btn{
+.panelPM .answer-btnPM,
+.answer-btnPM{
   display: block;
   width: 100%;
   padding: 14px 18px;
@@ -528,24 +520,24 @@ body.intro{
   margin: 8px 0;
 }
 
-.answer-btn:hover{ transform: translateY(-3px); filter: brightness(1.06); }
+.answer-btnPM:hover{ transform: translateY(-3px); filter: brightness(1.06); }
 
-.page-wheel2 .answer-btn {
+.page-wheel2PM .answer-btnPM {
   transition: all 0.3s ease !important;
 }
 
-.page-wheel2 .answer-btn:active {
+.page-wheel2PM .answer-btnPM:active {
   transform: scale(0.98) !important;
 }
 
 /* Réponses colorées -正确答案 */
-.answer-btn.correct {
+.answer-btnPM.correct {
   background: linear-gradient(180deg, #27ae60, #1e8449) !important;
   color: #fff !important;
   border: 2px solid #2ecc71;
 }
 
-.answer-btn.wrong {
+.answer-btnPM.wrong {
   background: linear-gradient(180deg, #e74c3c, #c0392b) !important;
   color: #fff !important;
   border: 2px solid #e74c3c;
@@ -553,35 +545,35 @@ body.intro{
 }
 
 @media (max-width: 800px){
-  .wheel-wrap{ width: 420px; height: 420px; }
+  .wheel-wrapPM{ width: 420px; height: 420px; }
   #wheel{ width: 420px; height: 420px; }
-  .panel{ width: min(92vw, 520px); height: min(72vh, 700px); right: 16px; padding: 16px; }
-  .panel .panel-card{ height: 72px; font-size: 15px }
-  .panel .panel-card:first-child{ min-height: 100px }
-  .panel .panel-card:nth-child(2){ min-height: 140px }
-  .answer-btn{ height: 54px; font-size: 15px }
+  .panelPM{ width: min(92vw, 520px); height: min(72vh, 700px); right: 16px; padding: 16px; }
+  .panelPM .panel-cardPM{ height: 72px; font-size: 15px }
+  .panelPM .panel-cardPM:first-child{ min-height: 100px }
+  .panelPM .panel-cardPM:nth-child(2){ min-height: 140px }
+  .answer-btnPM{ height: 54px; font-size: 15px }
 }
 
-body.page-wheel{
+body.page-wheelPM{
   min-height: 100vh;
   background: url("img/fondtest.png") center center / cover no-repeat;
 }
 
 /* Roue 2 - Personnalisable (Musique/Loto/etc) */
-body.page-wheel2{
+body.page-wheel2PM{
   min-height: 100vh;
   background: url("img/fondvinyle.png") center center / cover no-repeat; 
 }
 
 /* Roue 3 - Personnalisable (Loto/etc) */
-body.page-wheel3{
+body.page-wheel3PM{
   min-height: 100vh;
   background: url("img/fond3.png") center center / cover no-repeat;
 }
 
 
 /* === Lecteur Vinyle (wheel2) - en arrière-plan à gauche === */
-.vinyle-player {
+.vinyle-playerPM {
   position: fixed;
   left: 16.3%;
   top: 42%;
@@ -592,25 +584,25 @@ body.page-wheel3{
   transition: transform 600ms ease, opacity 600ms ease;
 }
 
-.vinyle-player img {
+.vinyle-playerPM img {
   width: 700px;
   height: auto;
   display: block;
 }
 
 /* Quand la wheel va à gauche (is-done), le lecteur vinyle apparaît */
-.page-wheel2 .scene.is-done .vinyle-player {
+.page-wheel2PM .scenePM.is-done .vinyle-playerPM {
   transform: translateY(-50%) translateX(0);
   opacity: 1;
 }
 
 /* Animation: la wheel se place sur le lecteur vinyle */
-.page-wheel2 .scene.is-done #wheelZone {
+.page-wheel2PM .scenePM.is-done #wheelZone {
   /* Position finale de la wheel sur le lecteur */
   transform: translateX(-280px);
 }
 
-.page-wheel2 .scene.is-done .panel {
+.page-wheel2PM .scenePM.is-done .panelPM {
   z-index: 100;
   position: fixed;
   right: 40px;
@@ -618,12 +610,12 @@ body.page-wheel3{
 }
 
 /* Animation du plateau du lecteur qui descend quand la wheel arrive */
-.page-wheel2 .scene.is-done .vinyle-player {
+.page-wheel2PM .scenePM.is-done .vinyle-playerPM {
   transform: translateY(-50%) translateX(0);
   opacity: 1;
 }
 
-.page-wheel2 .vinyle-player img {
+.page-wheel2PM .vinyle-playerPM img {
   /* Animation du plateau qui descend */
   animation: plateauDescend 0.6s ease-out forwards;
 }
@@ -641,13 +633,13 @@ body.page-wheel3{
 }
 
 /* wheel2 - wheel toujours visible */
-.page-wheel2 #wheel {
+.page-wheel2PM #wheel {
   opacity: 1;
   margin-top: -30px;
 }
 
 /* Animation vinyle pour wheel2 uniquement - quand le panel s'affiche (après le spin) */
-.page-wheel2 .scene.is-done #segments {
+.page-wheel2PM .scenePM.is-done #segments {
   animation: vinyleRotate 2s linear infinite;
   transition: none;
 }
@@ -667,17 +659,17 @@ body.page-wheel3{
 } */
 
 /* positionnement spécifique pour la page roue */
-.page-wheel .scene{
+.page-wheelPM .scenePM{
   align-items: flex-start; /* pousse la roue vers le bas */
   padding-top: 10vh;
 }
 
-.page-wheel .spin{
+.page-wheel .spinPM{
   margin-top: -5px; /* espace entre roue et bouton */
 }
 
 /* coeur de ma page - NOUVELLE VERSION SVG */
-.hearts {
+.heartsPM {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -776,7 +768,7 @@ html, body {
 body * {
   z-index: auto !important;
 }
-.volume-control {
+.volume-controlPM {
   position: fixed !important;
   top: 10px !important;
   right: 10px !important;
@@ -940,7 +932,7 @@ body * {
 }
 
 /* ===== TIMER DYNAMIQUE (BARRE DE PROGRESSION) ===== */
-.timer-container {
+.timer-containerPM {
   width: 100%;
   height: 24px;
   background: rgba(0, 0, 0, 0.15);
@@ -949,7 +941,7 @@ body * {
   margin-bottom: 15px;
 }
 
-.timer-bar {
+.timer-barPM {
   height: 100%;
   width: 100%;
   background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
@@ -957,17 +949,17 @@ body * {
   transition: width 0.3s linear;
 }
 
-.timer-bar.low {
+.timer-barPM.low {
   background: linear-gradient(90deg, #e74c3c, #c0392b);
 }
 
-.timer-bar.medium {
+.timer-barPM.medium {
   background: linear-gradient(90deg, #f39c12, #e67e22);
 }
 
 /* ===== PAGE FAIL DONC DÉFAITE !! ===== */
 
-.fail-page{
+.fail-pagePM{
     height:100vh;
     overflow:hidden;
     display:flex;
@@ -981,19 +973,19 @@ body * {
     text-align:center;
 }
 
-.fail-page .fail-title{
+.fail-pagePM .fail-titlePM{
     font-size:40px;
     color:white;
     margin-bottom:20px;
     text-shadow:2px 2px 5px black;
 }
 
-.fail-page .fail-dog{
+.fail-pagePM .fail-dogPM{
     width:220px;
     margin:20px 0;
 }
 
-.fail-page .fail-btn{
+.fail-pagePM .fail-btnPM{
     padding:15px 40px;
     font-size:20px;
     border:none;
@@ -1003,12 +995,12 @@ body * {
     cursor:pointer;
 }
 
-.fail-page .fail-btn:hover{
+.fail-pagePM .fail-btnPM:hover{
     background:#e5e5e5;
 }
 
 /* ===== FAIL PAGE REDESIGN ===== */
-.fail-page {
+.fail-pagePM {
   margin: 0 !important;
   padding: 0 !important;
   height: 100vh !important;
@@ -1022,7 +1014,7 @@ body * {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
 }
 
-.fail-page .fail-dog {
+.fail-pagePM .fail-dogPM {
   position: fixed !important;
   top: 50% !important;
   right: 12% !important;
@@ -1032,7 +1024,7 @@ body * {
   z-index: 10 !important;
 }
 
-.fail-page .badge-center {
+.fail-pagePM .badge-centerPM {
   width: 320px !important;
   height: auto !important;
   margin: 0 auto !important;
@@ -1042,14 +1034,14 @@ body * {
   opacity: 0.7 !important;
 }
 
-.fail-page .top-title {
+.fail-pagePM .top-titlePM {
   text-align: center !important;
   font-size: 2.2em !important;
   margin-top: 100px !important;
   z-index: 10 !important;
 }
 
-.fail-page .retry-btn {
+.fail-pagePM .retry-btnPM {
   background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
   color: white !important;
   border: none !important;
@@ -1063,7 +1055,7 @@ body * {
   z-index: 10 !important;
 }
 
-.fail-page .retry-btn:hover {
+.fail-pagePM .retry-btnPM:hover {
   transform: translateY(-3px) !important;
   box-shadow: 0 12px 35px rgba(255,107,107,0.6) !important;
 }
